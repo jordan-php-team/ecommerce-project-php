@@ -555,7 +555,7 @@ include_once "../db.php";
                                                     <th>Id</th>
                                                     <th>Product Name</th>
                                                     <th>Product Price</th>
-                                                    <th>Product Brand</th>
+                                                    <th>Product Des</th>
                                                     <th>Product Image</th>
                                                     <th>Category Id</th>
                                                 </tr>
@@ -581,7 +581,7 @@ include_once "../db.php";
                                                             echo   '<td>' . $user['id'] . '</td>';
                                                             echo   '<td>' . $user['product_name'] . '</td>';
                                                             echo   '<td>' . $user['product_price'] . '</td>';
-                                                            echo   '<td>' . $user['product_brand'] . '</td>';
+                                                            echo   '<td>' . $user['product_description'] . '</td>';
                                                             echo   '<td>' ?>
                                                             <img class="img-responsive" src="../images/<?php echo  $user['product_image']; ?>" alt="">
                                                             <?php
@@ -627,8 +627,8 @@ include_once "../db.php";
                                                 <input class="form-control" type="text" name="product_price">
                                             </div>
                                             <div class="form-group">
-                                                <label for="add_product">Product Brand</label>
-                                                <input class="form-control" type="text" name="product_brand">
+                                                <label for="add_product">Product Des</label>
+                                                <input class="form-control" type="text" name="product_des">
                                             </div>
                                             <div class="form-group">
                                                 <label for="add_product">Category Id</label>

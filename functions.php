@@ -38,10 +38,10 @@ function getUsers()
                 echo '<script type="text/javascript">alert("email exist")</script>';
             } else {
 
-                $query = "INSERT INTO registredusers (username,email,password,repeatPass)";
-                $query .= "VALUES (?,? ,?,?)";
+                $query = "INSERT INTO registredusers (username,email,password)";
+                $query .= "VALUES (?,?,?)";
                 $stmt = $pdo->prepare($query);
-                $stmt->execute([$username, $email, $password, $repeatPass]);
+                $stmt->execute([$username, $email, $password]);
                 header("location:signin.php");
             }
         } else {
@@ -222,8 +222,8 @@ function getUpdatedProduct()
                 <input class="form-control" type="text" name="update_product_price">
             </div>
             <div class="form-group">
-                <label for="product">Update Brand</label>
-                <input class="form-control" type="text" name="update_product_brand">
+                <label for="product">Update Des</label>
+                <input class="form-control" type="text" name="update_product_des">
             </div>
             <div class="form-group">
                 <input class="btn btn-primary" type="submit" name="update_product_submit" value="Update">
@@ -234,9 +234,9 @@ function getUpdatedProduct()
         if (isset($_POST['update_product_submit'])) {
             $update_product_name = $_POST['update_product_name'];
             $update_product_price = $_POST['update_product_price'];
-            $update_product_brand = $_POST['update_product_brand'];
+            $update_product_des = $_POST['update_product_des'];
 
-            $query = "UPDATE products SET product_name = '$update_product_name', product_price ='$update_product_price', product_brand= '$update_product_brand' WHERE id= $product_id  ";
+            $query = "UPDATE products SET product_name = '$update_product_name', product_price ='$update_product_price', product_description= '$update_product_des' WHERE id= $product_id  ";
 
 
             $stmt = $pdo->prepare($query);
@@ -262,12 +262,12 @@ function getAddedProduct()
 
         $product_name = $_POST['product_name'];
         $product_price = $_POST['product_price'];
-        $product_brand = $_POST['product_brand'];
+        $product_des = $_POST['product_des'];
         $category_id = $_POST['category_id'];
-        $query = "INSERT INTO products (product_name,product_price,product_brand,category_id )";
+        $query = "INSERT INTO products (product_name,product_price,product_description,category_id )";
         $query .= "VALUES (?,?,?,?)";
         $stmt = $pdo->prepare($query);
-        $stmt->execute([$product_name, $product_price, $product_brand, $category_id]);
+        $stmt->execute([$product_name, $product_price, $product_des, $category_id]);
     }
 }
 
