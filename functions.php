@@ -88,7 +88,8 @@ function loggedUsers()
                     $stmt = $pdo->query($query);
 
                     $_SESSION['loggedUser'] = $result[0]; //if you use only fetch ,there is non need for '[0]' anymore
-                    header("location:../welcoming.php");
+                    // header("location:../welcoming.php");
+                    var_dump($_SESSION['loggedUser']);
                 } else {
                     header("location:../cms/table.php");
                 }
@@ -422,6 +423,35 @@ function getDeletedCategories()
         // echo '<script type="text/javascript">alert("user deleted")</script>';
 
     }
+}
+
+
+function addcomments(){
+      if($_SERVER["REQUEST_METHOD"]=="POST"){
+    if(isset($_SESSION['loggedUser'] )){
+        global $pdo;
+        // echo "<h1>haneen</h1>";
+        // var_dump($_SESSION['loggedUser']);
+
+    $message=$_POST['message'];
+    $idproduct=$_GET['id'];
+    $iduser=$_SESSION['loggedUser']['id'];
+
+
+    $data="INSERT INTO comments(user_id,comments,product_id) 
+      VALUE ('$iduser','$message' ,'$idproduct')";
+
+   $stmt = $pdo->prepare($data);
+$stmt->execute();
+
+
+      }
+
+      else{
+        echo '<script type="text/javascript">alert("is not loggin")</script>';
+
+      }
+   }
 }
 
 
