@@ -1,3 +1,11 @@
+
+<?php
+include_once "../db.php";
+?>
+
+
+
+
 <!doctype html>
 <html lang="zxx">
 
@@ -154,23 +162,24 @@
                             </div>
                             <div class="widgets_inner">
                                 <ul class="list">
-                                    <li>
-                                        <a href="#">Frozen Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Dried Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
+                                    <?php
+
+                  $categories=$pdo->prepare("SELECT * from categories");
+                  $categories->execute();
+
+                  foreach($categories as $element ){
+                        
+                                  echo   "<li>";
+                                  echo  "<a href='category.php?id=$element[id]'>$element[category_title]</a>";
+                                 
+                               
+                  }
+                                    ?>
+                                    <!-- <li>
                                         <a href="#">Meat Alternatives</a>
                                         <span>(250)</span>
-                                    </li>
-                                    <li>
+                                    </li> -->
+                                    <!-- <li>
                                         <a href="#">Fresh Fish</a>
                                         <span>(250)</span>
                                     </li>
@@ -181,7 +190,7 @@
                                     <li>
                                         <a href="#">Meat</a>
                                         <span>(250)</span>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div>
                         </aside>
@@ -316,17 +325,50 @@
                     </div>
 
                     <div class="row align-items-center latest_product_inner">
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_1.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
+
+                             
+
+
+
+                                  
+
+
+
+<?php
+
+
+if (isset($_GET['id'])) {
+
+$data=$pdo->prepare("SELECT * from products WHERE category_id=$_GET[id]");}
+
+
+
+else{
+    $data=$pdo->prepare("SELECT * from products"); 
+}
+
+if(isset($_GET['id']) && $_GET['id']==4){
+    $data=$pdo->prepare("SELECT * from products"); 
+
+}
+// var_dump($data);
+   $data->execute();
+
+   foreach($data as $element ){
+  echo  "<a href='single-product.php?id=$element[id]'><div class='col-lg-4 col-sm-6'>";
+  echo   "<div class='single_product_item'>";
+    echo    "<img src='$element[product_image]' alt='' width=500px height=170px>";
+      echo  "<div class='single_product_text'>";
+      echo      "<h4>$element[product_description]</h4>";
+       echo     "<h3>$element[product_price]JD</h3>";
+       echo     "<a href='#' class='add_cart'>+ add to cart<i class='ti-heart'></i></a>";
+     echo   "</div>";
+     echo   "</div>";
+     echo   "</div></a>";
+   }
+                    
+ ?>
+                        <!-- <div class="col-lg-4 col-sm-6">
                             <div class="single_product_item">
                                 <img src="img/product/product_2.png" alt="">
                                 <div class="single_product_text">
@@ -335,8 +377,8 @@
                                     <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
+                        </div> -->
+                        <!-- <div class="col-lg-4 col-sm-6">
                             <div class="single_product_item">
                                 <img src="img/product/product_3.png" alt="">
                                 <div class="single_product_text">
@@ -345,8 +387,8 @@
                                     <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
+                        </div> -->
+                        <!-- <div class="col-lg-4 col-sm-6">
                             <div class="single_product_item">
                                 <img src="img/product/product_4.png" alt="">
                                 <div class="single_product_text">
@@ -355,8 +397,8 @@
                                     <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
+                        </div> -->
+                        <!-- <div class="col-lg-4 col-sm-6">
                             <div class="single_product_item">
                                 <img src="img/product/product_5.png" alt="">
                                 <div class="single_product_text">
@@ -365,8 +407,8 @@
                                     <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
+                        </div> -->
+                        <!-- <div class="col-lg-4 col-sm-6">
                             <div class="single_product_item">
                                 <img src="img/product/product_6.png" alt="">
                                 <div class="single_product_text">
@@ -375,8 +417,8 @@
                                     <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
+                        </div> -->
+                        <!-- <div class="col-lg-4 col-sm-6">
                             <div class="single_product_item">
                                 <img src="img/product/product_7.png" alt="">
                                 <div class="single_product_text">
@@ -385,8 +427,8 @@
                                     <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
+                        </div> -->
+                        <!-- <div class="col-lg-4 col-sm-6">
                             <div class="single_product_item">
                                 <img src="img/product/product_8.png" alt="">
                                 <div class="single_product_text">
@@ -396,16 +438,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_2.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
+                      -->
                         <div class="col-lg-12">
                             <div class="pageination">
                                 <nav aria-label="Page navigation example">
@@ -451,38 +484,38 @@
                 <div class="col-lg-12">
                     <div class="best_product_slider owl-carousel">
                         <div class="single_product_item">
-                            <img src="img/product/product_1.png" alt="">
+                            <img src="https://images.pexels.com/photos/4846097/pexels-photo-4846097.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" alt="" width=500px height=170px>
                             <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
+                                <h4>sofa</h4>
+                                <h3>250.0JD</h3>
                             </div>
                         </div>
                         <div class="single_product_item">
-                            <img src="img/product/product_2.png" alt="">
+                            <img src="https://images.pexels.com/photos/8251166/pexels-photo-8251166.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="" width=500px height=170px>
                             <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
+                                <h4>Chair</h4>
+                                <h3>45.0JD</h3>
                             </div>
                         </div>
                         <div class="single_product_item">
-                            <img src="img/product/product_3.png" alt="">
+                            <img src="https://images.pexels.com/photos/447592/pexels-photo-447592.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="" width=500px height=170px>
                             <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
+                                <h4>table</h4>
+                                <h3>130.0JD</h3>
                             </div>
                         </div>
                         <div class="single_product_item">
-                            <img src="img/product/product_4.png" alt="">
+                            <img src="https://images.pexels.com/photos/6538933/pexels-photo-6538933.jpeg?cs=srgb&dl=pexels-max-vakhtbovych-6538933.jpg&fm=jpg" alt="" width=500px height=170px>
                             <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
+                                <h4>sofa</h4>
+                                <h3>350.0JD</h3>
                             </div>
                         </div>
                         <div class="single_product_item">
-                            <img src="img/product/product_5.png" alt="">
+                            <img src="https://images.pexels.com/photos/1209776/pexels-photo-1209776.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="" width=500px height=170px>
                             <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
+                                <h4>table</h4>
+                                <h3>100.0JD</h3>
                             </div>
                         </div>
                     </div>
