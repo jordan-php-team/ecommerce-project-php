@@ -48,7 +48,7 @@ include_once "../db.php";
         <div class="row align-items-center">
           <div class="col-lg-12">
             <nav class="navbar navbar-expand-lg navbar-light">
-              <a class="navbar-brand" href="index.html">
+              <a class="navbar-brand" href="index.php">
                 <img src="img/logo.png" alt="logo" />
               </a>
               <button
@@ -208,13 +208,25 @@ include_once "../db.php";
         <div class="row align-items-center">
           <div class="col-lg-12">
             <div class="banner_slider owl-carousel">
-              
+            <?php
+        $sql = "SELECT * FROM products WHERE id IN (25,26,27)";
+          $select_all_products = $pdo->query($sql);
+          $select_all_products->execute();
+          while ($row = $select_all_products->fetchAll()) {
+              $products = $row;
+              foreach ((array) $products as $product) {
+              ?> 
+
+
+
               <div class="single_banner_slider">
                 <div class="row">
                   <div class="col-lg-5 col-md-8">
                     <div class="banner_text">
                       <div class="banner_text_iner">
-                        <h1>Wood & Cloth Sofa</h1>
+                      <?php
+                    echo "<h1>" .$product['product_name']."</h1>";
+                    ?>
                         <p>
                           Incididunt ut labore et dolore magna aliqua quis ipsum
                           suspendisse ultrices gravida. Risus commodo viverra
@@ -224,48 +236,17 @@ include_once "../db.php";
                     </div>
                   </div>
                   <div class="banner_img d-none d-lg-block">
-                    <img src="img/banner_img.png" alt="" />
+                  <img src="img/feature/<?php echo  $product['product_image']; ?>" alt="" />
+
+     
                   </div>
                 </div>
               </div>
-              <div class="single_banner_slider">
-                <div class="row">
-                  <div class="col-lg-5 col-md-8">
-                    <div class="banner_text">
-                      <div class="banner_text_iner">
-                        <h1>Cloth & Wood Sofa</h1>
-                        <p>
-                          Incididunt ut labore et dolore magna aliqua quis ipsum
-                          suspendisse ultrices gravida. Risus commodo viverra
-                        </p>
-                        <a href="#" class="btn_2">buy now</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="banner_img d-none d-lg-block">
-                    <img src="img/banner_img.png" alt="" />
-                  </div>
-                </div>
-              </div>
-              <div class="single_banner_slider">
-                <div class="row">
-                  <div class="col-lg-5 col-md-8">
-                    <div class="banner_text">
-                      <div class="banner_text_iner">
-                        <h1>Wood & Cloth Sofa</h1>
-                        <p>
-                          Incididunt ut labore et dolore magna aliqua quis ipsum
-                          suspendisse ultrices gravida. Risus commodo viverra
-                        </p>
-                        <a href="#" class="btn_2">buy now</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="banner_img d-none d-lg-block">
-                    <img src="img/banner_img.png" alt="" />
-                  </div>
-                </div>
-              </div>
+              <?php
+          }
+        };
+        ?>
+             
               <!-- <div class="single_banner_slider">
                             <div class="row">
                                 <div class="col-lg-5 col-md-8">
@@ -598,7 +579,7 @@ include_once "../db.php";
     </section>
     <!--::subscribe_area part end::-->
 
-    <!-- subscribe_area part start-->
+    <!-- subscribe_area part start
     <section class="client_logo padding_top">
       <div class="container">
         <div class="row align-items-center">
@@ -636,7 +617,7 @@ include_once "../db.php";
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
     <!--::subscribe_area part end::-->
 
     <!--::footer_part start::-->
