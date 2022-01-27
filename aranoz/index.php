@@ -208,6 +208,7 @@ include_once "../db.php";
         <div class="row align-items-center">
           <div class="col-lg-12">
             <div class="banner_slider owl-carousel">
+              
               <div class="single_banner_slider">
                 <div class="row">
                   <div class="col-lg-5 col-md-8">
@@ -301,7 +302,14 @@ include_once "../db.php";
           </div>
         </div>
         <div class="row align-items-center justify-content-between">
-
+        <?php
+        $sql = "SELECT * FROM products WHERE id = 19";
+          $select_all_products = $pdo->query($sql);
+          $select_all_products->execute();
+          while ($row = $select_all_products->fetchAll()) {
+              $products = $row;
+              foreach ((array) $products as $product) {
+              ?> 
 
 
           <div class="col-lg-7 col-sm-6">
@@ -312,11 +320,24 @@ include_once "../db.php";
               <a href="#" class="feature_btn"
                 >EXPLORE NOW <i class="fas fa-play"></i
               ></a>
-              <img src="img/feature/feature_1.png" alt="" />
+              <img src="img/feature/<?php echo  $product['product_image']; ?>" alt="" />
+              <?php
+          }
+        };
+        ?>
 
               
             </div>
           </div>
+
+          <?php
+        $sql = "SELECT * FROM products WHERE id = 20";
+          $select_all_products = $pdo->query($sql);
+          $select_all_products->execute();
+          while ($row = $select_all_products->fetchAll()) {
+              $products = $row;
+              foreach ((array) $products as $product) {
+              ?> 
           
           <div class="col-lg-5 col-sm-6">
             <div class="single_feature_post_text">
@@ -325,9 +346,22 @@ include_once "../db.php";
               <a href="#" class="feature_btn"
                 >EXPLORE NOW <i class="fas fa-play"></i
               ></a>
-              <img src="img/feature/feature_2.png" alt="" />
+              <img src="img/feature/<?php echo  $product['product_image']; ?>" alt="" />
+              <?php
+          }
+        };
+        ?>
             </div>
           </div>
+          <?php
+        $sql = "SELECT * FROM products WHERE id = 21";
+          $select_all_products = $pdo->query($sql);
+          $select_all_products->execute();
+          while ($row = $select_all_products->fetchAll()) {
+              $products = $row;
+              foreach ((array) $products as $product) {
+              ?> 
+
           <div class="col-lg-5 col-sm-6">
             <div class="single_feature_post_text">
               <p>Premium Quality</p>
@@ -335,9 +369,21 @@ include_once "../db.php";
               <a href="#" class="feature_btn"
                 >EXPLORE NOW <i class="fas fa-play"></i
               ></a>
-              <img src="img/feature/feature_3.png" alt="" />
+              <img src="img/feature/<?php echo  $product['product_image']; ?>" alt="" />
+              <?php
+          }
+        };
+        ?>
             </div>
           </div>
+          <?php
+        $sql = "SELECT * FROM products WHERE id = 25";
+          $select_all_products = $pdo->query($sql);
+          $select_all_products->execute();
+          while ($row = $select_all_products->fetchAll()) {
+              $products = $row;
+              foreach ((array) $products as $product) {
+              ?> 
           <div class="col-lg-7 col-sm-6">
             <div class="single_feature_post_text">
               <p>Premium Quality</p>
@@ -345,7 +391,11 @@ include_once "../db.php";
               <a href="#" class="feature_btn"
                 >EXPLORE NOW <i class="fas fa-play"></i
               ></a>
-              <img src="img/feature/feature_4.png" alt="" />
+              <img src="img/feature/<?php echo  $product['product_image']; ?>" alt="" />
+              <?php
+          }
+        };
+        ?>
             </div>
           </div>
         </div>
@@ -417,9 +467,22 @@ include_once "../db.php";
     <section class="our_offer section_padding">
       <div class="container">
         <div class="row align-items-center justify-content-between">
+        <?php
+        $sql = "SELECT product_image FROM products WHERE product_discount ='60%'";
+          $select_all_products = $pdo->query($sql);
+          $select_all_products->execute();
+          while ($row = $select_all_products->fetchAll()) {
+              $products = $row;
+              foreach ((array) $products as $product) {
+              ?> 
           <div class="col-lg-6 col-md-6">
             <div class="offer_img">
-              <img src="img/offer_img.png" alt="" />
+            <img src="img/<?php echo  $product['product_image']; ?>" alt="" />
+
+              <?php
+          }
+        };
+        ?>
             </div>
           </div>
 
