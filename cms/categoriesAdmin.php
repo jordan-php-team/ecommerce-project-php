@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 include_once "../db.php";
 ?>
 <?php include "../functions.php"; ?>
@@ -484,35 +484,45 @@ include_once "../db.php";
                                     </div>
                                 </div>
                                 <div class="table-responsive table-responsive-data2">
-                                    <table class="table table-data2">
-                                        <thead>
-                                            <tr>
 
-                                                <th>id</th>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Password</th>
-                                                <th>date created</th>
-                                                <th>date last login</th>
-                                                <th>edit</th>
-                                                <th>delete</th>
+                                    <div class="col-lg-6">
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                        <table class="table table-data2 ">
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Category Title</th>
 
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
-                                            <?php
+                                                <?php
+                                                getCategories();
+                                                getUpdateCategory();
+                                                getDeletedCategories();
 
-                                            deleteUser();
-                                            getData();
-                                            ?>
+                                                ?>
 
 
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                        <?php
 
+                                        getAddedCategory();
 
+                                        ?>
+                                        <form action="" method="post">
+                                            <div class="form-group">
+                                                <label for="add_category">Category Title</label>
+                                                <input class="form-control" type="text" name="category_title">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input class="btn btn-primary" type="submit" name="add_category_submit" value="Add Category">
+                                            </div>
+                                        </form>
+                                    </div>
 
                                 </div>
                                 <!-- END DATA TABLE -->

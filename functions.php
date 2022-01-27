@@ -42,7 +42,7 @@ function getUsers()
                 $query .= "VALUES (?,?,?)";
                 $stmt = $pdo->prepare($query);
                 $stmt->execute([$username, $email, $password]);
-                header("location:signin.php");
+                header("location:login.php");
             }
         } else {
             echo '<script type="text/javascript">alert("please check your information")</script>';
@@ -88,9 +88,10 @@ function loggedUsers()
                     $stmt = $pdo->query($query);
 
                     $_SESSION['loggedUser'] = $result[0]; //if you use only fetch ,there is non need for '[0]' anymore
-                    header("location:../welcoming.php");
+                    // header("location:../welcoming.php");
+                    var_dump($_SESSION['loggedUser']);
                 } else {
-                    header("location:table.php");
+                    header("location:../cms/table.php");
                 }
             } else {
                 echo '<script type="text/javascript">alert("incorrect email or password")</script>';
@@ -164,6 +165,99 @@ function deleteUser()
     }
 }
 
+function getData()
+{
+    global $pdo;
+    $sql = "SELECT * FROM registredusers";
+    $select_all_categories = $pdo->query($sql);
+    $select_all_categories->execute();
+
+
+    while ($row = $select_all_categories->fetchAll()) {
+        $username = $row;
+        foreach ((array) $username as $user) {
+            echo "<tr>";
+            echo   '<td>' . $user['id'] . '</td>';
+            echo   '<td>' . $user['username'] . '</td>';
+            echo   '<td>' . $user['email'] . '</td>';
+            echo   '<td>' . $user['password'] . '</td>';
+            echo   '<td>' . $user['date created'] . '</td>';
+            echo   '<td>' . $user['last_login_date'] . '</td>'; ?>
+            <form method='post' action='../login-update.php'>
+                <?php
+
+                echo '<td>     <button name="update-user" value=' . $user['id'] . ' type="submit" class="item" data-toggle="tooltip" data-placement="top" title="Edit"><i class="zmdi zmdi-edit"></i></button></td>';
+                ?>
+            </form>
+            <form method='post'>
+                <?php
+                echo '<td> <button name="delete-user" value=' . $user['id'] . ' type="submit" class="item" data-toggle="tooltip" data-placement="top" title="Delete"><i class="zmdi zmdi-delete"></i></button></td>';
+                ?>
+            </form>
+        <?php
+            echo "</tr>";
+        }
+    }
+}
+
+function getProducts()
+{
+    global $pdo;
+    $sql = "SELECT * FROM products";
+    $select_all_categories = $pdo->query($sql);
+    $select_all_categories->execute();
+
+
+    while ($row = $select_all_categories->fetchAll()) {
+        $username = $row;
+        foreach ((array) $username as $user) {
+            echo "<tr>";
+            echo   '<td>' . $user['id'] . '</td>';
+            echo   '<td>' . $user['product_name'] . '</td>';
+            echo   '<td>' . $user['product_price'] . '</td>';
+            echo   '<td>' . $user['product_description'] . '</td>';
+            echo   '<td>' ?>
+            <img class="img-responsive" src="../images/<?php echo  $user['product_image']; ?>" alt="">
+            <?php
+            echo '</td>';
+            echo   '<td>' . $user['category_id'] . '</td>';
+
+
+            echo "<td> <a href='productsAdmin.php?editing={$user['id']}'>Update</td>";
+            ?>
+            <form method='post'>
+                <?php
+                echo '<td> <button name="delete-product" value=' . $user['id'] . ' type="submit" class="item" data-toggle="tooltip" data-placement="top" title="Delete"><i class="zmdi zmdi-delete"></i></button></td>';
+                ?>
+            </form>
+        <?php
+            echo "</tr>";
+        }
+    }
+}
+
+
+function getCategories()
+{
+    global $pdo;
+    $sql = "SELECT * FROM categories";
+    $select_all_categories = $pdo->query($sql);
+    $select_all_categories->execute();
+
+
+    while ($row = $select_all_categories->fetchAll()) {
+        $username = $row;
+        foreach ((array) $username as $user) {
+            echo "<tr>";
+            echo   '<td>' . $user['id'] . '</td>';
+            echo   '<td>' . $user['category_title'] . '</td>';
+            echo "<td> <a href='categoriesAdmin.php?edit={$user['id']}'>Update</td>";
+            echo "<td> <a href='categoriesAdmin.php?delete-category={$user['id']}'><i class='zmdi zmdi-delete'></i></td>";
+            echo "</tr>";
+        }
+    }
+}
+
 
 
 function getUpdateCategory()
@@ -197,7 +291,7 @@ function getUpdateCategory()
             if (!$stmt) {
                 echo 'failed';
             } else {
-                header("location: ../cms/table.php");
+                header("location: ../cms/categoriesAdmin.php");
             }
         }
     }
@@ -245,7 +339,7 @@ function getUpdatedProduct()
             if (!$stmt) {
                 echo 'failed';
             } else {
-                header("location: ../cms/table.php");
+                header("location: ../cms/productsAdmin.php");
             }
         }
     }
@@ -304,10 +398,60 @@ function getDeletedProduct()
 
         if ($stmt) {
 
-            header("location: table.php");
+            header("location: productsAdmin.php");
             // echo '<script type="text/javascript">alert("user deleted")</script>';
         }
     }
+}
+
+
+function getDeletedCategories()
+{
+
+    if (isset($_GET['delete-category'])) {
+        global $pdo;
+
+        $the_category_id = $_GET['delete-category'];
+
+        $query = "DELETE FROM categories WHERE id='$the_category_id'";
+        $stmt = $pdo->prepare($query);
+        $stmt = $pdo->query($query);
+        $stmt->execute();
+
+
+        header("location: categoriesAdmin.php");
+        // echo '<script type="text/javascript">alert("user deleted")</script>';
+
+    }
+}
+
+
+function addcomments(){
+      if($_SERVER["REQUEST_METHOD"]=="POST"){
+    if(isset($_SESSION['loggedUser'] )){
+        global $pdo;
+        // echo "<h1>haneen</h1>";
+        // var_dump($_SESSION['loggedUser']);
+
+    $message=$_POST['message'];
+    $idproduct=$_GET['id'];
+    $iduser=$_SESSION['loggedUser']['id'];
+
+
+    $data="INSERT INTO comments(user_id,comments,product_id) 
+      VALUE ('$iduser','$message' ,'$idproduct')";
+
+   $stmt = $pdo->prepare($data);
+$stmt->execute();
+
+
+      }
+
+      else{
+        echo '<script type="text/javascript">alert("is not loggin")</script>';
+
+      }
+   }
 }
 
 
