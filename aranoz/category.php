@@ -344,11 +344,13 @@ $data=$pdo->prepare("SELECT * from products WHERE category_id=$_GET[id]");}
 
 
 else{
-    $data=$pdo->prepare("SELECT * from products"); 
+    $data=$pdo->prepare("SELECT * FROM products WHERE id<= 18 OR  id > 28"); 
+    
+
 }
 
 if(isset($_GET['id']) && $_GET['id']==4){
-    $data=$pdo->prepare("SELECT * from products"); 
+    $data=$pdo->prepare("SELECT * from products  WHERE id<= 18 OR  id > 28 "); 
 
 }
 // var_dump($data);
