@@ -1,5 +1,33 @@
-<!doctype html>
-<html lang="zxx">
+<?php
+session_start();
+include_once "../db.php";
+?>
+<?php include "../functions.php"; ?>
+
+<?php
+function orders(){
+  global $pdo;
+  global $result;
+  $username=$_SESSION['loggedUser']['username'];
+  $userid=$_SESSION['loggedUser']['id'];
+  $userpassword=$_SESSION['loggedUser']['password'];
+  $query = "SELECT * FROM orders WHERE user_id = $userid";
+  $stmt = $pdo->prepare($query);
+  $stmt = $pdo->query($query);
+  
+  if($stmt->fetchColumn() >1){
+              $stmt->execute();
+              $result = $stmt->fetchAll(); 
+              $id=$result[0]['id'];
+              print_r($result);
+
+}
+}
+
+?>
+<?php orders(); ?>
+<!DOCTYPE html>
+<html lang="en">
 
 
 <!-- Mirrored from technext.github.io/aranoz/confirmation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
@@ -30,9 +58,25 @@
   <link rel="stylesheet" href="css/price_rangs.css">
   <!-- style CSS -->
   <link rel="stylesheet" href="css/style.css">
+  <style>
+  
+  .btn-edit{
+   
+    margin: .5em 30em;
+    padding: 1em;
+    background-color: #ff3368;
+    color: #fff;
+    border-radius: 5px;
+    line-height: 10px;
+    border: 2px solid #ff3368;
+}
+  </style>
 </head>
 
 <body>
+  <?php 
+  
+  ?>
   <!--::header part start::-->
   <header class="main_menu home_menu">
     <div class="container">
@@ -47,7 +91,9 @@
                     </button>
 
                     <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
-                        <ul class="navbar-nav">
+
+                      
+                      <ul class="navbar-nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="index.html">Home</a>
                             </li>
@@ -155,40 +201,47 @@
           <div class="single_confirmation_details">
             <h4>order info</h4>
             <ul>
-              <li>
-                <p>order number</p><span>: 60235</span>
-              </li>
-              <li>
-                <p>data</p><span>: Oct 03, 2017</span>
-              </li>
-              <li>
-                <p>total</p><span>: USD 2210</span>
-              </li>
-              <li>
-                <p>mayment methord</p><span>: Check payments</span>
-              </li>
-            </ul>
+            <li>
+            <p>ordeer number</p><span>:<?php $result[0]['id'] ?></span>
+            </li>
+            <li>
+              <p>date</p><span>:<?php $result[0]['date']?></span>
+            </li>
+            <li>
+              <p>total</p><span>:<?php $result[0]['total']?></span>
+            </li>
+            <li>
+              <p>mayment methord</p><span>: Check payments</span>
+            </li>
+          </ul>
+           
           </div>
         </div>
         <div class="col-lg-6 col-lx-4">
           <div class="single_confirmation_details">
-            <h4>Billing Address</h4>
+            <h4>User Info</h4>
             <ul>
               <li>
-                <p>Street</p><span>: 56/8</span>
+                 <p>Name:</p>
+                 <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['username']));}else{ echo "There";}?>
               </li>
+             
               <li>
-                <p>city</p><span>: Los Angeles</span>
+                <p>Mobile:</p>
+                <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['mobile']));}else{ echo "There";}?>
               </li>
+              </br>
               <li>
-                <p>country</p><span>: United States</span>
-              </li>
-              <li>
-                <p>postcode</p><span>: 36952</span>
+                <p>Password:</p>
+                <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['password']));}else{ echo "There";}?>
               </li>
             </ul>
+            
+            <button class="btn-edit" type="submit" name="edit" >Edit</button>
           </div>
+          </br>
         </div>
+
         <div class="col-lg-6 col-lx-4">
           <div class="single_confirmation_details">
             <h4>shipping Address</h4>

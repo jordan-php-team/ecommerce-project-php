@@ -4,7 +4,6 @@ include_once "db.php";
 ?>
 <?php
 
-
 function test_input($data)
 {
     $data = trim($data);
@@ -12,8 +11,6 @@ function test_input($data)
     $data = htmlspecialchars($data);
     return $data;
 }
-
-
 
 function getUsers()
 {
@@ -118,6 +115,25 @@ function read()
         echo "<option value='$id'>$id</option> ";
     }
 }
+
+// function orders(){
+//     global $pdo;
+
+//     $username=$_SESSION['loggedUser']['username'];
+//     $userid=$_SESSION['loggedUser']['id'];
+   
+//     $userpassword=$_SESSION['loggedUser']['password'];
+//     $query = "SELECT * FROM orders WHERE user_id = $userid";
+//     $stmt = $pdo->prepare($query);
+//     $stmt = $pdo->query($query);
+    
+//     if($stmt->fetchColumn() >1){
+//                 $stmt->execute();
+//                 $result = $stmt->fetchAll(); 
+//                 $id=$result[0]['id'];
+//                 print_r($result);
+//}      
+//   }
 
 
 
