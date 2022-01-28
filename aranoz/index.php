@@ -392,7 +392,7 @@ include_once "../db.php";
                   <div class="single_product_text">
                     <?php
                     echo "<h4>" .$product['product_name']."</h4>";
-                   echo "<h3>" .$product['product_price']."</h3>";
+                   echo "<h3>" .$product['product_price']."JD</h3>";
                     ?>
                     <a href="#" class="add_cart"
                       >+ add to cart<i class="ti-heart"></i
@@ -509,7 +509,7 @@ include_once "../db.php";
                   <div class="single_product_text">
                     <?php
                     echo "<h4>" .$product['product_name']."</h4>";
-                   echo "<h3>" .$product['product_price']."</h3>";
+                   echo "<h3>" .$product['product_price']."JD</h3>";
                     ?>
                   </div>
                 </div>

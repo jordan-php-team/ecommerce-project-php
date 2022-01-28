@@ -1,6 +1,8 @@
 <?php
 ob_start();
 include_once "db.php";
+
+
 ?>
 <?php
 
@@ -640,6 +642,9 @@ function addcomments()
         }
     }
 }
+
+
+
 
 
 ?>

@@ -1,6 +1,46 @@
 
 <?php
 include_once "../db.php";
+session_start();
+// session_unset();
+?>
+
+<?php
+ global $pdo;
+ $quanitity=1;
+    if($_SERVER["REQUEST_METHOD"]=="GET"){
+    if(isset($_GET['addToCart'])){
+      $product_id= $_GET['addToCart'];
+
+      $data="SELECT * FROM products WHERE id=$product_id";
+      $sql=$pdo->prepare($data);
+      $sql->execute();
+      $result=$sql->fetch();
+     var_dump($result);
+       $flag=false;
+      if(isset($_SESSION['products'])){
+          foreach($_SESSION['products'] as $element){
+            if($element['id']==$product_id)  {
+                $_SESSION['products'][$product_id][0]+=1;
+                $flag=true;
+                break;
+            }
+        }
+         if($flag==false){
+        $_SESSION['products'][$product_id]=$result;
+        $_SESSION['products'][$product_id][0]=$quanitity;
+         }
+        }
+        //   echo "<pre>";
+        //    var_dump($_SESSION['products']);
+           
+          header("location: cart.php");
+     
+    }
+}
+   
+
+
 ?>
 
 
@@ -47,7 +87,7 @@ include_once "../db.php";
             <div class="row align-items-center">
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="index.html"> <img src="img/logo.png" alt="logo"> </a>
+                        <a class="navbar-brand" href="index.php"> <img src="img/logo.png" alt="logo"> </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +97,7 @@ include_once "../db.php";
                         <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="index.html">Home</a>
+                                    <a class="nav-link" href="index.php">Home</a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"
@@ -350,9 +390,18 @@ else{
 }
 
 if(isset($_GET['id']) && $_GET['id']==4){
-    $data=$pdo->prepare("SELECT * from products  WHERE id<= 18 OR  id > 28 "); 
+    $data=$pdo->prepare("SELECT * from products  WHERE id <= 18 OR  id > 28 "); 
 
 }
+
+
+
+if(isset($_GET['id']) && $_GET['id']==1){
+    $data=$pdo->prepare("SELECT * from products  WHERE ( id <= 18 OR  id > 28) AND (category_id=$_GET[id]) "); 
+
+}
+
+
 // var_dump($data);
    $data->execute();
 
@@ -361,9 +410,11 @@ if(isset($_GET['id']) && $_GET['id']==4){
   echo   "<div class='single_product_item'>";
     echo    "<img src='$element[product_image]' alt='' width=500px height=170px>";
       echo  "<div class='single_product_text'>";
-      echo      "<h4>$element[product_description]</h4>";
+      echo      "<h4>$element[product_name]</h4>";
        echo     "<h3>$element[product_price]JD</h3>";
-       echo     "<a href='#' class='add_cart'>+ add to cart<i class='ti-heart'></i></a>";
+       echo "<form method='GET'>";
+       echo     "<input type='submit' value=$element[id] name='addToCart' class='add_cart'>+ add to cart<i class='ti-heart'></i></input>";
+       echo "</form>";
      echo   "</div>";
      echo   "</div>";
      echo   "</div></a>";
