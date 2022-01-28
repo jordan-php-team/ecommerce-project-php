@@ -37,6 +37,8 @@ addcomments();
   <link rel="stylesheet" href="css/magnific-popup.css">
   <!-- style CSS -->
   <link rel="stylesheet" href="css/style.css">
+
+  <link rel="stylesheet" href="single-product.css" >
 </head>
 
 <body>
@@ -181,10 +183,11 @@ foreach($data as $element){?>
                   <!-- <span>Category</span> : Household</a> -->
               </li>
               <li>
-                <a href="#"> <span>in stock:</span><?php echo "<span>$element[stock]</span>"; ?></a>
+                <a href="#"> <span><strong>in stock:</strong> </span><?php echo "<span>$element[stock]</span>"; ?></a>
               </li>
             </ul>
-            <p>
+           
+            <p>  <h5>Description :</h5>
             <?php echo $element['product_description'] ?>
             </p>
             <div class="card_area d-flex justify-content-between align-items-center">
@@ -209,14 +212,14 @@ foreach($data as $element){?>
   <section class="product_description_area">
     <div class="container">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
             aria-selected="true">Description</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
             aria-selected="false">Specification</a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
             aria-selected="false">Comments</a>
@@ -330,7 +333,7 @@ foreach($data as $element){?>
             </table>
           </div>
         </div>
-        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <!-- <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
           <div class="row">
             <div class="col-lg-6">
               <div class="comment_list">
@@ -343,7 +346,7 @@ foreach($data as $element){?>
                     <div class="media-body">
                       <h4>Blake Ruiz</h4>
                       <h5>12th Feb, 2017 at 05:56 pm</h5>
-                      <!-- <a class="reply_btn" href="#">Reply</a> -->
+                      <a class="reply_btn" href="#">Reply</a>
                     </div>
                   </div>
                   <p>
@@ -352,46 +355,9 @@ foreach($data as $element){?>
                     aliqua. Ut enim ad minim veniam, quis nostrud exercitation
                     ullamco laboris nisi ut aliquip ex ea commodo
                   </p>
-                </div>
-          
-                <?php
+                </div> -->
 
-$data=$pdo->prepare("SELECT comments.user_id ,comments.comments,
-comments.product_id,registredusers.username
-  from comments Inner Join registredusers on registredusers.id = comments.user_id 
-  WHERE comments.product_id=$_GET[id]");
-              // $data="SELECT * from comments ";
-              $data->execute();
-
-
-            foreach($data as $element){?>
-                <div class="review_item">
-                  <div class="media"> 
-                    <div class="d-flex">
-                      <img src="img/product/single-product/user1.png" alt="" width=100px height=70px/>
-                      <br><br>
-                    </div>
-              
-                 <div class='media-body'>
-                  <h4><?php echo $element['username'] ;?></h4>
-                
-               </div>
-              </div>
-                
-            
-                    <p><?php echo $element['comments'] ;?></p>
-              
-                      
-                <?php   } ?>
-
-
-                
-             
-                </div>
-                  </div>
-                  </div>
-              
-            <div class="col-lg-6">
+                <div id="haneen" class="col-lg-6">
               <div class="review_box">
                 <h4>Post a comment</h4>
              
@@ -408,13 +374,45 @@ comments.product_id,registredusers.username
 
                 <input  type="submit" value="comment" name="submit" class="btn_3"/>
               </form>
-
-
-
-
-
               </div>
             </div>
+          
+                <?php
+
+$data=$pdo->prepare("SELECT comments.user_id ,comments.comments,
+comments.product_id,registredusers.username
+  from comments Inner Join registredusers on registredusers.id = comments.user_id 
+  WHERE comments.product_id=$_GET[id]");
+              // $data="SELECT * from comments ";
+              $data->execute();
+
+
+            foreach($data as $element){?>
+            <div class="haneencanterinar">
+                <div class="review_item">
+                  <div class="haneen">
+                  <div class="media"> 
+                    <div class="d-flex">
+                      <img src="img/product/single-product/user1.png" alt="" width=100px height=70px/>
+                      <br><br>
+                    </div>
+              
+                 <div class='media-body'>
+                  <h4><?php echo $element['username'] ;?></h4>
+                
+               </div>
+              </div>
+                
+            
+                    <p id="haneenpar"><?php echo $element['comments'] ;?></p>
+              
+                    </div> 
+                <?php   } ?>
+
+                </div>
+                  </div>
+                
+       
           </div>
         </div>
        
@@ -424,7 +422,7 @@ comments.product_id,registredusers.username
   <!--================End Product Description Area =================-->
 
   <!-- product_list part start-->
-  <section class="product_list best_seller">
+  <!-- <section class="product_list best_seller">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-12">
@@ -475,7 +473,7 @@ comments.product_id,registredusers.username
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
   <!-- product_list part end-->
 
   <!--::footer_part start::-->
