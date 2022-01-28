@@ -6,7 +6,7 @@ include_once "../db.php";
 getUsers();
 ?>
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="en">
 <!-- Mirrored from technext.github.io/aranoz/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
 <!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
