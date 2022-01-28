@@ -187,7 +187,7 @@ include_once "../db.php";
                                     <a href="productsAdmin.php">View All Products</a>
                                 </li>
                                 <li>
-                                    <a href="addProduct.php">Add Product</a>
+                                    <a href="addPost.php">Add Product</a>
                                 </li>
                             </ul>
                         </li>
@@ -496,31 +496,33 @@ include_once "../db.php";
                                 </div>
                                 <div class="table-responsive table-responsive-data2">
                                     <div class="col-lg-6">
-                                        <table class="table table-data2">
-                                            <thead>
-                                                <tr>
-                                                    <th>Id</th>
-                                                    <th>Product Name</th>
-                                                    <th>Product Price</th>
-                                                    <th>Product Des</th>
-                                                    <th>Product Image</th>
-                                                    <th>Category Id</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
 
-                                                <?php
-                                                getProducts();
-                                                getUpdatedProduct();
-                                                getDeletedProduct();
+                                        <?php
 
+                                        getAddedProduct();
 
-                                                ?>
-
-
-                                            </tbody>
-                                        </table>
-
+                                        ?>
+                                        <form action="" method="post">
+                                            <div class="form-group">
+                                                <label for="add_product">Product Name</label>
+                                                <input class="form-control" type="text" name="product_name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_product">Product Price</label>
+                                                <input class="form-control" type="text" name="product_price">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_product">Product Des</label>
+                                                <input class="form-control" type="text" name="product_des">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_product">Category Id</label>
+                                                <input class="form-control" type="text" name="category_id">
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="btn btn-primary" type="submit" name="add_product_submit" value="Add Product">
+                                            </div>
+                                        </form>
                                     </div>
 
                                     <!-- END DATA TABLE -->

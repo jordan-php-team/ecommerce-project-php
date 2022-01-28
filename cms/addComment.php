@@ -2,7 +2,13 @@
 
 include_once "../db.php";
 ?>
+
 <?php include "../functions.php"; ?>
+<?php
+
+getAddedComment();
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -201,8 +207,8 @@ include_once "../db.php";
                                     <a href="addCategory.php">Add Category</a>
                                 </li>
                             </ul>
-                        </li>
 
+                        </li>
                         <li>
                             <a href="#" data-toggle="collapse" data-target="#comments"> <i class="fas fa-comments"></i>Comments <i class="fa fa-fw fa-caret-down"></i></a>
                             <ul id="comments" class="collapse">
@@ -495,81 +501,78 @@ include_once "../db.php";
 
                                 </div>
                                 <div class="table-responsive table-responsive-data2">
+
                                     <div class="col-lg-6">
-                                        <table class="table table-data2">
-                                            <thead>
-                                                <tr>
-                                                    <th>Id</th>
-                                                    <th>Product Name</th>
-                                                    <th>Product Price</th>
-                                                    <th>Product Des</th>
-                                                    <th>Product Image</th>
-                                                    <th>Category Id</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                                <?php
-                                                getProducts();
-                                                getUpdatedProduct();
-                                                getDeletedProduct();
 
 
-                                                ?>
+                                        <form action="" method="post">
+                                            <div class="form-group">
+                                                <label for="add_comment">Comments</label>
+                                                <input class="form-control" type="text" name="new_comment">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_comment">User Id</label>
+                                                <input class="form-control" type="number" name="user_id">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_comment">Product Id</label>
+                                                <input class="form-control" type="number" name="product_id">
+                                            </div>
 
-
-                                            </tbody>
-                                        </table>
-
+                                            <div class="form-group">
+                                                <input class="btn btn-primary" type="submit" name="add_comment_submit" value="Add Comment">
+                                            </div>
+                                        </form>
                                     </div>
 
-                                    <!-- END DATA TABLE -->
                                 </div>
+                                <!-- END DATA TABLE -->
                             </div>
-                            <div class="row m-t-30">
-                                <div class="col-md-12">
-                                    <!-- DATA TABLE-->
+                        </div>
+                        <div class="row m-t-30">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE-->
 
-                                    <!-- END DATA TABLE-->
-                                </div>
+                                <!-- END DATA TABLE-->
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="copyright">
-                                        <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
-                                    </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="copyright">
+                                    <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
-        <!-- Jquery JS-->
-        <script src="vendor/jquery-3.2.1.min.js"></script>
-        <!-- Bootstrap JS-->
-        <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-        <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-        <!-- Vendor JS       -->
-        <script src="vendor/slick/slick.min.js">
-        </script>
-        <script src="vendor/wow/wow.min.js"></script>
-        <script src="vendor/animsition/animsition.min.js"></script>
-        <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-        </script>
-        <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-        <script src="vendor/counter-up/jquery.counterup.min.js">
-        </script>
-        <script src="vendor/circle-progress/circle-progress.min.js"></script>
-        <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-        <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-        <script src="vendor/select2/select2.min.js">
-        </script>
+    </div>
 
-        <!-- Main JS-->
-        <script src="js/main.js"></script>
+    <!-- Jquery JS-->
+    <script src="vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="vendor/slick/slick.min.js">
+    </script>
+    <script src="vendor/wow/wow.min.js"></script>
+    <script src="vendor/animsition/animsition.min.js"></script>
+    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    </script>
+    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="vendor/counter-up/jquery.counterup.min.js">
+    </script>
+    <script src="vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="vendor/select2/select2.min.js">
+    </script>
+
+    <!-- Main JS-->
+    <script src="js/main.js"></script>
 
 </body>
 

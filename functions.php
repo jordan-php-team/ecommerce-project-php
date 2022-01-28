@@ -255,6 +255,36 @@ function getCategories()
             echo   '<td>' . $user['category_title'] . '</td>';
             echo "<td> <a href='categoriesAdmin.php?edit={$user['id']}'>Update</td>";
             echo "<td> <a href='categoriesAdmin.php?delete-category={$user['id']}'><i class='zmdi zmdi-delete'></i></td>";
+
+
+
+            echo "</tr>";
+        }
+    }
+}
+
+
+function getComments()
+{
+    global $pdo;
+    $sql = "SELECT * FROM comments";
+    $select_all_categories = $pdo->query($sql);
+    $select_all_categories->execute();
+
+
+    while ($row = $select_all_categories->fetchAll()) {
+        $username = $row;
+        foreach ((array) $username as $user) {
+            echo "<tr>";
+            echo   '<td>' . $user['id'] . '</td>';
+            echo   '<td>' . $user['comments'] . '</td>';
+            echo   '<td>' . $user['user_id'] . '</td>';
+            echo   '<td>' . $user['product_id'] . '</td>';
+            echo "<td> <a href='categoriesAdmin.php?edit={$user['id']}'>Update</td>";
+            echo "<td> <a href='commentsAdmin.php?delete-comment={$user['id']}'><i class='zmdi zmdi-delete'></i></td>";
+
+
+
             echo "</tr>";
         }
     }
@@ -385,6 +415,23 @@ function getAddedCategory()
     }
 }
 
+function getAddedComment()
+{
+
+
+    if (isset($_POST['add_comment_submit'])) {
+
+        global $pdo;
+        $comment = $_POST['new_comment'];
+        $user_id = $_POST['user_id'];
+        $product_id = $_POST['product_id'];
+
+        $query = "INSERT INTO comments (user_id, comments, product_id) VALUES (?,?,?)";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([$user_id, $comment, $product_id]);
+    }
+}
+
 
 function getDeletedProduct()
 {
@@ -418,12 +465,26 @@ function getDeletedCategories()
         $query = "DELETE FROM categories WHERE id='$the_category_id'";
         $stmt = $pdo->prepare($query);
         $stmt = $pdo->query($query);
-        $stmt->execute();
+        if ($stmt) {
+            header("location: categoriesAdmin.php");
+        }
+    }
+}
 
+function getDeletedComment()
+{
 
-        header("location: categoriesAdmin.php");
-        // echo '<script type="text/javascript">alert("user deleted")</script>';
+    if (isset($_GET['delete-comment'])) {
+        global $pdo;
 
+        $the_comment_id = $_GET['delete-comment'];
+
+        $query = "DELETE FROM comments WHERE id='$the_comment_id'";
+        $stmt = $pdo->prepare($query);
+        $stmt = $pdo->query($query);
+        if ($stmt) {
+            header("location: commentsAdmin.php");
+        }
     }
 }
 

@@ -181,17 +181,38 @@ include_once "../db.php";
                                 <i class="fas fa-table"></i>Users</a>
                         </li>
                         <li>
-                            <a href="productsAdmin.php">
-                                <i class="far fa-check-square"></i>Products</a>
+                            <a href="#" data-toggle="collapse" data-target="#products"><i class="fas fa-sitemap"></i> Products <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="products" class="collapse">
+                                <li>
+                                    <a href="productsAdmin.php">View All Products</a>
+                                </li>
+                                <li>
+                                    <a href="addProduct.php">Add Product</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
-                            <a href="categoriesAdmin.php">
-                                <i class="fas fa-calendar-alt"></i>Categories</a>
+                            <a href="#" data-toggle="collapse" data-target="#categories"><i class="fas fa-filter"></i> Categories <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="categories" class="collapse">
+                                <li>
+                                    <a href="categoriesAdmin.php">View All Categories</a>
+                                </li>
+                                <li>
+                                    <a href="addCategory.php">Add Category</a>
+                                </li>
+                            </ul>
                         </li>
-                        <!-- <li>
-                            <a href="map.html">
-                                <i class="fas fa-map-marker-alt"></i>Maps</a>
-                        </li> -->
+                        <li>
+                            <a href="#" data-toggle="collapse" data-target="#comments"> <i class="fas fa-comments"></i>Comments <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="comments" class="collapse">
+                                <li>
+                                    <a href="commentsAdmin.php">View All Comments</a>
+                                </li>
+                                <li>
+                                    <a href="addComment.php">Add Comment</a>
+                                </li>
+                            </ul>
+                        </li>
                         <!-- <li class="has-sub">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-copy"></i>Pages</a> -->
@@ -470,18 +491,7 @@ include_once "../db.php";
                                         <button class="au-btn-filter">
                                             <i class="zmdi zmdi-filter-list"></i>filters</button>
                                     </div>
-                                    <div class="table-data__tool-right">
-                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                            <i class="zmdi zmdi-plus"></i>add item</button>
-                                        <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
-                                            <select class="js-select2" name="type">
-                                                <option selected="selected">Export</option>
-                                                <option value="">Option 1</option>
-                                                <option value="">Option 2</option>
-                                            </select>
-                                            <div class="dropDownSelect2"></div>
-                                        </div>
-                                    </div>
+
                                 </div>
                                 <div class="table-responsive table-responsive-data2">
 
@@ -498,30 +508,16 @@ include_once "../db.php";
                                             <tbody>
 
                                                 <?php
+                                                getDeletedCategories();
                                                 getCategories();
                                                 getUpdateCategory();
-                                                getDeletedCategories();
 
                                                 ?>
 
 
                                             </tbody>
                                         </table>
-                                        <?php
 
-                                        getAddedCategory();
-
-                                        ?>
-                                        <form action="" method="post">
-                                            <div class="form-group">
-                                                <label for="add_category">Category Title</label>
-                                                <input class="form-control" type="text" name="category_title">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <input class="btn btn-primary" type="submit" name="add_category_submit" value="Add Category">
-                                            </div>
-                                        </form>
                                     </div>
 
                                 </div>
