@@ -24,6 +24,7 @@ function getUsers()
         $email = test_input($_POST['email']);
         $password = test_input($_POST['password']);
         $repeatPass = test_input($_POST['repeatPass']);
+        $age = test_input($_POST['age']);
 
         $usernamePattern = " /^[A-Za-z]{3,13}$/";
         $emailRegex = "/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
@@ -38,11 +39,46 @@ function getUsers()
                 echo '<script type="text/javascript">alert("email exist")</script>';
             } else {
 
-                $query = "INSERT INTO registredusers (username,email,password)";
+                $query = "INSERT INTO registredusers (username,email,password,age)";
                 $query .= "VALUES (?,?,?)";
                 $stmt = $pdo->prepare($query);
-                $stmt->execute([$username, $email, $password]);
+                $stmt->execute([$username, $email, $password, $age]);
                 header("location:login.php");
+            }
+        } else {
+            echo '<script type="text/javascript">alert("please check your information")</script>';
+        }
+    }
+}
+function getAddedUsers()
+{
+    if (isset($_POST['submit_add_user'])) {
+        global $pdo;
+
+        $username = test_input($_POST['username']);
+        $email = test_input($_POST['email']);
+        $password = test_input($_POST['password']);
+        $repeatPass = test_input($_POST['repeatPass']);
+        $age = test_input($_POST['age']);
+
+        $usernamePattern = " /^[A-Za-z]{3,13}$/";
+        $emailRegex = "/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
+
+        if (preg_match($usernamePattern, $username) && preg_match($emailRegex, $email) && strlen($password) >= 8 && $password == $repeatPass) {
+
+            $sql = "SELECT email FROM registredusers WHERE email='$email'";
+            $stmt = $pdo->prepare($sql);
+            $stmt = $pdo->query($sql);
+            if ($stmt->fetchColumn() > 0) {
+
+                echo '<script type="text/javascript">alert("email exist")</script>';
+            } else {
+
+                $query = "INSERT INTO registredusers (username,email,password,age)";
+                $query .= "VALUES (?,?,?,?)";
+                $stmt = $pdo->prepare($query);
+                $stmt->execute([$username, $email, $password, $age]);
+                header("location:addUser.php");
             }
         } else {
             echo '<script type="text/javascript">alert("please check your information")</script>';
@@ -139,7 +175,7 @@ function updateUser()
         if (!$stmt) {
             echo 'failed';
         } else {
-            header("location:../mysql/cms/table.php");
+            header("location:editUser.php");
         }
     }
 }
@@ -182,8 +218,10 @@ function getData()
             echo   '<td>' . $user['email'] . '</td>';
             echo   '<td>' . $user['password'] . '</td>';
             echo   '<td>' . $user['date created'] . '</td>';
-            echo   '<td>' . $user['last_login_date'] . '</td>'; ?>
-            <form method='post' action='../login-update.php'>
+            echo   '<td>' . $user['last_login_date'] . '</td>';
+            echo   '<td>' . $user['age'] . '</td>';
+?>
+            <form method='post' action='editUser.php'>
                 <?php
 
                 echo '<td>     <button name="update-user" value=' . $user['id'] . ' type="submit" class="item" data-toggle="tooltip" data-placement="top" title="Edit"><i class="zmdi zmdi-edit"></i></button></td>';
@@ -221,6 +259,7 @@ function getProducts()
             <?php
             echo '</td>';
             echo   '<td>' . $user['category_id'] . '</td>';
+            echo   '<td>' . $user['stock'] . '</td>';
 
 
             echo "<td> <a href='productsAdmin.php?editing={$user['id']}'>Update</td>";
@@ -278,8 +317,35 @@ function getComments()
             echo   '<td>' . $user['comments'] . '</td>';
             echo   '<td>' . $user['user_id'] . '</td>';
             echo   '<td>' . $user['product_id'] . '</td>';
-            echo "<td> <a href='categoriesAdmin.php?edit={$user['id']}'>Update</td>";
+            echo "<td> <a href='commentsAdmin.php?edit-comment={$user['id']}'>Update</td>";
             echo "<td> <a href='commentsAdmin.php?delete-comment={$user['id']}'><i class='zmdi zmdi-delete'></i></td>";
+
+
+
+            echo "</tr>";
+        }
+    }
+}
+
+
+function getOrders()
+{
+    global $pdo;
+    $sql = "SELECT * FROM orders";
+    $select_all_categories = $pdo->query($sql);
+    $select_all_categories->execute();
+
+
+    while ($row = $select_all_categories->fetchAll()) {
+        $username = $row;
+        foreach ((array) $username as $user) {
+            echo "<tr>";
+            echo   '<td>' . $user['id'] . '</td>';
+            echo   '<td>' . $user['user_id'] . '</td>';
+            echo   '<td>' . $user['total'] . '</td>';
+            echo   '<td>' . $user['date'] . '</td>';
+
+            echo "<td> <a href='orders.php?delete-order={$user['id']}'><i class='zmdi zmdi-delete'></i></td>";
 
 
 
@@ -354,7 +420,7 @@ function getUpdatedProduct()
             </div>
         </form>
 
-<?php
+        <?php
         if (isset($_POST['update_product_submit'])) {
             $update_product_name = $_POST['update_product_name'];
             $update_product_price = $_POST['update_product_price'];
@@ -375,6 +441,43 @@ function getUpdatedProduct()
     }
 }
 
+function getUpdateComment()
+{
+
+    if (isset($_GET['edit-comment'])) {
+
+        global $pdo;
+
+        $comment_id = $_GET['edit-comment']; ?>
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="comment_title">Update</label>
+                <input class="form-control" type="text" name="update_comment_title">
+            </div>
+            <div class="form-group">
+                <input class="btn btn-primary" type="submit" name="update_comment_submit" value="Update">
+            </div>
+        </form>
+
+<?php
+        if (isset($_POST['update_comment_submit'])) {
+            $update_comment_title = $_POST['update_comment_title'];
+
+            $query = "UPDATE comments SET comments = '$update_comment_title'  WHERE id= $comment_id  ";
+
+
+            $stmt = $pdo->prepare($query);
+            $stmt = $pdo->query($query);
+
+            if (!$stmt) {
+                echo 'failed';
+            } else {
+                header("location: ../cms/commentsAdmin.php");
+            }
+        }
+    }
+}
+
 
 function getAddedProduct()
 {
@@ -387,14 +490,23 @@ function getAddedProduct()
         $product_name = $_POST['product_name'];
         $product_price = $_POST['product_price'];
         $product_des = $_POST['product_des'];
+        $product_img = $_FILES['product_img']['name'];
+        $product_img_temp = $_FILES['product_img']['tmp_name'];
         $category_id = $_POST['category_id'];
-        $query = "INSERT INTO products (product_name,product_price,product_description,category_id )";
-        $query .= "VALUES (?,?,?,?)";
+        $product_stock = $_POST['product_stock'];
+
+        $query = "INSERT INTO products (product_name,product_price,product_description,category_id,product_image,stock )";
+        $query .= "VALUES (?,?,?,?,?,?)";
         $stmt = $pdo->prepare($query);
-        $stmt->execute([$product_name, $product_price, $product_des, $category_id]);
+        $stmt->execute([$product_name, $product_price, $product_des,  $category_id, $product_img, $product_stock]);
+        if ($stmt) {
+
+            move_uploaded_file($product_img_temp, "../images/$product_img");
+        } else {
+            echo 'failed';
+        }
     }
 }
-
 
 
 function getAddedCategory()
@@ -487,32 +599,46 @@ function getDeletedComment()
 }
 
 
-function addcomments(){
-      if($_SERVER["REQUEST_METHOD"]=="POST"){
-    if(isset($_SESSION['loggedUser'] )){
+
+function getDeletedOrders()
+{
+
+    if (isset($_GET['delete-order'])) {
         global $pdo;
-        // echo "<h1>haneen</h1>";
-        // var_dump($_SESSION['loggedUser']);
 
-    $message=$_POST['message'];
-    $idproduct=$_GET['id'];
-    $iduser=$_SESSION['loggedUser']['id'];
+        $the_order_id = $_GET['delete-order'];
+
+        $query = "DELETE FROM orders WHERE id='$the_order_id'";
+        $stmt = $pdo->prepare($query);
+        $stmt = $pdo->query($query);
+        if ($stmt) {
+            header("location: orders.php");
+        }
+    }
+}
+
+function addcomments()
+{
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_SESSION['loggedUser'])) {
+            global $pdo;
+            // echo "<h1>haneen</h1>";
+            // var_dump($_SESSION['loggedUser']);
+
+            $message = $_POST['message'];
+            $idproduct = $_GET['id'];
+            $iduser = $_SESSION['loggedUser']['id'];
 
 
-    $data="INSERT INTO comments(user_id,comments,product_id) 
+            $data = "INSERT INTO comments(user_id,comments,product_id) 
       VALUE ('$iduser','$message' ,'$idproduct')";
 
-   $stmt = $pdo->prepare($data);
-$stmt->execute();
-
-
-      }
-
-      else{
-        echo '<script type="text/javascript">alert("is not loggin")</script>';
-
-      }
-   }
+            $stmt = $pdo->prepare($data);
+            $stmt->execute();
+        } else {
+            echo '<script type="text/javascript">alert("is not loggin")</script>';
+        }
+    }
 }
 
 

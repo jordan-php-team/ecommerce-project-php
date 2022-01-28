@@ -299,16 +299,18 @@ include_once "../db.php";
                                             <thead>
                                                 <tr>
                                                     <th>Id</th>
-                                                    <th>Category Title</th>
+                                                    <th>User Id</th>
+                                                    <th>Total</th>
+                                                    <th>date</th>
 
                                                 </tr>
                                             </thead>
                                             <tbody>
 
                                                 <?php
-                                                getDeletedCategories();
-                                                getCategories();
-                                                getUpdateCategory();
+                                                getDeletedOrders();
+                                                getOrders();
+                                                // getUpdateCategory();
 
                                                 ?>
 
