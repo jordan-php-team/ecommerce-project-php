@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 include_once "../db.php";
 ?>
 <?php include "../functions.php"; ?>
@@ -192,6 +192,17 @@ include_once "../db.php";
                             </ul>
                         </li>
                         <li>
+                            <a href="#" data-toggle="collapse" data-target="#categories"><i class="fas fa-filter"></i> Categories <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="categories" class="collapse">
+                                <li>
+                                    <a href="categoriesAdmin.php">View All Categories</a>
+                                </li>
+                                <li>
+                                    <a href="addCategory.php">Add Category</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
                             <a href="#" data-toggle="collapse" data-target="#comments"> <i class="fas fa-comments"></i>Comments <i class="fa fa-fw fa-caret-down"></i></a>
                             <ul id="comments" class="collapse">
                                 <li>
@@ -201,10 +212,6 @@ include_once "../db.php";
                                     <a href="addComment.php">Add Comment</a>
                                 </li>
                             </ul>
-                        </li>
-                        <li>
-                            <a href="commentsAdmin.php">
-                                <i class="fas fa-comments"></i>Comments</a>
                         </li>
                         <!-- <li class="has-sub">
                             <a class="js-arrow" href="#">
@@ -487,35 +494,33 @@ include_once "../db.php";
 
                                 </div>
                                 <div class="table-responsive table-responsive-data2">
-                                    <table class="table table-data2">
-                                        <thead>
-                                            <tr>
 
-                                                <th>id</th>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Password</th>
-                                                <th>date created</th>
-                                                <th>date last login</th>
-                                                <th>edit</th>
-                                                <th>delete</th>
+                                    <div class="col-lg-6">
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                        <table class="table table-data2 ">
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Comment</th>
+                                                    <th>User Id</th>
+                                                    <th>Product Id</th>
 
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
-                                            <?php
+                                                <?php
+                                                getDeletedComment();
+                                                getComments();
+                                                // getUpdateCategory();
 
-                                            deleteUser();
-                                            getData();
-                                            ?>
+                                                ?>
 
 
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
 
-
+                                    </div>
 
                                 </div>
                                 <!-- END DATA TABLE -->

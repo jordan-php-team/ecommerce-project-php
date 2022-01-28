@@ -192,6 +192,18 @@ include_once "../db.php";
                             </ul>
                         </li>
                         <li>
+                            <a href="#" data-toggle="collapse" data-target="#categories"><i class="fas fa-filter"></i> Categories <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="categories" class="collapse">
+                                <li>
+                                    <a href="categoriesAdmin.php">View All Categories</a>
+                                </li>
+                                <li>
+                                    <a href="addCategory.php">Add Category</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
                             <a href="#" data-toggle="collapse" data-target="#comments"> <i class="fas fa-comments"></i>Comments <i class="fa fa-fw fa-caret-down"></i></a>
                             <ul id="comments" class="collapse">
                                 <li>
@@ -201,10 +213,6 @@ include_once "../db.php";
                                     <a href="addComment.php">Add Comment</a>
                                 </li>
                             </ul>
-                        </li>
-                        <li>
-                            <a href="commentsAdmin.php">
-                                <i class="fas fa-comments"></i>Comments</a>
                         </li>
                         <!-- <li class="has-sub">
                             <a class="js-arrow" href="#">
@@ -487,84 +495,81 @@ include_once "../db.php";
 
                                 </div>
                                 <div class="table-responsive table-responsive-data2">
-                                    <table class="table table-data2">
-                                        <thead>
-                                            <tr>
+                                    <div class="col-lg-6">
+                                        <table class="table table-data2">
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Product Name</th>
+                                                    <th>Product Price</th>
+                                                    <th>Product Des</th>
+                                                    <th>Product Image</th>
+                                                    <th>Category Id</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
-                                                <th>id</th>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Password</th>
-                                                <th>date created</th>
-                                                <th>date last login</th>
-                                                <th>edit</th>
-                                                <th>delete</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-
-                                            <?php
-
-                                            deleteUser();
-                                            getData();
-                                            ?>
+                                                <?php
+                                                getProducts();
+                                                getUpdatedProduct();
+                                                getDeletedProduct();
 
 
-                                        </tbody>
-                                    </table>
+                                                ?>
 
 
+                                            </tbody>
+                                        </table>
 
+                                    </div>
+
+                                    <!-- END DATA TABLE -->
                                 </div>
-                                <!-- END DATA TABLE -->
                             </div>
-                        </div>
-                        <div class="row m-t-30">
-                            <div class="col-md-12">
-                                <!-- DATA TABLE-->
+                            <div class="row m-t-30">
+                                <div class="col-md-12">
+                                    <!-- DATA TABLE-->
 
-                                <!-- END DATA TABLE-->
+                                    <!-- END DATA TABLE-->
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="copyright">
-                                    <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="copyright">
+                                        <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
-    </div>
+        <!-- Jquery JS-->
+        <script src="vendor/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap JS-->
+        <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+        <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+        <!-- Vendor JS       -->
+        <script src="vendor/slick/slick.min.js">
+        </script>
+        <script src="vendor/wow/wow.min.js"></script>
+        <script src="vendor/animsition/animsition.min.js"></script>
+        <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+        </script>
+        <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+        <script src="vendor/counter-up/jquery.counterup.min.js">
+        </script>
+        <script src="vendor/circle-progress/circle-progress.min.js"></script>
+        <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+        <script src="vendor/select2/select2.min.js">
+        </script>
 
-    <!-- Jquery JS-->
-    <script src="vendor/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap JS-->
-    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- Vendor JS       -->
-    <script src="vendor/slick/slick.min.js">
-    </script>
-    <script src="vendor/wow/wow.min.js"></script>
-    <script src="vendor/animsition/animsition.min.js"></script>
-    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-    </script>
-    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="vendor/counter-up/jquery.counterup.min.js">
-    </script>
-    <script src="vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="vendor/select2/select2.min.js">
-    </script>
-
-    <!-- Main JS-->
-    <script src="js/main.js"></script>
+        <!-- Main JS-->
+        <script src="js/main.js"></script>
 
 </body>
 
