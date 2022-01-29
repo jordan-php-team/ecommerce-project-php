@@ -78,7 +78,7 @@ addcomments();
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                     <?php if ($_SESSION['user_logged_in']) : ?>
-                      <a class="dropdown-item" href="login.php" id="login-field" onclick="<?php $_SESSION['user_logged_in'] = false; ?>"> Logout</a>
+                      <a class="dropdown-item" href="login.php" id="login-field" <?php $_SESSION['user_logged_in'] = false; ?>> Logout</a>
                     <?php else : ?>
                       <a class="dropdown-item" href="login.php" id="login-field"> login</a>
                     <?php endif; ?>

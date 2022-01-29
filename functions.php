@@ -3,6 +3,7 @@ ob_start();
 include_once "db.php";
 
 
+
 ?>
 <?php
 
@@ -129,7 +130,6 @@ function loggedUsers()
                     $_SESSION['user_logged_in'] = true;
 
                     header("location:index.php");
-                    var_dump($_SESSION['loggedUser']);
                 } else {
                     header("location:../cms/table.php");
                 }
@@ -646,6 +646,81 @@ function addcomments()
 }
 
 
+function checkoutButton()
+{
+    global $pdo;
+    $cart = $_SESSION["products"];
+    $whoLogged = $_SESSION["loggedUser"];
+    $user_id = $whoLogged['id'];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        if (isset($_POST['checkout_submit'])) {
+            //orders table
+            $query = "INSERT INTO orders (user_id)";
+            $query .= "VALUES (?)";
+            $stmt = $pdo->prepare($query);
+            if ($stmt) {
+
+                $stmt->execute([$user_id]);
+                //getting last order id from orders table
+                $query = $pdo->prepare("SELECT max(id) FROM orders");
+                $query->execute();
+                $result = $query->fetchAll();
+                $maxId = $result[0]['max(id)'];
+            }
+            //order_item table
+            foreach ($cart as $product) {
+                $product_id =  $product['id'];
+                $qty =  $product[0];
+                $query = "INSERT INTO order_item (order_id,product_id,quantity)";
+                $query .= "VALUES (?,?,?)";
+                $stmt = $pdo->prepare($query);
+                if ($stmt) {
+
+                    $stmt->execute([$maxId, $product_id, $qty]);
+                    //updating stock in products table
+                    $query = "SELECT stock FROM products WHERE (id = '$product_id') ";
+                    $select_all_stocks = $pdo->query($query);
+                    $select_all_stocks->execute();
+
+                    while ($row = $select_all_stocks->fetchAll()) {
+
+                        foreach ((array) $row as $products) {
+                            $stock2 = $products['stock'];
+                            $newStock = $stock2 - $qty;
+                            // print_r($newStock);
+                            // print_r($qty);
+                            $query = "UPDATE products SET stock = '$newStock'  WHERE id= $product_id  ";
+
+
+                            $stmt = $pdo->prepare($query);
+                            $stmt = $pdo->query($query);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// function bb()
+// {
+
+//     $query = "SELECT stock FROM products WHERE (id = '$product_id') ";
+
+
+//         $select_all_stocks = $pdo->query($query);
+//         $select_all_stocks->execute();
+
+
+//         while ($row = $select_all_stocks->fetchAll()) {
+
+//             foreach ((array) $row as $products) {
+//                 $stock2 = $products['stock'];
+//                 $newStock=$stock2 -$qty;
+//                 $query = "UPDATE products SET stock = '$newStock'  WHERE id= $product_id  ";
+//             }
+//     }
 
 
 

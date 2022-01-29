@@ -170,8 +170,16 @@ session_start();
                                         blog
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="blog.html"> blog</a>
-                                        <a class="dropdown-item" href="single-blog.html">Single blog</a>
+                                        <?php if ($_SESSION['user_logged_in']) : ?>
+                                            <a class="dropdown-item" href="login.php" id="login-field"> Logout</a>
+                                        <?php else : ?>
+                                            <a class="dropdown-item" href="login.php" id="login-field"> login</a>
+                                        <?php endif; ?>
+                                        <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
+                                        <a class="dropdown-item" href="checkout.php">product checkout</a>
+                                        <a class="dropdown-item" href="cart.php">shopping cart</a>
+                                        <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                                        <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
                                     </div>
                                 </li>
 

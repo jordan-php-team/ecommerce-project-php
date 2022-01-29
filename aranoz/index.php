@@ -143,7 +143,7 @@ include_once "../db.php";
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                     <!-- this alternative syntax is excellent for improving legibility (for both PHP and HTML!) in situations where you have a mix of them. -->
                     <?php if ($_SESSION['user_logged_in']) : ?>
-                      <a class="dropdown-item" href="login.php" id="login-field" onclick="<?php $_SESSION['user_logged_in'] = false; ?>"> Logout</a>
+                      <a class="dropdown-item" href="login.php" id="login-field"> Logout</a>
                     <?php else : ?>
                       <a class="dropdown-item" href="login.php" id="login-field"> login</a>
                     <?php endif; ?>
