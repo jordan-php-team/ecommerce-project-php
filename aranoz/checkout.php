@@ -5,39 +5,14 @@ session_start();
 $cart = $_SESSION["products"];
 
 ?>
+     <?php 
+                    echo "<pre>";
+                    var_dump($_SESSION['products']);
+                   ?>
 
 <?php
    global $Total;
-
-
-    
-
-     foreach ($cart  as $element){
- global $Total;
-
- $Total = $Total + $element[0] * $element['product_price'];
-global $Total_after_dicount;
-
-
-
-
-  
-  }
-
-// if ($_SERVER["REQUEST_METHOD"] == "GET") {
-// if(isset($_GET['coupon']) && $_GET['coupon']=='furniture'){
-
-
-
-// $coupon=$_GET['coupon'];
-
-// $discount_percentage=$Total_All_After_discount*0.2;
-// // echo $Total;
-// global $TotalAftercoupon;
-//   $TotalAftercoupon =$Total_All_After_discount-$discount_percentage;
-
-// }
-// }
+ 
 
 
 
@@ -328,32 +303,15 @@ global $Total_after_dicount;
                   <a ><?php echo $element['product_name'];?>
                     <span class="middle">x <?php echo $element[0]; ?></span>
                     <span class="last">
-                      <?php if($element['product_discount'] > 0){
-                     $Total_product_before_dicount=$element[0] * $element['product_price'];
-                    //  echo $Total_product_before_dicount;
-                    $discount_percentage_product=0;
-                     $discount_percentage_product= $Total_product_before_dicount *($element['product_discount']/100);
-                     $Total_product_after_dicount =$Total_product_before_dicount - $discount_percentage_product;
-                       }
-                        global  $Total_All_After_discount;
-
-                       if(isset($Total_product_after_dicount)){
-                        echo  $Total_product_after_dicount ; 
-                        global  $Total_All_After_discount;
-                        $Total_All_After_discount=$Total_All_After_discount+$Total_product_after_dicount;
-                       }
-
-                       else{
-                         
-                         echo $element[0] * $element['product_price'];
-                       }
+                      <?php
+             
+                      $Total+= $element['Total_after_discount'];
+                         echo $element['Total_after_discount'];
+                      //  }
                 
                     ?> JD</span>
-                    <!-- <span class="last"> -->
-                      <?php 
-                    // echo $element[0] * $element['product_price']; 
-                    // ?> 
-                    <!-- JD</span> -->
+                  
+            
 
                   </a>
                 </li>
@@ -366,20 +324,10 @@ global $Total_after_dicount;
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
   if(isset($_GET['coupon']) && $_GET['coupon']=='furniture'){
   $coupon=$_GET['coupon'];
-
-  if(isset($Total_All_After_discount)){
-    $discount_percentage=$Total_All_After_discount*0.2;
-  // echo $Total;
-  global $TotalAftercoupon;
-    $TotalAftercoupon =$Total_All_After_discount-$discount_percentage;
-  }
-
-  else{
     $discount_percentage=$Total*0.2;
-    // echo $Total;
     global $TotalAftercoupon;
       $TotalAftercoupon =$Total-$discount_percentage;
-  }
+ 
 
 
   
@@ -393,32 +341,28 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 <li>
                   <a href="#">Total
                   <span>
-                   
-                  <?php   
-                  if(isset($Total_All_After_discount)){
-                    echo  $Total_All_After_discount;
-                  }
                
-                  else{
-                   echo $Total;
-                  }
-                  ?> JD</span>
-                    <!-- <span> -->
-                      <?php 
-                      //  echo  $Total 
-                       ;?> 
-                      <!-- JD</span> -->
-              
-
-                   
+                  <?php   
+             
+                    if(isset($Total)){
+                      echo $Total;
+                      $_SESSION['products'][]['all_total']=$Total;
+                    }
+                  
+             
+                  ?> JD</span> 
                   </a>
                 </li>
 
                 <li>
                   <a href="#">TotalAftercoupon
                     <span><?php  
-                     if(isset($TotalAftercoupon) )
-                     echo $TotalAftercoupon ;?> JD</span>
+                     if(isset($TotalAftercoupon) ){
+                      echo $TotalAftercoupon ;
+                      $_SESSION['products'][]['all_total']=$TotalAftercoupon;
+                     }
+                 
+                     ;?> JD</span>
                   </a>
                 </li>
 

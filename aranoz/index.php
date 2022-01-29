@@ -7,6 +7,74 @@ include_once "../db.php";
 <?php include "../functions.php"; ?>
 
 
+<?php
+ global $pdo;
+ $quanitity=1;
+    if($_SERVER["REQUEST_METHOD"]=="GET"){
+    if(isset($_GET['addToCart'])){
+      $product_id= $_GET['addToCart'];
+
+      $data="SELECT * FROM products WHERE id=$product_id";
+      $sql=$pdo->prepare($data);
+      $sql->execute();
+      $result=$sql->fetch();
+     var_dump($result);
+       $flag=false;
+      if(isset($_SESSION['products'])){
+          foreach($_SESSION['products'] as $element){
+            if($element['id']==$product_id)  {
+                $_SESSION['products'][$product_id][0]+=1;
+                $flag=true;
+                break;
+            }
+        }
+
+         if($flag==false){
+        $_SESSION['products'][$product_id]=$result;
+        $_SESSION['products'][$product_id][0]=$quanitity;
+         }
+
+
+         foreach($_SESSION['products'] as $element){
+
+            $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']);
+                    
+            if($_SESSION['products'][$product_id]['product_discount']> 0){
+
+            $discount_percentage_product= $_SESSION['products'][$product_id]['Total'] *($element['product_discount']/100);
+          $Total_product_after_dicount =$_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
+          $_SESSION['products'][$product_id]['Total_after_discount']= $Total_product_after_dicount;
+
+
+          $discount_percentage_product= ($element['product_discount']/100) *intval($element['product_price']);
+          $price_product_after_dicount = intval($element['product_price'])- $discount_percentage_product;
+          $_SESSION['products'][$product_id]['product_price_after_discount']= $price_product_after_dicount;
+        }
+
+
+        else{
+            $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']); 
+            $_SESSION['products'][$product_id]['Total_after_discount']=$_SESSION['products'][$product_id]['Total'];
+          $_SESSION['products'][$product_id]['product_price_after_discount']=$_SESSION['products'][$product_id]['product_price'];
+
+            
+        }
+
+
+
+         }
+
+        }
+          echo "<pre>";
+           var_dump($_SESSION['products']);
+           
+          header("location: cart.php");
+     
+    }
+}
+   
+?>
+
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -332,13 +400,11 @@ include_once "../db.php";
                     
                           else{
                             echo     "<h3>$product[product_price]JD</h3>";
-                          }
-                         
+                          }  
                            echo    "<h3>$Total_product_after_dicount</h3>";
-                          ?>
-                          <!-- <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a> -->
-             <?php  echo     "<button type='submit' value=$product[id] name='addToCart'   class='btn_3'>add to cart</button>";?>
-                           
+                          echo "<form method='GET'>";
+                          echo "<button type='submit' value=$product[id] name='addToCart'   class='btn_3'>add to cart</button>";
+                          echo "</form>"; ?>     
                         </div>
                       </div>
                     </div>
