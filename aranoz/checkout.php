@@ -1,3 +1,48 @@
+<?php
+include_once "../db.php";
+session_start();
+// session_unset();
+$cart = $_SESSION["products"];
+
+?>
+
+<?php
+   global $Total;
+
+
+    
+
+     foreach ($cart  as $element){
+ global $Total;
+
+ $Total = $Total + $element[0] * $element['product_price'];
+global $Total_after_dicount;
+
+
+
+
+  
+  }
+
+// if ($_SERVER["REQUEST_METHOD"] == "GET") {
+// if(isset($_GET['coupon']) && $_GET['coupon']=='furniture'){
+
+
+
+// $coupon=$_GET['coupon'];
+
+// $discount_percentage=$Total_All_After_discount*0.2;
+// // echo $Total;
+// global $TotalAftercoupon;
+//   $TotalAftercoupon =$Total_All_After_discount-$discount_percentage;
+
+// }
+// }
+
+
+
+?>
+
 <!doctype html>
 <html lang="zxx">
 
@@ -145,7 +190,7 @@
   <!--================Checkout Area =================-->
   <section class="checkout_area padding_top">
     <div class="container">
-      <div class="returning_customer">
+      <!-- <div class="returning_customer">
         <div class="check_title">
           <h2>
             Returning Customer?
@@ -177,16 +222,21 @@
             <a class="lost_pass" href="#">Lost your password?</a>
           </div>
         </form>
-      </div>
+      </div> -->
       <div class="cupon_area">
         <div class="check_title">
           <h2>
-            Have a coupon?
-            <a href="#">Click here to enter your code</a>
+          <strong>  <h2><strong>discount : 20%</strong></h2>
+            coupon code : furniture</strong>
+            <!-- <a href="#">Click here to enter your code</a> -->
           </h2>
         </div>
-        <input type="text" placeholder="Enter coupon code" />
-        <a class="tp_btn" href="#">Apply Coupon</a>
+        <?php
+       echo  "<form>";
+      echo  "<input type='text' placeholder='Enter coupon code' name='coupon'/>";
+       echo "<button class='tp_btn' type='submit'>Apply Coupon</button>";
+      echo  "</form>";
+        ?>
       </div>
       <div class="billing_details">
         <div class="row">
@@ -201,9 +251,9 @@
                 <input type="text" class="form-control" id="last" name="name" />
                 <span class="placeholder" data-placeholder="Last name"></span>
               </div>
-              <div class="col-md-12 form-group">
+              <!-- <div class="col-md-12 form-group">
                 <input type="text" class="form-control" id="company" name="company" placeholder="Company name" />
-              </div>
+              </div> -->
               <div class="col-md-6 form-group p_star">
                 <input type="text" class="form-control" id="number" name="number" />
                 <span class="placeholder" data-placeholder="Phone number"></span>
@@ -212,13 +262,13 @@
                 <input type="text" class="form-control" id="email" name="compemailany" />
                 <span class="placeholder" data-placeholder="Email Address"></span>
               </div>
-              <div class="col-md-12 form-group p_star">
+              <!-- <div class="col-md-12 form-group p_star">
                 <select class="country_select">
                   <option value="1">Country</option>
                   <option value="2">Country</option>
                   <option value="4">Country</option>
                 </select>
-              </div>
+              </div> -->
               <div class="col-md-12 form-group p_star">
                 <input type="text" class="form-control" id="add1" name="add1" />
                 <span class="placeholder" data-placeholder="Address line 01"></span>
@@ -227,32 +277,32 @@
                 <input type="text" class="form-control" id="add2" name="add2" />
                 <span class="placeholder" data-placeholder="Address line 02"></span>
               </div>
-              <div class="col-md-12 form-group p_star">
+              <!-- <div class="col-md-12 form-group p_star">
                 <input type="text" class="form-control" id="city" name="city" />
                 <span class="placeholder" data-placeholder="Town/City"></span>
-              </div>
-              <div class="col-md-12 form-group p_star">
+              </div> -->
+              <!-- <div class="col-md-12 form-group p_star">
                 <select class="country_select">
                   <option value="1">District</option>
                   <option value="2">District</option>
                   <option value="4">District</option>
                 </select>
-              </div>
-              <div class="col-md-12 form-group">
+              </div> -->
+              <!-- <div class="col-md-12 form-group">
                 <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP" />
-              </div>
-              <div class="col-md-12 form-group">
+              </div> -->
+              <!-- <div class="col-md-12 form-group">
                 <div class="creat_account">
                   <input type="checkbox" id="f-option2" name="selector" />
                   <label for="f-option2">Create an account?</label>
                 </div>
-              </div>
+              </div> -->
               <div class="col-md-12 form-group">
-                <div class="creat_account">
+                <!-- <div class="creat_account">
                   <h3>Shipping Details</h3>
                   <input type="checkbox" id="f-option3" name="selector" />
                   <label for="f-option3">Ship to a different address?</label>
-                </div>
+                </div> -->
                 <textarea class="form-control" name="message" id="message" rows="1"
                   placeholder="Order Notes"></textarea>
               </div>
@@ -264,73 +314,125 @@
               <ul class="list">
                 <li>
                   <a href="#">Product
-                    <span>Total</span>
+                  <span> <strong> after_discount</strong></span> 
+                    <!-- <span> Total</span> -->
+             
+
                   </a>
                 </li>
+                <?php 
+                foreach ($cart  as $element){?>
+
+               
                 <li>
-                  <a href="#">Fresh Blackberry
-                    <span class="middle">x 02</span>
-                    <span class="last">$720.00</span>
+                  <a ><?php echo $element['product_name'];?>
+                    <span class="middle">x <?php echo $element[0]; ?></span>
+                    <span class="last">
+                      <?php if($element['product_discount'] > 0){
+                     $Total_product_before_dicount=$element[0] * $element['product_price'];
+                    //  echo $Total_product_before_dicount;
+                    $discount_percentage_product=0;
+                     $discount_percentage_product= $Total_product_before_dicount *($element['product_discount']/100);
+                     $Total_product_after_dicount =$Total_product_before_dicount - $discount_percentage_product;
+                       }
+                        global  $Total_All_After_discount;
+
+                       if(isset($Total_product_after_dicount)){
+                        echo  $Total_product_after_dicount ; 
+                        global  $Total_All_After_discount;
+                        $Total_All_After_discount=$Total_All_After_discount+$Total_product_after_dicount;
+                       }
+
+                       else{
+                         
+                         echo $element[0] * $element['product_price'];
+                       }
+                
+                    ?> JD</span>
+                    <!-- <span class="last"> -->
+                      <?php 
+                    // echo $element[0] * $element['product_price']; 
+                    // ?> 
+                    <!-- JD</span> -->
+
                   </a>
                 </li>
-                <li>
-                  <a href="#">Fresh Tomatoes
-                    <span class="middle">x 02</span>
-                    <span class="last">$720.00</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">Fresh Brocoli
-                    <span class="middle">x 02</span>
-                    <span class="last">$720.00</span>
-                  </a>
-                </li>
+               
+                <?php }?>
+
+
+                <?php
+
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+  if(isset($_GET['coupon']) && $_GET['coupon']=='furniture'){
+  $coupon=$_GET['coupon'];
+
+  if(isset($Total_All_After_discount)){
+    $discount_percentage=$Total_All_After_discount*0.2;
+  // echo $Total;
+  global $TotalAftercoupon;
+    $TotalAftercoupon =$Total_All_After_discount-$discount_percentage;
+  }
+
+  else{
+    $discount_percentage=$Total*0.2;
+    // echo $Total;
+    global $TotalAftercoupon;
+      $TotalAftercoupon =$Total-$discount_percentage;
+  }
+
+
+  
+  }
+  }
+?>
+              
               </ul>
               <ul class="list list_2">
-                <li>
-                  <a href="#">Subtotal
-                    <span>$2160.00</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">Shipping
-                    <span>Flat rate: $50.00</span>
-                  </a>
-                </li>
+            
                 <li>
                   <a href="#">Total
-                    <span>$2210.00</span>
+                  <span>
+                   
+                  <?php   
+                  if(isset($Total_All_After_discount)){
+                    echo  $Total_All_After_discount;
+                  }
+               
+                  else{
+                   echo $Total;
+                  }
+                  ?> JD</span>
+                    <!-- <span> -->
+                      <?php 
+                      //  echo  $Total 
+                       ;?> 
+                      <!-- JD</span> -->
+              
+
+                   
                   </a>
                 </li>
+
+                <li>
+                  <a href="#">TotalAftercoupon
+                    <span><?php  
+                     if(isset($TotalAftercoupon) )
+                     echo $TotalAftercoupon ;?> JD</span>
+                  </a>
+                </li>
+
+              
               </ul>
               <div class="payment_item">
                 <div class="radion_btn">
                   <input type="radio" id="f-option5" name="selector" />
-                  <label for="f-option5">Check payments</label>
-                  <div class="check"></div>
+                  <label for="f-option5">Pay on delivery </label>
+                  <div class="check" Required></div>
                 </div>
-                <p>
-                  Please send a check to Store Name, Store Street, Store Town,
-                  Store State / County, Store Postcode.
-                </p>
+              
               </div>
-              <div class="payment_item active">
-                <div class="radion_btn">
-                  <input type="radio" id="f-option6" name="selector" />
-                  <label for="f-option6">Paypal </label>
-                  <img src="img/product/single-product/card.jpg" alt="" />
-                  <div class="check"></div>
-                </div>
-                <p>
-                  Please send a check to Store Name, Store Street, Store Town,
-                  Store State / County, Store Postcode.
-                </p>
-              </div>
-              <div class="creat_account">
-                <input type="checkbox" id="f-option4" name="selector" />
-                <label for="f-option4">I’ve read and accept the </label>
-                <a href="#">terms & conditions*</a>
-              </div>
+             
               <a class="btn_3" href="#">Proceed to Paypal</a>
             </div>
           </div>
