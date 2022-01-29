@@ -72,8 +72,10 @@ loggedUsers();
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                     <?php if ($_SESSION['user_logged_in']) : ?>
-                      <a class="dropdown-item" href="login.php" id="login-field" onclick="<?php $_SESSION['user_logged_in'] = false; ?>"> Logout</a>
+
+                      <a class="dropdown-item" href="login.php" id="login-field"> Logout</a>
                     <?php else : ?>
+                      <?php print_r($_SESSION['user_logged_in']); ?>
                       <a class="dropdown-item" href="login.php" id="login-field"> login</a>
                     <?php endif; ?>
                     <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->

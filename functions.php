@@ -129,7 +129,6 @@ function loggedUsers()
                     $_SESSION['user_logged_in'] = true;
 
                     header("location:index.php");
-                    var_dump($_SESSION['loggedUser']);
                 } else {
                     header("location:../cms/table.php");
                 }
