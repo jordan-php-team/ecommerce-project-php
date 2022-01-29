@@ -7,7 +7,7 @@ session_start();
 // function dicount_per_product(){
 
 // global $pdo;
-       
+
 //     $data = "SELECT * FROM products ";
 //     $sql = $pdo->prepare($data);
 //     $sql->execute();
@@ -21,12 +21,12 @@ session_start();
 //             $discount_percentage_product= $Total_product_before_dicount *($element['product_discount']/100);
 //             $Total_product_after_dicount =$Total_product_before_dicount - $discount_percentage_product;
 //               }
-        
+
 //            global  $Total_product_after_dicount;
-       
+
 //         //    $Total_All_After_discount=$Total_All_After_discount+$Total_product_after_dicount;
-         
-    
+
+
 //     }
 //     // echo  $Total_product_after_dicount; 
 // }
@@ -418,46 +418,36 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         // var_dump($data);
                         $data->execute();
 
-   foreach($data as $element ){
-    if($element['product_discount'] > 0){
-        $Total_product_before_dicount= $element['product_price'];
-       $discount_percentage_product=0;
-        $discount_percentage_product= $Total_product_before_dicount *($element['product_discount']/100);
-        $Total_product_after_dicount =$Total_product_before_dicount - $discount_percentage_product;
-          }
-
-          else{
-            $Total_product_after_dicount=' ';
-          }
+                        foreach ($data as $element) {
+                            if ($element['product_discount'] > 0) {
+                                $Total_product_before_dicount = $element['product_price'];
+                                $discount_percentage_product = 0;
+                                $discount_percentage_product = $Total_product_before_dicount * ($element['product_discount'] / 100);
+                                $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product;
+                            } else {
+                                $Total_product_after_dicount = ' ';
+                            }
 
 
-  echo  "<div class='col-lg-4 col-sm-6'>";
-  echo   "<div class='single_product_item'>";
-    echo    "<a href='single-product.php?id=$element[id]'><img src='$element[product_image]' alt='' width=500px height=170px>";
-      echo  "<div class='single_product_text'>";
-      echo      "<h4>$element[product_name]</h4>";
-      if($element['product_discount'] > 0){
-        echo     "<h3><del>$element[product_price]JD</del></h3>";
-      }
+                            echo  "<div class='col-lg-4 col-sm-6'>";
+                            echo   "<div class='single_product_item'>";
+                            echo    "<a href='single-product.php?id=$element[id]'><img src='$element[product_image]' alt='' width=500px height=170px>";
+                            echo  "<div class='single_product_text'>";
+                            echo      "<h4>$element[product_name]</h4>";
+                            if ($element['product_discount'] > 0) {
+                                echo     "<h3><del>$element[product_price]JD</del></h3>";
+                            } else {
+                                echo     "<h3>$element[product_price]JD</h3>";
+                            }
 
-      else{
-        echo     "<h3>$element[product_price]JD</h3>";
-      }
-     
-       echo    "<h3>$Total_product_after_dicount</h3>";
-       echo "<form method='GET'>";
-       echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
-       echo "</form>";
-     echo   "</div>";
-     echo   "</div>";
-     echo   "</div></a>";
- 
-   
-        
-         
-    
-   
-   }
+                            echo    "<h3>$Total_product_after_dicount</h3>";
+                            echo "<form method='GET'>";
+                            echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
+                            echo "</form>";
+                            echo   "</div>";
+                            echo   "</div>";
+                            echo   "</div></a>";
+                        }
 
                         ?>
                         <!-- <div class="col-lg-4 col-sm-6">

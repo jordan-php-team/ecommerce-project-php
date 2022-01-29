@@ -218,7 +218,6 @@ $cart = $_SESSION["products"];
                 ?>
               <?php } ?>
 
-
               <tr>
                 <td></td>
                 <td></td>
