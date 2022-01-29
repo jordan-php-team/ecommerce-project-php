@@ -290,7 +290,7 @@ include_once "../db.php";
       <div class="row justify-content-center">
         <div class="col-lg-12">
           <div class="section_tittle text-center">
-            <h2>awesome <span>shop</span></h2>
+            <h2>Discount <span>shop</span></h2>
           </div>
         </div>
       </div>
@@ -307,15 +307,38 @@ include_once "../db.php";
                   $products = $row;
                   foreach ((array) $products as $product) {
                 ?>
+                <?php
+                 if($product['product_discount'] > 0){
+                  $Total_product_before_dicount= $product['product_price'];
+                 $discount_percentage_product=0;
+                  $discount_percentage_product= $Total_product_before_dicount *($product['product_discount']/100);
+                  $Total_product_after_dicount =$Total_product_before_dicount - $discount_percentage_product;
+                    }
+          
+                    else{
+                      $Total_product_after_dicount=' ';
+                    }
+
+                ?>
                     <div class="col-lg-3 col-sm-6">
                       <div class="single_product_item">
                         <img src="<?php echo  $product['product_image']; ?>" alt="" />
                         <div class="single_product_text">
                           <?php
                           echo "<h4>" . $product['product_name'] . "</h4>";
-                          echo "<h3>" . $product['product_price'] . "JD</h3>";
+                          if($product['product_discount'] > 0){
+                            echo     "<h3><del>$product[product_price]JD</del></h3>";
+                          }
+                    
+                          else{
+                            echo     "<h3>$product[product_price]JD</h3>";
+                          }
+                         
+                           echo    "<h3>$Total_product_after_dicount</h3>";
                           ?>
-                          <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
+                          <!-- <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a> -->
+             <?php  echo     "<button type='submit' value=$product[id] name='addToCart'   class='btn_3'>add to cart</button>";?>
+                           
                         </div>
                       </div>
                     </div>

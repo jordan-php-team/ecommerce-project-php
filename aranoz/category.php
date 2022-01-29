@@ -2,6 +2,36 @@
 include_once "../db.php";
 session_start();
 // session_unset();
+
+
+// function dicount_per_product(){
+
+// global $pdo;
+       
+//     $data = "SELECT * FROM products ";
+//     $sql = $pdo->prepare($data);
+//     $sql->execute();
+//     $result = $sql->fetchAll();
+
+//     foreach($result as $element){
+//         if($element['product_discount'] > 0){
+//             $Total_product_before_dicount= $element['product_price'];
+//            //  echo $Total_product_before_dicount;
+//            $discount_percentage_product=0;
+//             $discount_percentage_product= $Total_product_before_dicount *($element['product_discount']/100);
+//             $Total_product_after_dicount =$Total_product_before_dicount - $discount_percentage_product;
+//               }
+        
+//            global  $Total_product_after_dicount;
+       
+//         //    $Total_All_After_discount=$Total_All_After_discount+$Total_product_after_dicount;
+         
+    
+//     }
+//     // echo  $Total_product_after_dicount; 
+// }
+
+
 ?>
 
 <?php
@@ -227,7 +257,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             </div>
                         </aside>
 
-                        <aside class="left_widgets p_filter_widgets">
+                        <!-- <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
                                 <h3>Product filters</h3>
                             </div>
@@ -267,9 +297,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     </li>
                                 </ul>
                             </div>
-                        </aside>
+                        </aside> -->
 
-                        <aside class="left_widgets p_filter_widgets">
+                        <!-- <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
                                 <h3>Color Filter</h3>
                             </div>
@@ -292,15 +322,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     </li>
                                 </ul>
                             </div>
-                        </aside>
+                        </aside> -->
 
-                        <aside class="left_widgets p_filter_widgets price_rangs_aside">
+                        <!-- <aside class="left_widgets p_filter_widgets price_rangs_aside">
                             <div class="l_w_title">
                                 <h3>Price Filter</h3>
                             </div>
                             <div class="widgets_inner">
                                 <div class="range_item">
-                                    <!-- <div id="slider-range"></div> -->
+                                    <div id="slider-range"></div>
                                     <input type="text" class="js-range-slider" value="" />
                                     <div class="d-flex">
                                         <div class="price_text">
@@ -314,7 +344,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     </div>
                                 </div>
                             </div>
-                        </aside>
+                        </aside> -->
                     </div>
                 </div>
                 <div class="col-lg-9">
@@ -388,20 +418,46 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         // var_dump($data);
                         $data->execute();
 
-                        foreach ($data as $element) {
-                            echo  "<a href='single-product.php?id=$element[id]'><div class='col-lg-4 col-sm-6'>";
-                            echo   "<div class='single_product_item'>";
-                            echo    "<img src='$element[product_image]' alt='' width=500px height=170px>";
-                            echo  "<div class='single_product_text'>";
-                            echo      "<h4>$element[product_name]</h4>";
-                            echo     "<h3>$element[product_price]JD</h3>";
-                            echo "<form method='GET'>";
-                            echo     "<input type='submit' value=$element[id] name='addToCart' class='add_cart'>+ add to cart<i class='ti-heart'></i></input>";
-                            echo "</form>";
-                            echo   "</div>";
-                            echo   "</div>";
-                            echo   "</div></a>";
-                        }
+   foreach($data as $element ){
+    if($element['product_discount'] > 0){
+        $Total_product_before_dicount= $element['product_price'];
+       $discount_percentage_product=0;
+        $discount_percentage_product= $Total_product_before_dicount *($element['product_discount']/100);
+        $Total_product_after_dicount =$Total_product_before_dicount - $discount_percentage_product;
+          }
+
+          else{
+            $Total_product_after_dicount=' ';
+          }
+
+
+  echo  "<div class='col-lg-4 col-sm-6'>";
+  echo   "<div class='single_product_item'>";
+    echo    "<a href='single-product.php?id=$element[id]'><img src='$element[product_image]' alt='' width=500px height=170px>";
+      echo  "<div class='single_product_text'>";
+      echo      "<h4>$element[product_name]</h4>";
+      if($element['product_discount'] > 0){
+        echo     "<h3><del>$element[product_price]JD</del></h3>";
+      }
+
+      else{
+        echo     "<h3>$element[product_price]JD</h3>";
+      }
+     
+       echo    "<h3>$Total_product_after_dicount</h3>";
+       echo "<form method='GET'>";
+       echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
+       echo "</form>";
+     echo   "</div>";
+     echo   "</div>";
+     echo   "</div></a>";
+ 
+   
+        
+         
+    
+   
+   }
 
                         ?>
                         <!-- <div class="col-lg-4 col-sm-6">
@@ -507,7 +563,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <!--================End Category Product Area =================-->
 
     <!-- product_list part start-->
-    <section class="product_list best_seller">
+    <!-- <section class="product_list best_seller">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-12">
@@ -558,7 +614,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
     <!-- product_list part end-->
 
     <!--::footer_part start::-->

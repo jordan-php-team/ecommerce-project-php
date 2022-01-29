@@ -212,7 +212,7 @@ $cart = $_SESSION["products"];
                 <?php
 
                 global $Total;
-                $Total = $Total + $element[0] * $element['product_price']
+                $Total = $Total + $element[0] * $element['product_price'];
 
                 ?>
               <?php } ?>
@@ -233,10 +233,10 @@ $cart = $_SESSION["products"];
 
             </tbody>
           </table>
-          <!-- <div class="checkout_btn_inner float-right">
-            <a class="btn_1" href="#">Continue Shopping</a>
-            <a class="btn_1 checkout_btn_1" href="#">Proceed to checkout</a>
-          </div> -->
+          <div class="checkout_btn_inner float-right">
+            <!-- <a class="btn_1" href="#">Continue Shopping</a> -->
+            <a class="btn_1 checkout_btn_1" href="checkout.php">Proceed to checkout</a>
+          </div>
         </div>
       </div>
   </section>
