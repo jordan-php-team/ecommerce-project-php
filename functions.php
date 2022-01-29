@@ -126,7 +126,9 @@ function loggedUsers()
                     $stmt = $pdo->query($query);
 
                     $_SESSION['loggedUser'] = $result[0]; //if you use only fetch ,there is non need for '[0]' anymore
-                    // header("location:../welcoming.php");
+                    $_SESSION['user_logged_in'] = true;
+
+                    header("location:index.php");
                     var_dump($_SESSION['loggedUser']);
                 } else {
                     header("location:../cms/table.php");
@@ -257,7 +259,7 @@ function getProducts()
             echo   '<td>' . $user['product_price'] . '</td>';
             echo   '<td>' . $user['product_description'] . '</td>';
             echo   '<td>' ?>
-            <img class="img-responsive" src="../images/<?php echo  $user['product_image']; ?>" alt="">
+            <img class="img-responsive" src="<?php echo  $user['product_image']; ?>" alt="">
             <?php
             echo '</td>';
             echo   '<td>' . $user['category_id'] . '</td>';

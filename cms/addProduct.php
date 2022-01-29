@@ -304,27 +304,27 @@ include_once "../db.php";
                                         <form action="" method="post" enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <label for="add_product">Product Name</label>
-                                                <input class="form-control" type="text" name="product_name">
+                                                <input class="form-control" type="text" name="product_name" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="add_product">Product Price</label>
-                                                <input class="form-control" type="text" name="product_price">
+                                                <input class="form-control" type="text" name="product_price" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="add_product">Product Des</label>
-                                                <input class="form-control" type="text" name="product_des">
+                                                <input class="form-control" type="text" name="product_des" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="add_product">Product Image</label>
-                                                <input class="form-control" type="file" name="product_img">
+                                                <input class="form-control" type="file" name="product_img" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="add_product">Category Id</label>
-                                                <input class="form-control" type="text" name="category_id">
+                                                <input class="form-control" type="text" name="category_id" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="add_product">Stock</label>
-                                                <input class="form-control" type="number" name="product_stock">
+                                                <input class="form-control" type="number" name="product_stock" required>
                                             </div>
                                             <div class="form-group">
                                                 <input class="btn btn-primary" type="submit" name="add_product_submit" value="Add Product">

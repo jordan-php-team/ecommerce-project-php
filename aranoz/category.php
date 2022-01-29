@@ -1,4 +1,3 @@
-
 <?php
 include_once "../db.php";
 session_start();
@@ -6,39 +5,38 @@ session_start();
 ?>
 
 <?php
- global $pdo;
- $quanitity=1;
-    if($_SERVER["REQUEST_METHOD"]=="GET"){
-    if(isset($_GET['addToCart'])){
-      $product_id= $_GET['addToCart'];
+global $pdo;
+$quanitity = 1;
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if (isset($_GET['addToCart'])) {
+        $product_id = $_GET['addToCart'];
 
-      $data="SELECT * FROM products WHERE id=$product_id";
-      $sql=$pdo->prepare($data);
-      $sql->execute();
-      $result=$sql->fetch();
-     var_dump($result);
-       $flag=false;
-      if(isset($_SESSION['products'])){
-          foreach($_SESSION['products'] as $element){
-            if($element['id']==$product_id)  {
-                $_SESSION['products'][$product_id][0]+=1;
-                $flag=true;
-                break;
+        $data = "SELECT * FROM products WHERE id=$product_id";
+        $sql = $pdo->prepare($data);
+        $sql->execute();
+        $result = $sql->fetch();
+        var_dump($result);
+        $flag = false;
+        if (isset($_SESSION['products'])) {
+            foreach ($_SESSION['products'] as $element) {
+                if ($element['id'] == $product_id) {
+                    $_SESSION['products'][$product_id][0] += 1;
+                    $flag = true;
+                    break;
+                }
             }
-        }
-         if($flag==false){
-        $_SESSION['products'][$product_id]=$result;
-        $_SESSION['products'][$product_id][0]=$quanitity;
-         }
+            if ($flag == false) {
+                $_SESSION['products'][$product_id] = $result;
+                $_SESSION['products'][$product_id][0] = $quanitity;
+            }
         }
         //   echo "<pre>";
         //    var_dump($_SESSION['products']);
-           
-          header("location: cart.php");
-     
+
+        header("location: cart.php");
     }
 }
-   
+
 
 
 ?>
@@ -51,7 +49,9 @@ session_start();
 
 
 <!-- Mirrored from technext.github.io/aranoz/category.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:48 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -87,10 +87,10 @@ session_start();
             <div class="row align-items-center">
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="index.php"> <img src="img/logo.png" alt="logo"> </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
+                        <a class="navbar-brand" href="index.php">
+                            <img src="img/logo.png" alt="logo" />
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="menu_icon"><i class="fas fa-bars"></i></span>
                         </button>
 
@@ -100,60 +100,54 @@ session_start();
                                     <a class="nav-link" href="index.php">Home</a>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Shop
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="category.html"> shop category</a>
-                                        <a class="dropdown-item" href="single-product.html">product details</a>
-
+                                        <a class="dropdown-item" href="category.php">
+                                            shop category</a>
+                                        <!-- <a class="dropdown-item" href="single-product.php">product details</a> -->
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        pages
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Account
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="login.html"> login</a>
-                                        <a class="dropdown-item" href="tracking.html">tracking</a>
-                                        <a class="dropdown-item" href="checkout.html">product checkout</a>
-                                        <a class="dropdown-item" href="cart.html">shopping cart</a>
-                                        <a class="dropdown-item" href="confirmation.html">confirmation</a>
-                                        <a class="dropdown-item" href="elements.html">elements</a>
+                                        <?php if ($_SESSION['user_logged_in']) : ?>
+                                            <a class="dropdown-item" href="login.php" id="login-field" onclick="<?php $_SESSION['user_logged_in'] = false; ?>"> Logout</a>
+                                        <?php else : ?>
+                                            <a class="dropdown-item" href="login.php" id="login-field"> login</a>
+                                        <?php endif; ?>
+                                        <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
+                                        <a class="dropdown-item" href="checkout.php">product checkout</a>
+                                        <a class="dropdown-item" href="cart.php">shopping cart</a>
+                                        <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                                        <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
                                     </div>
                                 </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        blog
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="blog.html"> blog</a>
-                                        <a class="dropdown-item" href="single-blog.html">Single blog</a>
-                                    </div>
-                                </li>
+                                <!-- <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    blog
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
+                    <a class="dropdown-item" href="blog.html"> blog</a>
+                    <a class="dropdown-item" href="single-blog.html">Single blog</a>
+                  </div>
+                </li> -->
 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="contact.html">Contact</a>
-                                </li>
+                                <!-- <li class="nav-item">
+                  <a class="nav-link" href="contact.html">Contact</a>
+                </li> -->
                             </ul>
                         </div>
                         <div class="hearer_icon d-flex">
-                            <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <a href="#"><i class="ti-heart"></i></a>
+                            <!-- <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a> -->
+                            <!-- <a href="#"><i class="ti-heart"></i></a> -->
                             <div class="dropdown cart">
-                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-cart-plus"></i>
                                 </a>
-                                <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <div class="single_product">
-    
-                                    </div>
-                                </div> -->
-
                             </div>
                         </div>
                     </nav>
@@ -161,9 +155,9 @@ session_start();
             </div>
         </div>
         <div class="search_input" id="search_input_box">
-            <div class="container ">
+            <div class="container">
                 <form class="d-flex justify-content-between search-inner">
-                    <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+                    <input type="text" class="form-control" id="search_input" placeholder="Search Here" />
                     <button type="submit" class="btn"></button>
                     <span class="ti-close" id="close_search" title="Close Search"></span>
                 </form>
@@ -204,16 +198,14 @@ session_start();
                                 <ul class="list">
                                     <?php
 
-                  $categories=$pdo->prepare("SELECT * from categories");
-                  $categories->execute();
+                                    $categories = $pdo->prepare("SELECT * from categories");
+                                    $categories->execute();
 
-                  foreach($categories as $element ){
-                        
-                                  echo   "<li>";
-                                  echo  "<a href='category.php?id=$element[id]'>$element[category_title]</a>";
-                                 
-                               
-                  }
+                                    foreach ($categories as $element) {
+
+                                        echo   "<li>";
+                                        echo  "<a href='category.php?id=$element[id]'>$element[category_title]</a>";
+                                    }
                                     ?>
                                     <!-- <li>
                                         <a href="#">Meat Alternatives</a>
@@ -352,11 +344,9 @@ session_start();
                                 </div>
                                 <div class="single_product_menu d-flex">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="search"
-                                            aria-describedby="inputGroupPrepend">
+                                        <input type="text" class="form-control" placeholder="search" aria-describedby="inputGroupPrepend">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroupPrepend"><i
-                                                    class="ti-search"></i></span>
+                                            <span class="input-group-text" id="inputGroupPrepend"><i class="ti-search"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -366,61 +356,54 @@ session_start();
 
                     <div class="row align-items-center latest_product_inner">
 
-                             
 
 
 
-                                  
 
 
 
-<?php
 
 
-if (isset($_GET['id'])) {
-
-$data=$pdo->prepare("SELECT * from products WHERE category_id=$_GET[id]");}
+                        <?php
 
 
+                        if (isset($_GET['id'])) {
 
-else{
-    $data=$pdo->prepare("SELECT * FROM products WHERE id<= 18 OR  id > 28"); 
-    
+                            $data = $pdo->prepare("SELECT * from products WHERE category_id=$_GET[id]");
+                        } else {
+                            $data = $pdo->prepare("SELECT * FROM products WHERE id<= 18 OR  id > 28");
+                        }
 
-}
-
-if(isset($_GET['id']) && $_GET['id']==4){
-    $data=$pdo->prepare("SELECT * from products  WHERE id <= 18 OR  id > 28 "); 
-
-}
+                        if (isset($_GET['id']) && $_GET['id'] == 4) {
+                            $data = $pdo->prepare("SELECT * from products  WHERE id <= 18 OR  id > 28 ");
+                        }
 
 
 
-if(isset($_GET['id']) && $_GET['id']==1){
-    $data=$pdo->prepare("SELECT * from products  WHERE ( id <= 18 OR  id > 28) AND (category_id=$_GET[id]) "); 
+                        if (isset($_GET['id']) && $_GET['id'] == 1) {
+                            $data = $pdo->prepare("SELECT * from products  WHERE ( id <= 18 OR  id > 28) AND (category_id=$_GET[id]) ");
+                        }
 
-}
 
+                        // var_dump($data);
+                        $data->execute();
 
-// var_dump($data);
-   $data->execute();
+                        foreach ($data as $element) {
+                            echo  "<a href='single-product.php?id=$element[id]'><div class='col-lg-4 col-sm-6'>";
+                            echo   "<div class='single_product_item'>";
+                            echo    "<img src='$element[product_image]' alt='' width=500px height=170px>";
+                            echo  "<div class='single_product_text'>";
+                            echo      "<h4>$element[product_name]</h4>";
+                            echo     "<h3>$element[product_price]JD</h3>";
+                            echo "<form method='GET'>";
+                            echo     "<input type='submit' value=$element[id] name='addToCart' class='add_cart'>+ add to cart<i class='ti-heart'></i></input>";
+                            echo "</form>";
+                            echo   "</div>";
+                            echo   "</div>";
+                            echo   "</div></a>";
+                        }
 
-   foreach($data as $element ){
-  echo  "<a href='single-product.php?id=$element[id]'><div class='col-lg-4 col-sm-6'>";
-  echo   "<div class='single_product_item'>";
-    echo    "<img src='$element[product_image]' alt='' width=500px height=170px>";
-      echo  "<div class='single_product_text'>";
-      echo      "<h4>$element[product_name]</h4>";
-       echo     "<h3>$element[product_price]JD</h3>";
-       echo "<form method='GET'>";
-       echo     "<input type='submit' value=$element[id] name='addToCart' class='add_cart'>+ add to cart<i class='ti-heart'></i></input>";
-       echo "</form>";
-     echo   "</div>";
-     echo   "</div>";
-     echo   "</div></a>";
-   }
-                    
- ?>
+                        ?>
                         <!-- <div class="col-lg-4 col-sm-6">
                             <div class="single_product_item">
                                 <img src="img/product/product_2.png" alt="">
@@ -581,71 +564,6 @@ if(isset($_GET['id']) && $_GET['id']==1){
     <!--::footer_part start::-->
     <footer class="footer_part">
         <div class="container">
-            <div class="row justify-content-around">
-                <div class="col-sm-6 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>Top Products</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Managed Website</a></li>
-                            <li><a href="#">Manage Reputation</a></li>
-                            <li><a href="#">Power Tools</a></li>
-                            <li><a href="#">Marketing Service</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>Quick Links</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Jobs</a></li>
-                            <li><a href="#">Brand Assets</a></li>
-                            <li><a href="#">Investor Relations</a></li>
-                            <li><a href="#">Terms of Service</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>Features</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Jobs</a></li>
-                            <li><a href="#">Brand Assets</a></li>
-                            <li><a href="#">Investor Relations</a></li>
-                            <li><a href="#">Terms of Service</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>Resources</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Guides</a></li>
-                            <li><a href="#">Research</a></li>
-                            <li><a href="#">Experts</a></li>
-                            <li><a href="#">Agencies</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-4">
-                    <div class="single_footer_part">
-                        <h4>Newsletter</h4>
-                        <p>Heaven fruitful doesn't over lesser in days. Appear creeping
-                        </p>
-                        <div id="mc_embed_signup">
-                            <form target="_blank"
-                                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                method="get" class="subscribe_form relative mail_part">
-                                <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address"
-                                    class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = ' Email Address '">
-                                <button type="submit" name="submit" id="newsletter-submit"
-                                    class="email_icon newsletter-submit button-contactForm">subscribe</button>
-                                <div class="mt-10 info"></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </div>
         <div class="copyright_part">
@@ -653,18 +571,27 @@ if(isset($_GET['id']) && $_GET['id']==1){
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="copyright_text">
-                            <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="../../colorlib.com/index.html" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
+                            <p>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;
+                                <script>
+                                    document.write(new Date().getFullYear());
+                                </script>
+                                All rights reserved
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="footer_icon social_icon">
                             <ul class="list-unstyled">
-                                <li><a href="#" class="single_social_icon"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#" class="single_social_icon"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#" class="single_social_icon"><i class="fas fa-globe"></i></a></li>
-                                <li><a href="#" class="single_social_icon"><i class="fab fa-behance"></i></a></li>
+                                <li>
+                                    <a href="https://www.facebook.com/" class="single_social_icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                </li>
+                                <li>
+                                    <a href="https://twitter.com/" class="single_social_icon" target="_blank"><i class="fab fa-twitter"></i></a>
+                                </li>
+
                             </ul>
                         </div>
                     </div>
@@ -706,4 +633,5 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 
 <!-- Mirrored from technext.github.io/aranoz/category.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:49 GMT -->
+
 </html>
