@@ -72,7 +72,7 @@ session_start();
             // session_unset();
         }
           echo "<pre>";
-           var_dump($_SESSION['products']);
+           
            
         // header("location: cart.php");
      
@@ -435,7 +435,7 @@ if(isset($_GET['id']) && $_GET['id']==4){
 
 
 if(isset($_GET['id']) && $_GET['id']==1){
-    $data=$pdo->prepare("SELECT * from products  WHERE ( id <= 18 OR  id > 28) AND (category_id=$_GET[id]) "); 
+    $data=$pdo->prepare("SELECT * from products  WHERE ( id <= 18 OR  id > 28) AND (category_id=$_GET[id])"); 
 
 }
 
@@ -445,12 +445,12 @@ if(isset($_GET['id']) && $_GET['id']==1){
 
    foreach ($data as $element) {
     if ($element['product_discount'] > 0) {
-        $Total_product_before_dicount = $element['product_price'];
+        $Total_product_before_discount = $element['product_price'];
         $discount_percentage_product = 0;
-        $discount_percentage_product = $Total_product_before_dicount * ($element['product_discount'] / 100);
-        $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product;
+        $discount_percentage_product = $Total_product_before_discount * ($element['product_discount'] / 100);
+        $Total_product_after_discount = $Total_product_before_discount - $discount_percentage_product;
     } else {
-        $Total_product_after_dicount = ' ';
+        $Total_product_after_discount = ' ';
     }
 
 
@@ -465,7 +465,7 @@ if(isset($_GET['id']) && $_GET['id']==1){
         echo     "<h3>$element[product_price]JD</h3>";
     }
 
-    echo    "<h3>$Total_product_after_dicount</h3>";
+    echo    "<h3>$Total_product_after_discount</h3>";
     echo "<form method='GET'>";
     echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
     echo "</form>";
