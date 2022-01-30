@@ -1,72 +1,84 @@
+
 <?php
 include_once "../db.php";
 session_start();
-// session_unset();
-
-
-// function dicount_per_product(){
-
-// global $pdo;
-
-//     $data = "SELECT * FROM products ";
-//     $sql = $pdo->prepare($data);
-//     $sql->execute();
-//     $result = $sql->fetchAll();
-
-//     foreach($result as $element){
-//         if($element['product_discount'] > 0){
-//             $Total_product_before_dicount= $element['product_price'];
-//            //  echo $Total_product_before_dicount;
-//            $discount_percentage_product=0;
-//             $discount_percentage_product= $Total_product_before_dicount *($element['product_discount']/100);
-//             $Total_product_after_dicount =$Total_product_before_dicount - $discount_percentage_product;
-//               }
-
-//            global  $Total_product_after_dicount;
-
-//         //    $Total_All_After_discount=$Total_All_After_discount+$Total_product_after_dicount;
-
-
-//     }
-//     // echo  $Total_product_after_dicount; 
-// }
-
+ //session_unset();
+// unset($_SESSION['products']);
 
 ?>
 <?php include "../functions.php"; ?>
 <?php
-global $pdo;
-$quanitity = 1;
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    if (isset($_GET['addToCart'])) {
-        $product_id = $_GET['addToCart'];
+ global $pdo;
+ $quanitity=1;
+    if($_SERVER["REQUEST_METHOD"]=="GET"){
+    if(isset($_GET['addToCart'])){
+      $product_id= $_GET['addToCart'];
 
-        $data = "SELECT * FROM products WHERE id=$product_id";
-        $sql = $pdo->prepare($data);
-        $sql->execute();
-        $result = $sql->fetch();
-        var_dump($result);
-        $flag = false;
-        if (isset($_SESSION['products'])) {
-            foreach ($_SESSION['products'] as $element) {
-                if ($element['id'] == $product_id) {
-                    $_SESSION['products'][$product_id][0] += 1;
-                    $flag = true;
-                    break;
-                }
+      $data="SELECT * FROM products WHERE id=$product_id";
+      $sql=$pdo->prepare($data);
+      $sql->execute();
+      $result=$sql->fetch();
+     var_dump($result);
+       $flag=false;
+      if(isset($_SESSION['products'])){
+          foreach($_SESSION['products'] as $element){
+            if($element['id']==$product_id)  {
+                $_SESSION['products'][$product_id][0]+=1;
+                $flag=true;
+                break;
             }
-            if ($flag == false) {
-                $_SESSION['products'][$product_id] = $result;
-                $_SESSION['products'][$product_id][0] = $quanitity;
-            }
+        }
+
+         if($flag==false){
+        $_SESSION['products'][$product_id]=$result;
+        $_SESSION['products'][$product_id][0]=$quanitity;
+         }
+
+
+         foreach($_SESSION['products'] as $element){
+
+            $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']);
+                    
+            if($_SESSION['products'][$product_id]['product_discount']> 0){
+
+            $discount_percentage_product= $_SESSION['products'][$product_id]['Total'] *($element['product_discount']/100);
+          $Total_product_after_dicount =$_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
+          $_SESSION['products'][$product_id]['Total_after_discount']= $Total_product_after_dicount;
+        
+
+
+          $discount_percentage_product= ($element['product_discount']/100) *intval($element['product_price']);
+          $price_product_after_dicount = intval($element['product_price'])- $discount_percentage_product;
+          $_SESSION['products'][$product_id]['product_price_after_discount']= $price_product_after_dicount;
+        }
+
+
+        else{
+            $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']); 
+            $_SESSION['products'][$product_id]['Total_after_discount']=$_SESSION['products'][$product_id]['Total'];
+          $_SESSION['products'][$product_id]['product_price_after_discount']=$_SESSION['products'][$product_id]['product_price'];
+  
+        }
+
+
+
+         }
+       
+        }
+
+        else{
+            // echo "haneen";
+            // $_SESSION['products'][]=[];
+            // session_unset();
         }
         //   echo "<pre>";
         //    var_dump($_SESSION['products']);
-
+           
         header("location: cart.php");
+     
     }
 }
-
+   
 
 
 ?>
@@ -79,9 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 
 <!-- Mirrored from technext.github.io/aranoz/category.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:48 GMT -->
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
-
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -245,155 +255,40 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 <ul class="list">
                                     <?php
 
-                                    $categories = $pdo->prepare("SELECT * from categories");
-                                    $categories->execute();
+                  $categories=$pdo->prepare("SELECT * from categories");
+                  $categories->execute();
 
-                                    foreach ($categories as $element) {
-
-                                        echo   "<li>";
-                                        echo  "<a href='category.php?id=$element[id]'>$element[category_title]</a>";
-                                    }
-                                    ?>
-                                    <!-- <li>
-                                        <a href="#">Meat Alternatives</a>
-                                        <span>(250)</span>
-                                    </li> -->
-                                    <!-- <li>
-                                        <a href="#">Fresh Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat Alternatives</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat</a>
-                                        <span>(250)</span>
-                                    </li> -->
+                  foreach($categories as $element ){
+                        
+                                  echo   "<li>";
+                                  echo  "<a href='category.php?id=$element[id]'>$element[category_title]</a>";
+                                 
+                               
+                  }
+                               ?>
                                 </ul>
                             </div>
                         </aside>
 
-                        <!-- <aside class="left_widgets p_filter_widgets">
-                            <div class="l_w_title">
-                                <h3>Product filters</h3>
-                            </div>
-                            <div class="widgets_inner">
-                                <ul class="list">
-                                    <li>
-                                        <a href="#">Apple</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Asus</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#">Gionee</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Micromax</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Samsung</a>
-                                    </li>
-                                </ul>
-                                <ul class="list">
-                                    <li>
-                                        <a href="#">Apple</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Asus</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#">Gionee</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Micromax</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Samsung</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </aside> -->
+                       
 
-                        <!-- <aside class="left_widgets p_filter_widgets">
-                            <div class="l_w_title">
-                                <h3>Color Filter</h3>
-                            </div>
-                            <div class="widgets_inner">
-                                <ul class="list">
-                                    <li>
-                                        <a href="#">Black</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Black Leather</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#">Black with red</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Gold</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Spacegrey</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </aside> -->
+                       
 
-                        <!-- <aside class="left_widgets p_filter_widgets price_rangs_aside">
-                            <div class="l_w_title">
-                                <h3>Price Filter</h3>
-                            </div>
-                            <div class="widgets_inner">
-                                <div class="range_item">
-                                    <div id="slider-range"></div>
-                                    <input type="text" class="js-range-slider" value="" />
-                                    <div class="d-flex">
-                                        <div class="price_text">
-                                            <p>Price :</p>
-                                        </div>
-                                        <div class="price_value d-flex justify-content-center">
-                                            <input type="text" class="js-input-from" id="amount" readonly />
-                                            <span>to</span>
-                                            <input type="text" class="js-input-to" id="amount" readonly />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </aside> -->
+                       
                     </div>
                 </div>
                 <div class="col-lg-9">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="product_top_bar d-flex justify-content-between align-items-center">
-                                <div class="single_product_menu">
-                                    <p><span>10000 </span> Prodict Found</p>
-                                </div>
-                                <div class="single_product_menu d-flex">
-                                    <h5>short by : </h5>
-                                    <select>
-                                        <option data-display="Select">name</option>
-                                        <option value="1">price</option>
-                                        <option value="2">product</option>
-                                    </select>
-                                </div>
-                                <div class="single_product_menu d-flex">
-                                    <h5>show :</h5>
-                                    <div class="top_pageniation">
-                                        <ul>
-                                            <li>1</li>
-                                            <li>2</li>
-                                            <li>3</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                           
                                 <div class="single_product_menu d-flex">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="search" aria-describedby="inputGroupPrepend">
+                                        <input type="text" class="form-control" placeholder="search"
+                                            aria-describedby="inputGroupPrepend">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroupPrepend"><i class="ti-search"></i></span>
+                                            <span class="input-group-text" id="inputGroupPrepend"><i
+                                                    class="ti-search"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -403,141 +298,78 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
                     <div class="row align-items-center latest_product_inner">
 
+                             
 
 
 
+                                  
 
 
 
+<?php
 
 
-                        <?php
+if (isset($_GET['id'])) {
 
-
-                        if (isset($_GET['id'])) {
-
-                            $data = $pdo->prepare("SELECT * from products WHERE category_id=$_GET[id]");
-                        } else {
-                            $data = $pdo->prepare("SELECT * FROM products WHERE id<= 18 OR  id > 28");
-                        }
-
-                        if (isset($_GET['id']) && $_GET['id'] == 4) {
-                            $data = $pdo->prepare("SELECT * from products  WHERE id <= 18 OR  id > 28 ");
-                        }
+$data=$pdo->prepare("SELECT * from products WHERE category_id=$_GET[id]");}
 
 
 
-                        if (isset($_GET['id']) && $_GET['id'] == 1) {
-                            $data = $pdo->prepare("SELECT * from products  WHERE ( id <= 18 OR  id > 28) AND (category_id=$_GET[id]) ");
-                        }
+else{
+    $data=$pdo->prepare("SELECT * FROM products WHERE id<= 18 OR  id > 28"); 
+    
+
+}
+
+if(isset($_GET['id']) && $_GET['id']==4){
+    $data=$pdo->prepare("SELECT * from products  WHERE id <= 18 OR  id > 28 "); 
+
+}
 
 
-                        // var_dump($data);
-                        $data->execute();
 
-                        foreach ($data as $element) {
-                            if ($element['product_discount'] > 0) {
-                                $Total_product_before_dicount = $element['product_price'];
-                                $discount_percentage_product = 0;
-                                $discount_percentage_product = $Total_product_before_dicount * ($element['product_discount'] / 100);
-                                $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product;
-                            } else {
-                                $Total_product_after_dicount = ' ';
-                            }
+if(isset($_GET['id']) && $_GET['id']==1){
+    $data=$pdo->prepare("SELECT * from products  WHERE ( id <= 18 OR  id > 28) AND (category_id=$_GET[id]) "); 
+
+}
 
 
-                            echo  "<div class='col-lg-4 col-sm-6'>";
-                            echo   "<div class='single_product_item'>";
-                            echo    "<a href='single-product.php?id=$element[id]'><img src='$element[product_image]' alt='' width=500px height=170px>";
-                            echo  "<div class='single_product_text'>";
-                            echo      "<h4>$element[product_name]</h4>";
-                            if ($element['product_discount'] > 0) {
-                                echo     "<h3><del>$element[product_price]JD</del></h3>";
-                            } else {
-                                echo     "<h3>$element[product_price]JD</h3>";
-                            }
+// var_dump($data);
+   $data->execute();
 
-                            echo    "<h3>$Total_product_after_dicount</h3>";
-                            echo "<form method='GET'>";
-                            echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
-                            echo "</form>";
-                            echo   "</div>";
-                            echo   "</div>";
-                            echo   "</div></a>";
-                        }
+   foreach ($data as $element) {
+    if ($element['product_discount'] > 0) {
+        $Total_product_before_dicount = $element['product_price'];
+        $discount_percentage_product = 0;
+        $discount_percentage_product = $Total_product_before_dicount * ($element['product_discount'] / 100);
+        $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product;
+    } else {
+        $Total_product_after_dicount = ' ';
+    }
 
-                        ?>
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_2.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_3.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_4.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_5.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_6.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_7.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_8.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                      -->
+
+    echo  "<div class='col-lg-4 col-sm-6'>";
+    echo   "<div class='single_product_item'>";
+    echo    "<a href='single-product.php?id=$element[id]'><img src='$element[product_image]' alt='' width=500px height=170px>";
+    echo  "<div class='single_product_text'>";
+    echo      "<h4>$element[product_name]</h4>";
+    if ($element['product_discount'] > 0) {
+        echo     "<h3><del>$element[product_price]JD</del></h3>";
+    } else {
+        echo     "<h3>$element[product_price]JD</h3>";
+    }
+
+    echo    "<h3>$Total_product_after_dicount</h3>";
+    echo "<form method='GET'>";
+    echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
+    echo "</form>";
+    echo   "</div>";
+    echo   "</div>";
+    echo   "</div></a>";
+}
+
+?>
+                        
                         <div class="col-lg-12">
                             <div class="pageination">
                                 <nav aria-label="Page navigation example">
@@ -569,62 +401,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     </section>
     <!--================End Category Product Area =================-->
 
-    <!-- product_list part start-->
-    <!-- <section class="product_list best_seller">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="section_tittle text-center">
-                        <h2>Best Sellers <span>shop</span></h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row align-items-center justify-content-between">
-                <div class="col-lg-12">
-                    <div class="best_product_slider owl-carousel">
-                        <div class="single_product_item">
-                            <img src="https://images.pexels.com/photos/4846097/pexels-photo-4846097.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" alt="" width=500px height=170px>
-                            <div class="single_product_text">
-                                <h4>sofa</h4>
-                                <h3>250.0JD</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="https://images.pexels.com/photos/8251166/pexels-photo-8251166.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="" width=500px height=170px>
-                            <div class="single_product_text">
-                                <h4>Chair</h4>
-                                <h3>45.0JD</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="https://images.pexels.com/photos/447592/pexels-photo-447592.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="" width=500px height=170px>
-                            <div class="single_product_text">
-                                <h4>table</h4>
-                                <h3>130.0JD</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="https://images.pexels.com/photos/6538933/pexels-photo-6538933.jpeg?cs=srgb&dl=pexels-max-vakhtbovych-6538933.jpg&fm=jpg" alt="" width=500px height=170px>
-                            <div class="single_product_text">
-                                <h4>sofa</h4>
-                                <h3>350.0JD</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="https://images.pexels.com/photos/1209776/pexels-photo-1209776.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="" width=500px height=170px>
-                            <div class="single_product_text">
-                                <h4>table</h4>
-                                <h3>100.0JD</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-    <!-- product_list part end-->
+    
 
-    <!--::footer_part start::-->
     <footer class="footer_part">
         <div class="container">
 
@@ -696,5 +474,4 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 
 <!-- Mirrored from technext.github.io/aranoz/category.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:49 GMT -->
-
 </html>

@@ -153,7 +153,7 @@ $cart = $_SESSION["products"];
             <thead>
               <tr>
                 <th scope="col">Product</th>
-                <th scope="col">Price</th>
+                <th scope="col">Price </th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Total</th>
                 <th scope="col">Delete</th>
@@ -164,9 +164,8 @@ $cart = $_SESSION["products"];
 
               <?php
 
-
+      if(isset($cart)){
               foreach ($cart as $element) { ?>
-
                 <tr>
                   <td>
                     <div class="media">
@@ -174,13 +173,15 @@ $cart = $_SESSION["products"];
                         <img src=<?php echo $element['product_image']; ?> alt="" width=200px height=170px />
                       </div>
                       <div class="media-body">
-                        <p><?php echo $element['product_name'];
+                        <p><?php 
+                        // echo $element['product_price_after_discount'];
                             ?></p>
                       </div>
                     </div>
                   </td>
                   <td>
-                    <h5><?php echo $element['product_price']; ?>JD</h5>
+                    <h5><?php
+                     echo $element['product_price_after_discount']; ?>JD</h5>
                   </td>
                   <td>
                     <div class="product_count">
@@ -195,19 +196,21 @@ $cart = $_SESSION["products"];
                     </div>
                   </td>
                   <td>
-                    <h5><?php echo $element[0] * $element['product_price']; ?> JD</h5>
+                    <h5><?php 
+                    echo $element['Total_after_discount']; ?> JD</h5>
                   </td>
                   <td>
                     <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=delete'>delete</a>
                   </td>
                 </tr>
                 <?php
+                // echo $element['Total_after_discount'];
 
                 global $Total;
-                $Total = $Total + $element[0] * $element['product_price'];
+                $Total = $Total + $element['Total_after_discount'];
 
                 ?>
-              <?php } ?>
+              <?php }} ?>
 
               <tr>
                 <td></td>
@@ -216,10 +219,10 @@ $cart = $_SESSION["products"];
                   <h5>Total</h5>
                 </td>
                 <td>
-
+    <?php if(!empty($Total)){?>
                   <h5><?php echo $Total; ?> JD</h5>
                 </td>
-
+<?php }?>
               </tr>
 
             </tbody>

@@ -7,7 +7,6 @@ include_once "db.php";
 ?>
 <?php
 
-
 function test_input($data)
 {
     $data = trim($data);
@@ -15,8 +14,6 @@ function test_input($data)
     $data = htmlspecialchars($data);
     return $data;
 }
-
-
 
 function getUsers()
 {
@@ -160,7 +157,86 @@ function read()
     }
 }
 
+function orders(){
+    global $pdo;
 
+    $userid=$_SESSION['loggedUser']['id'];
+    $query = "SELECT * FROM orders WHERE user_id = $userid";
+    $stmt = $pdo->prepare($query);
+    $stmt = $pdo->query($query);
+    $stmt->execute();
+    $result=$stmt->fetchAll();
+    $counter=$stmt->fetchColumn();
+    $count=1;
+    
+        foreach((array) $result as $element)
+            {
+               echo '<h5>Order Number:'.$count.'</h5>';
+               echo "<ul>";
+               echo '<li><p>order Id:</p><span>'. $element['id']. '</span></li>';
+               echo '<li> <p>date:</p><span>'.$element['date'].'</span></li>';
+               echo '<li><p>total:</p><span>'. $element['total']. '</span></li>';
+               echo '<li> <p>Payment method:</p><span>"payed"</span></li>';
+               echo '</br>';
+              echo "</ul>";
+              $count++;
+                        }     
+                        // $counter=$counter-1;
+                        
+                   
+                                       
+  }
+
+function orderDetails(){
+    global $pdo;
+
+    $userid=$_SESSION['loggedUser']['id'];
+    $query = "SELECT * FROM orders WHERE user_id = $userid";
+    $stmt = $pdo->prepare($query);
+    $stmt = $pdo->query($query);
+    $stmt->execute();
+    $result=$stmt->fetchAll();
+    $order_id=$result[1]['id'];
+    $query2 = "SELECT * FROM order_item WHERE order_id = $order_id";
+    $stmt2 = $pdo->prepare($query2);
+    $stmt2 = $pdo->query($query2);
+    $stmt2->execute();
+    $result2=$stmt2->fetchAll();  
+
+            //  echo "<tbody>";
+            //   echo  "<tr>";
+            //   echo    '<th colspan="2"><span>'."Pixelstore fresh Blackberry".'</span></th>';
+            //   echo    '<th>'.x02.'</th>';
+            //   echo    '<th> <span>'.720.00.'</span></th>';
+            //   echo  "</tr>";
+            //   echo  "<tr>";
+            //   echo    '<th colspan="2"><span>'."Pixelstore fresh Blackberry".'</span></th>';
+            //   echo    '<th>'.x02.'</th>';
+            //   echo    '<th> <span>'.720.00.'</span></th>';
+            //   echo  "</tr>";
+            //   echo  "<tr>";
+            //   echo    '<th colspan="2"><span>'."Pixelstore fresh Blackberry".'</span></th>';
+            //   echo   '<th>'.x02.'</th>';
+            //   echo   '<th> <span>'.720.00.'</span></th>';
+            //   echo   "</tr>";
+            //   echo  "<tr>";
+            //   echo   '<th colspan="3">'."Subtotal".'</th>';
+            //   echo    '<th> <span>'.2160.00.'</span></th>';
+            //   echo  "</tr>";
+            //   echo   "<tr>";
+            //   echo    '<th colspan="3">'."shipping".'</th>';
+            //   echo    '<th><span>'."flat rate: 50.00".'</span></th>';
+            //   echo  "</tr>";
+            //   echo  "</tbody>";
+            //   echo  "<tfoot>";
+            //   echo  "<tr>";
+            //   echo  '<th scope="col" colspan="3">'."Quantity".'</th>';
+            //   echo  '<th scope="col">'."Total".'</th>';
+            //   echo  "</tr>";
+            //   echo  "</tfoot>";
+           
+
+}
 
 function updateUser()
 {
@@ -646,22 +722,26 @@ function addcomments()
 }
 
 
-function checkoutButton()
+function checkoutButton($Total)
 {
+    echo "haneen";
     global $pdo;
     $cart = $_SESSION["products"];
-    $whoLogged = $_SESSION["loggedUser"];
-    $user_id = $whoLogged['id'];
+    if(isset($_SESSION["loggedUser"])){
+        $whoLogged = $_SESSION["loggedUser"];
+        $user_id = $whoLogged['id'];
+    }
+ 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (isset($_POST['checkout_submit'])) {
             //orders table
-            $query = "INSERT INTO orders (user_id)";
-            $query .= "VALUES (?)";
+            $query = "INSERT INTO orders (user_id,total)";
+            $query .= "VALUES (?,?)";
             $stmt = $pdo->prepare($query);
             if ($stmt) {
 
-                $stmt->execute([$user_id]);
+                $stmt->execute([$user_id,$Total]);
                 //getting last order id from orders table
                 $query = $pdo->prepare("SELECT max(id) FROM orders");
                 $query->execute();
@@ -677,7 +757,7 @@ function checkoutButton()
                 $stmt = $pdo->prepare($query);
                 if ($stmt) {
 
-                    $stmt->execute([$maxId, $product_id, $qty]);
+                    $stmt->execute([$maxId, $product_id,$qty]);
                     //updating stock in products table
                     $query = "SELECT stock FROM products WHERE (id = '$product_id') ";
                     $select_all_stocks = $pdo->query($query);

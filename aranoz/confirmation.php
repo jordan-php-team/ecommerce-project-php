@@ -1,51 +1,21 @@
 <?php
-include_once "../db.php";
-include "../functions.php";
 session_start();
-// session_unset();
-if(isset($_SESSION["products"])){
-  $cart = $_SESSION["products"];
-}
-
-if(isset( $_SESSION['loggedUser'])){
-  $loggedSession = $_SESSION['loggedUser'];
-}
-
-
-
-// echo "<pre>";
-// var_dump($cart);
-// var_dump($loggedSession);
-// echo "</pre>";
-
+include_once "../db.php";
 ?>
-     <?php 
-                    // echo "<pre>";
-                    // var_dump($_SESSION['products']);
-                   ?>
+<?php include "../functions.php"; ?>
 
-<?php
-   global $Total;
- 
+<!DOCTYPE html>
+<html lang="en">
 
 
-
-?>
-
-<!doctype html>
-<html lang="zxx">
-
-
-<!-- Mirrored from technext.github.io/aranoz/checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
-
+<!-- Mirrored from technext.github.io/aranoz/confirmation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>kenbae</title>
-  <link rel="icon" href="img/favicon1.png" />
+  <link rel="icon" href="img/favicon1.png">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <!-- animate CSS -->
@@ -66,7 +36,20 @@ if(isset( $_SESSION['loggedUser'])){
   <link rel="stylesheet" href="css/price_rangs.css">
   <!-- style CSS -->
   <link rel="stylesheet" href="css/style.css">
-</head>
+  <style>
+  
+  .btn-edit{
+   
+    margin: .5em 25em;
+    padding: 1em;
+    background-color: #ff3368;
+    color: #fff;
+    border-radius: 5px;
+    line-height: 10px;
+    border: 2px solid #ff3368;
+}
+  </style>
+
 <style>
   .main_menu .cart i:after {
     position: absolute;
@@ -182,8 +165,8 @@ if(isset( $_SESSION['loggedUser'])){
         <div class="col-lg-8">
           <div class="breadcrumb_iner">
             <div class="breadcrumb_iner_item">
-              <h2>Producta Checkout</h2>
-              <p>Home <span>-</span> Shop Single</p>
+              <h2>Order Confirmation</h2>
+              <p>Home <span>-</span> Order Confirmation</p>
             </div>
           </div>
         </div>
@@ -192,179 +175,91 @@ if(isset( $_SESSION['loggedUser'])){
   </section>
   <!-- breadcrumb start-->
 
-  <!--================Checkout Area =================-->
-  <section class="checkout_area padding_top">
+  <!--================ confirmation part start =================-->
+  <section class="confirmation_part padding_top">
     <div class="container">
-  
-      <div class="cupon_area">
-        <div class="check_title">
-          <h2>
-            <strong>
-              <h2><strong>discount : 20%</strong></h2>
-              coupon code : furniture
-            </strong>
-        
-          </h2>
-        </div>
-        <?php
-        echo  "<form>";
-        echo  "<input type='text' placeholder='Enter coupon code' name='coupon'/>";
-        echo "<button class='tp_btn' type='submit'>Apply Coupon</button>";
-        echo  "</form>";
-        ?>
-      </div>
-      <div class="billing_details">
-        <div class="row">
-          <div class="col-lg-8">
-            <h3>Billing Details</h3>
-            <form class="row contact_form" action="#" method="post" novalidate="novalidate">
-              <div class="col-md-6 form-group p_star">
-                <input type="text" class="form-control" id="first" name="name" />
-                <span class="placeholder" data-placeholder="First name"></span>
-              </div>
-              <div class="col-md-6 form-group p_star">
-                <input type="text" class="form-control" id="last" name="name" />
-                <span class="placeholder" data-placeholder="Last name"></span>
-              </div>
-          
-              <div class="col-md-6 form-group p_star">
-                <input type="text" class="form-control" id="number" name="number" />
-                <span class="placeholder" data-placeholder="Phone number"></span>
-              </div>
-              <div class="col-md-6 form-group p_star">
-                <input type="text" class="form-control" id="email" name="compemailany" />
-                <span class="placeholder" data-placeholder="Email Address"></span>
-              </div>
-          
-              <div class="col-md-12 form-group p_star">
-                <input type="text" class="form-control" id="add1" name="add1" />
-                <span class="placeholder" data-placeholder="Address line 01"></span>
-              </div>
-              <div class="col-md-12 form-group p_star">
-                <input type="text" class="form-control" id="add2" name="add2" />
-                <span class="placeholder" data-placeholder="Address line 02"></span>
-              </div>
-        
-              <div class="col-md-12 form-group">
-            
-                <textarea class="form-control" name="message" id="message" rows="1" placeholder="Order Notes"></textarea>
-              </div>
-            </form>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="confirmation_tittle">
+            <span>Thank you. Your order has been received.</span>
           </div>
-          <div class="col-lg-4">
-            <div class="order_box">
-              <h2>Your Order</h2>
-              <ul class="list">
-                <li>
-                  <a href="#">Product
-                    <span> <strong> after_discount</strong></span>
-                    <!-- <span> Total</span> -->
+        </div>
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+            <h4>order info</h4>
+          <?php  orders(); ?>
+           
+          </div>
+        </div>
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+            <h4>User Info</h4>
+            <ul>
+              <li>
+                 <p>Name:</p>
+                 <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['username']));}else{ echo "There";}?>
+              </li>
              
+              <li>
+                <p>Mobile:</p>
+                <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['mobile']));}else{ echo "There";}?>
+              </li>
+              </br>
+              <li>
+                <p>Password:</p>
+                <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['password']));}else{ echo "There";}?>
+              </li>
+            </ul>
+            
+            <button class="btn-edit" type="submit" name="edit" >Edit</button>
+          </div>
+          </br>
+        </div>
 
-                  </a>
-                </li>
-                <?php 
-                foreach ($cart  as $element){?>
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+            <!-- <h4>shipping Address</h4>
+            <ul>
+              <li>
+                <p>Street</p><span>: 56/8</span>
+              </li>
+              <li>
+                <p>city</p><span>: Los Angeles</span>
+              </li>
+              <li>
+                <p>country</p><span>: United States</span>
+              </li>
+              <li>
+                <p>postcode</p><span>: 36952</span>
+              </li>
+            </ul> -->
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="order_details_iner">
+            <h3>Order Details</h3>
 
-               
-                  <li>
-                    <a><?php echo $element['product_name']; ?>
-                      <span class="middle">x <?php echo $element[0]; ?></span>
-                      <span class="last">
-                        <?php
-                      $Total+= $element['Total_after_discount'];
-                         echo $element['Total_after_discount'];
-                   
-                
-                       ?> JD</span>
-                    <!-- <span class="last"> -->
-                      <?php 
-                    // echo $element['Total_after_discount'];
-                    // 
+            <table class="table table-borderless">
+            <thead>
+                <tr>
+                  <th scope="col" colspan="2">Product</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Total</th>
+                </tr>
+              </thead>
 
-                        ?> JD</span>
-                      <!-- <span class="last"> -->
-                      <?php
-                      // echo $element[0] * $element['product_price']; 
-                      // 
-                      ?>
-          
-                       <?php }?>
-                    </a>
-                  </li>
-<?php
-// if ($_SERVER["REQUEST_METHOD"] == "GET") {
-//   if(isset($_GET['coupon']) && $_GET['coupon']=='furniture'){
-//   $coupon=$_GET['coupon'];
-//     $discount_percentage=$Total*0.2;
-//     global $TotalAftercoupon;
-//       $TotalAftercoupon =$Total-$discount_percentage;
-//   }
-// }
+            <?php orderDetails(); ?>
+            
+          </table>
 
-       
-                ?>
-
-              </ul>
-              <ul class="list list_2">
-
-                <li>
-                  <a href="#">Total
-                  <span>
-               
-                  <?php   
-            //  foreach ($cart  as $element){
-                    if(isset($Total)){
-                      echo $Total;
-                    }
-                  
-             
-                  ?> JD</span> 
-                  </a>
-                </li>
-
-                <!-- <li> -->
-                  <!-- <a href="#">TotalAftercoupon -->
-                    <!-- <span> -->
-                      <?php  
-                    //  if(isset($TotalAftercoupon) ){
-                    //    $element['all_Total']=$TotalAftercoupon;
-                    //   echo $TotalAftercoupon ;
-                    //  }
-                 
-                    //    }   ?> 
-                    <!-- JD</span> -->
-                  <!-- </a> -->
-                <!-- </li> -->
-
-
-              </ul>
-              <div class="payment_item">
-                <div class="radion_btn">
-                  <input type="radio" id="f-option5" name="selector" />
-                  <label for="f-option5">Pay on delivery </label>
-                  <div class="check" Required></div>
-                </div>
-
-              </div>
-              
-              <?php 
-                  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    checkoutButton($Total);
-                  }
-
-          ?>
-              <form method="post">
-                <input type="submit" class="btn_3" name="checkout_submit" value="Checkout">
-              </form>
-
-            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <!--================End Checkout Area =================-->
+  <!--================ confirmation part end =================-->
 
   <!--::footer_part start::-->
   <footer class="footer_part">
@@ -438,6 +333,15 @@ if(isset( $_SESSION['loggedUser'])){
 </body>
 
 
-<!-- Mirrored from technext.github.io/aranoz/checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
+<!-- Mirrored from technext.github.io/aranoz/confirmation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
+</html>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
 
 </html>
