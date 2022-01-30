@@ -1,30 +1,21 @@
 <?php
-ob_start();
 session_start();
-// session_unset();
-
-$cart = $_SESSION["products"];
-// echo "<pre>";
-// var_dump($cart);
-
+include_once "../db.php";
 ?>
-
 <?php include "../functions.php"; ?>
 
-<!doctype html>
-<html lang="zxx">
+<!DOCTYPE html>
+<html lang="en">
 
 
-<!-- Mirrored from technext.github.io/aranoz/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
-
+<!-- Mirrored from technext.github.io/aranoz/confirmation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>kenbae</title>
-  <link rel="icon" href="img/favicon1.png" />
+  <link rel="icon" href="img/favicon1.png">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <!-- animate CSS -->
@@ -45,7 +36,42 @@ $cart = $_SESSION["products"];
   <link rel="stylesheet" href="css/price_rangs.css">
   <!-- style CSS -->
   <link rel="stylesheet" href="css/style.css">
-</head>
+  <style>
+  
+  .btn-edit{
+   
+    margin: .5em 25em;
+    padding: 1em;
+    background-color: #ff3368;
+    color: #fff;
+    border-radius: 5px;
+    line-height: 10px;
+    border: 2px solid #ff3368;
+}
+  </style>
+
+<style>
+  .main_menu .cart i:after {
+    position: absolute;
+    border-radius: 50%;
+    background-color: transparent !important;
+    width: 14px;
+    height: 14px;
+    right: -8px;
+    top: -8px;
+    content: "" !important;
+    text-align: center;
+    line-height: 15px;
+    font-size: 10px;
+    color: #fff;
+  }
+
+
+  .cart .fa-cart-plus:hover {
+    transform: scale(1.1);
+    transition: .2s;
+  }
+</style>
 
 <body>
   <!--::header part start::-->
@@ -81,6 +107,7 @@ $cart = $_SESSION["products"];
                     Account
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
+                    <!-- this alternative syntax is excellent for improving legibility (for both PHP and HTML!) in situations where you have a mix of them. -->
                     <?php logout(); ?>
                     <?php if ($_SESSION['loggedUser']) : ?>
                       <form action="login.php" method="post">
@@ -92,7 +119,7 @@ $cart = $_SESSION["products"];
                     <?php endif; ?>
                     <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
                     <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
-                    <!-- <a class="dropdown-item" href="cart.php">shopping cart</a> -->
+                    <a class="dropdown-item" href="cart.php">shopping cart</a>
                     <a class="dropdown-item" href="confirmation.php">confirmation</a>
                     <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
                   </div>
@@ -113,9 +140,14 @@ $cart = $_SESSION["products"];
               </ul>
             </div>
             <div class="hearer_icon d-flex">
-              <!-- <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a> -->
-              <!-- <a href="#"><i class="ti-heart"></i></a> -->
 
+              <div class="dropdown cart">
+                <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
+                  <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
+                </a>
+              
+
+              </div>
             </div>
           </nav>
         </div>
@@ -125,7 +157,6 @@ $cart = $_SESSION["products"];
   </header>
   <!-- Header part end-->
 
-
   <!--================Home Banner Area =================-->
   <!-- breadcrumb start-->
   <section class="breadcrumb breadcrumb_bg">
@@ -134,8 +165,8 @@ $cart = $_SESSION["products"];
         <div class="col-lg-8">
           <div class="breadcrumb_iner">
             <div class="breadcrumb_iner_item">
-              <h2>Cart Products</h2>
-              <p>Home <span>-</span>Cart Products</p>
+              <h2>Order Confirmation</h2>
+              <p>Home <span>-</span> Order Confirmation</p>
             </div>
           </div>
         </div>
@@ -144,143 +175,130 @@ $cart = $_SESSION["products"];
   </section>
   <!-- breadcrumb start-->
 
-  <!--================Cart Area =================-->
-  <section class="cart_area padding_top">
+  <!--================ confirmation part start =================-->
+  <section class="confirmation_part padding_top">
     <div class="container">
-      <div class="cart_inner">
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Product</th>
-                <th scope="col">Price </th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Total</th>
-                <th scope="col">Delete</th>
-
-              </tr>
-            </thead>
-            <tbody>
-
-              <?php
-
-      if(isset($cart)){
-              foreach ($cart as $element) { ?>
-                <tr>
-                  <td>
-                    <div class="media">
-                      <div class="d-flex">
-                        <img src=<?php echo $element['product_image']; ?> alt="" width=200px height=170px />
-                      </div>
-                      <div class="media-body">
-                        <p><?php 
-                        // echo $element['product_price_after_discount'];
-                            ?></p>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <h5><?php
-                     echo $element['product_price_after_discount']; ?>JD</h5>
-                  </td>
-                  <td>
-                    <div class="product_count">
-                      <!-- <span class="input-number-decrement"> <i class="ti-angle-down"></i></span> -->
-                      <!-- <input class="input-number" type="text" value="1" min="1" max="10"> -->
-                      <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Dencrement'>-</a>
-                      <p> <?php echo $element[0]; ?></p>
-                      <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Increment'>+</a>
-                      <!-- <span class="input-number-increment"> <i class="ti-angle-up"></i></span> -->
-
-
-                    </div>
-                  </td>
-                  <td>
-                    <h5><?php 
-                    echo $element['Total_after_discount']; ?> JD</h5>
-                  </td>
-                  <td>
-                    <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=delete'>delete</a>
-                  </td>
-                </tr>
-                <?php
-                // echo $element['Total_after_discount'];
-
-                global $Total;
-                $Total = $Total + $element['Total_after_discount'];
-
-                ?>
-              <?php }} ?>
-
-              <tr>
-                <td></td>
-                <td></td>
-                <td>
-                  <h5>Total</h5>
-                </td>
-                <td>
-    <?php if(!empty($Total)){?>
-                  <h5><?php echo $Total; ?> JD</h5>
-                </td>
-<?php }?>
-              </tr>
-
-            </tbody>
-          </table>
-          <div class="checkout_btn_inner float-right">
-            <!-- <a class="btn_1" href="#">Continue Shopping</a> -->
-            <?php
-            if(count($cart) > 0){?>
-             <a class="btn_1 checkout_btn_1" href="checkout.php">Proceed to checkout</a>
-          <?php  }?>
-
-       
-
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="confirmation_tittle">
+            <span>Thank you. Your order has been received.</span>
+          </div>
+        </div>
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+            <h4>order info</h4>
+          <?php  orders(); ?>
            
           </div>
         </div>
-      </div>
-  </section>
-  <!--================End Cart Area =================-->
-
-  <!--::footer_part start::-->
-  <footer class="footer_part">
-    <div class="container">
-
-    </div>
-    <div class="copyright_part">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8">
-            <div class="copyright_text">
-              <p>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;
-                <script>
-                  document.write(new Date().getFullYear());
-                </script>
-                All rights reserved
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              </p>
-            </div>
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+            <h4>User Info</h4>
+            <ul>
+              <li>
+                 <p>Name:</p>
+                 <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['username']));}else{ echo "There";}?>
+              </li>
+             
+              <li>
+                <p>Mobile:</p>
+                <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['mobile']));}else{ echo "There";}?>
+              </li>
+              </br>
+              <li>
+                <p>Password:</p>
+                <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['password']));}else{ echo "There";}?>
+              </li>
+            </ul>
+            
+            <button class="btn-edit" type="submit" name="edit" >Edit</button>
           </div>
-          <div class="col-lg-4">
-            <div class="footer_icon social_icon">
-              <ul class="list-unstyled">
-                <li>
-                  <a href="https://www.facebook.com/" class="single_social_icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                </li>
-                <li>
-                  <a href="https://twitter.com/" class="single_social_icon" target="_blank"><i class="fab fa-twitter"></i></a>
-                </li>
+          </br>
+        </div>
 
-              </ul>
-            </div>
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+            <!-- <h4>shipping Address</h4>
+            <ul>
+              <li>
+                <p>Street</p><span>: 56/8</span>
+              </li>
+              <li>
+                <p>city</p><span>: Los Angeles</span>
+              </li>
+              <li>
+                <p>country</p><span>: United States</span>
+              </li>
+              <li>
+                <p>postcode</p><span>: 36952</span>
+              </li>
+            </ul> -->
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="order_details_iner">
+            <h3>Order Details</h3>
+
+            <table class="table table-borderless">
+            <thead>
+                <tr>
+                  <th scope="col" colspan="2">Product</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Total</th>
+                </tr>
+              </thead>
+
+            <?php orderDetails(); ?>
+            
+          </table>
+
           </div>
         </div>
       </div>
     </div>
-  </footer>
+  </section>
+  <!--================ confirmation part end =================-->
+
+  <!--::footer_part start::-->
+  <footer class="footer_part">
+        <div class="container">
+
+        </div>
+        <div class="copyright_part">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="copyright_text">
+                            <p>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;
+                                <script>
+                                    document.write(new Date().getFullYear());
+                                </script>
+                                All rights reserved
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="footer_icon social_icon">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="https://www.facebook.com/" class="single_social_icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                </li>
+                                <li>
+                                    <a href="https://twitter.com/" class="single_social_icon" target="_blank"><i class="fab fa-twitter"></i></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
   <!--::footer_part end::-->
 
   <!-- jquery plugins here-->
@@ -315,6 +333,15 @@ $cart = $_SESSION["products"];
 </body>
 
 
-<!-- Mirrored from technext.github.io/aranoz/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
+<!-- Mirrored from technext.github.io/aranoz/confirmation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
+</html>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
 
 </html>
