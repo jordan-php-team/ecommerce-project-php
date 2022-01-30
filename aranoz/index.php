@@ -2,6 +2,7 @@
 session_start();
 include_once "../db.php";
 
+
 ?>
 
 <?php include "../functions.php"; ?>
@@ -106,6 +107,29 @@ include_once "../db.php";
   <!-- style CSS -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
+<style>
+  .main_menu .cart i:after {
+    position: absolute;
+    border-radius: 50%;
+    background-color: transparent !important;
+    width: 14px;
+    height: 14px;
+    right: -8px;
+    top: -8px;
+    content: "" !important;
+    text-align: center;
+    line-height: 15px;
+    font-size: 10px;
+    color: #fff;
+  }
+
+
+
+  .cart .fa-cart-plus:hover {
+    transform: scale(1.1);
+    transition: .2s;
+  }
+</style>
 
 <body>
   <!--::header part start::-->
@@ -127,14 +151,14 @@ include_once "../db.php";
                   <a class="nav-link" href="index.php">Home</a>
                 </li>
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <a class="nav-link " href="category.php" id="navbarDropdown_1">
                     Shop
                   </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+                  <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
                     <a class="dropdown-item" href="category.php">
                       shop category</a>
-                    <!-- <a class="dropdown-item" href="single-product.php">product details</a> -->
-                  </div>
+                    <a class="dropdown-item" href="single-product.php">product details</a>
+                  </div> -->
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -142,13 +166,17 @@ include_once "../db.php";
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                     <!-- this alternative syntax is excellent for improving legibility (for both PHP and HTML!) in situations where you have a mix of them. -->
-                    <?php if ($_SESSION['user_logged_in']) : ?>
-                      <a class="dropdown-item" href="login.php" id="login-field"> Logout</a>
+                    <?php logout(); ?>
+                    <?php if ($_SESSION['loggedUser']) : ?>
+                      <form action="login.php" method="post">
+
+                        <?php echo  "<button type='submit' name='logout_btn' class='dropdown-item' id='login-field'> Logout</button>" ?>
+                      </form>
                     <?php else : ?>
                       <a class="dropdown-item" href="login.php" id="login-field"> login</a>
                     <?php endif; ?>
                     <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
-                    <a class="dropdown-item" href="checkout.php">product checkout</a>
+                    <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
                     <a class="dropdown-item" href="confirmation.php">confirmation</a>
                     <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
@@ -170,11 +198,10 @@ include_once "../db.php";
               </ul>
             </div>
             <div class="hearer_icon d-flex">
-              <!-- <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a> -->
-              <!-- <a href="#"><i class="ti-heart"></i></a> -->
+
               <div class="dropdown cart">
-                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-cart-plus"></i>
+                <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
+                  <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
                 </a>
               </div>
             </div>
@@ -182,15 +209,7 @@ include_once "../db.php";
         </div>
       </div>
     </div>
-    <div class="search_input" id="search_input_box">
-      <div class="container">
-        <form class="d-flex justify-content-between search-inner">
-          <input type="text" class="form-control" id="search_input" placeholder="Search Here" />
-          <button type="submit" class="btn"></button>
-          <span class="ti-close" id="close_search" title="Close Search"></span>
-        </form>
-      </div>
-    </div>
+
   </header>
   <!-- Header part end-->
 
@@ -375,30 +394,26 @@ include_once "../db.php";
                   $products = $row;
                   foreach ((array) $products as $product) {
                 ?>
-                <?php
-                 if($product['product_discount'] > 0){
-                  $Total_product_before_dicount= $product['product_price'];
-                 $discount_percentage_product=0;
-                  $discount_percentage_product= $Total_product_before_dicount *($product['product_discount']/100);
-                  $Total_product_after_dicount =$Total_product_before_dicount - $discount_percentage_product;
-                    }
-          
-                    else{
-                      $Total_product_after_dicount=' ';
+                    <?php
+                    if ($product['product_discount'] > 0) {
+                      $Total_product_before_dicount = $product['product_price'];
+                      $discount_percentage_product = 0;
+                      $discount_percentage_product = $Total_product_before_dicount * ($product['product_discount'] / 100);
+                      $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product;
+                    } else {
+                      $Total_product_after_dicount = ' ';
                     }
 
-                ?>
+                    ?>
                     <div class="col-lg-3 col-sm-6">
                       <div class="single_product_item">
                         <img src="<?php echo  $product['product_image']; ?>" alt="" />
                         <div class="single_product_text">
                           <?php
                           echo "<h4>" . $product['product_name'] . "</h4>";
-                          if($product['product_discount'] > 0){
+                          if ($product['product_discount'] > 0) {
                             echo     "<h3><del>$product[product_price]JD</del></h3>";
-                          }
-                    
-                          else{
+                          } else {
                             echo     "<h3>$product[product_price]JD</h3>";
                           }  
                            echo    "<h3>$Total_product_after_dicount</h3>";
