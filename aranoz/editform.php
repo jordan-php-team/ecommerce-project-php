@@ -1,10 +1,11 @@
 <?php
 session_start();
-
 include_once "../db.php";
 ?>
 <?php include "../functions.php"; ?>
-
+<?php
+editInfo();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,8 +49,11 @@ include_once "../db.php";
     line-height: 10px;
     border: 2px solid #ff3368;
 }
-.btn-edit a {
-  color:white;
+.btn-edit a{
+    color:white;
+}
+.container{
+    margin: 0 auto ;
 }
   </style>
 
@@ -75,9 +79,8 @@ include_once "../db.php";
     transition: .2s;
   }
 </style>
-
 <body>
-  <!--::header part start::-->
+    <!--::header part start::-->
   <header class="main_menu home_menu">
     <div class="container">
       <div class="row align-items-center">
@@ -177,35 +180,22 @@ include_once "../db.php";
   </section>
   <!-- breadcrumb start-->
 
-  <!--================ confirmation part start =================-->
-  <section class="confirmation_part padding_top">
+<section class="confirmation_part padding_top">
     <div class="container">
       <div class="row">
-        <div class="col-lg-12">
-          <div class="confirmation_tittle">
-            <span>Thank you. Your order has been received.</span>
-          </div>
-        </div>
-        <div class="col-lg-6 col-lx-4">
+<div class="col-lg-6 col-lx-4">
           <div class="single_confirmation_details">
-            <h4>order info</h4>
-          <?php  orders(); ?>
-           
-          </div>
-        </div>
-        <div class="col-lg-6 col-lx-4">
-          <div class="single_confirmation_details">
-            <form method="post">
+          <form method="post">
             <h4>User Info</h4>
             <ul>
               <li>
                  <p>Name:</p>
-                 <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['username']));}else{ echo "There";}?>
+                 <input name="name" value="<?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['username']));}else{ echo "There";}?>"></input>
               </li>
                     </br>
               <li>
                 <p>Mobile:</p>
-                <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['mobile']));}else{ echo "There";}?>
+                <input name="mobile" value="<?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['mobile']));}else{ echo "There";}?>"></input>
               </li>
               </br>
               <li>
@@ -219,57 +209,15 @@ include_once "../db.php";
               </li>
             </ul>
             
-            <button class="btn-edit" type="submit" name="edit" ><a href="editform.php">Edit</a></button>
-                    </form>
-          </div>
-          </br>
+            <input class="btn-edit" value="submit" type="submit" name="edit" />
+          </form>
         </div>
-
-        <div class="col-lg-6 col-lx-4">
-          <div class="single_confirmation_details">
-            <!-- <h4>shipping Address</h4>
-            <ul>
-              <li>
-                <p>Street</p><span>: 56/8</span>
-              </li>
-              <li>
-                <p>city</p><span>: Los Angeles</span>
-              </li>
-              <li>
-                <p>country</p><span>: United States</span>
-              </li>
-              <li>
-                <p>postcode</p><span>: 36952</span>
-              </li>
-            </ul> -->
-          </div>
+                    
         </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="order_details_iner">
-            <h3>Order Details</h3>
-
-            <table class="table table-borderless">
-            <thead>
-                <tr>
-                  <th scope="col" colspan="2">Product</th>
-                  <th scope="col">Quantity</th>
-                  <th scope="col">Total</th>
-                </tr>
-              </thead>
-
-            <?php orderDetails(); ?>
-            
-          </table>
-
-          </div>
         </div>
-      </div>
     </div>
   </section>
-  <!--================ confirmation part end =================-->
-
+  
   <!--::footer_part start::-->
   <footer class="footer_part">
         <div class="container">
@@ -310,47 +258,6 @@ include_once "../db.php";
     </footer>
   <!--::footer_part end::-->
 
-  <!-- jquery plugins here-->
-  <!-- jquery -->
-  <script src="js/jquery-1.12.1.min.js"></script>
-  <!-- popper js -->
-  <script src="js/popper.min.js"></script>
-  <!-- bootstrap js -->
-  <script src="js/bootstrap.min.js"></script>
-  <!-- easing js -->
-  <script src="js/jquery.magnific-popup.js"></script>
-  <!-- swiper js -->
-  <script src="js/swiper.min.js"></script>
-  <!-- swiper js -->
-  <script src="js/masonry.pkgd.js"></script>
-  <!-- particles js -->
-  <script src="js/owl.carousel.min.js"></script>
-  <script src="js/jquery.nice-select.min.js"></script>
-  <!-- slick js -->
-  <script src="js/slick.min.js"></script>
-  <script src="js/jquery.counterup.min.js"></script>
-  <script src="js/waypoints.min.js"></script>
-  <script src="js/contact.js"></script>
-  <script src="js/jquery.ajaxchimp.min.js"></script>
-  <script src="js/jquery.form.js"></script>
-  <script src="js/jquery.validate.min.js"></script>
-  <script src="js/mail-script.js"></script>
-  <script src="js/stellar.js"></script>
-  <script src="js/price_rangs.js"></script>
-  <!-- custom js -->
-  <script src="js/custom.js"></script>
 </body>
-
-
-<!-- Mirrored from technext.github.io/aranoz/confirmation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
-</html>
-
-</html>
-
-</html>
-
-</html>
-
-</html>
 
 </html>
