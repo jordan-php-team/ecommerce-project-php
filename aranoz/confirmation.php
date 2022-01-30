@@ -4,28 +4,6 @@ include_once "../db.php";
 ?>
 <?php include "../functions.php"; ?>
 
-<?php
-function orders(){
-  global $pdo;
-  global $result;
-  $username=$_SESSION['loggedUser']['username'];
-  $userid=$_SESSION['loggedUser']['id'];
-  $userpassword=$_SESSION['loggedUser']['password'];
-  $query = "SELECT * FROM orders WHERE user_id = $userid";
-  $stmt = $pdo->prepare($query);
-  $stmt = $pdo->query($query);
-  
-  if($stmt->fetchColumn() >1){
-              $stmt->execute();
-              $result = $stmt->fetchAll(); 
-              $id=$result[0]['id'];
-              print_r($result);
-
-}
-}
-
-?>
-<?php orders(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -62,7 +40,7 @@ function orders(){
   
   .btn-edit{
    
-    margin: .5em 30em;
+    margin: .5em 25em;
     padding: 1em;
     background-color: #ff3368;
     color: #fff;
@@ -200,20 +178,7 @@ function orders(){
         <div class="col-lg-6 col-lx-4">
           <div class="single_confirmation_details">
             <h4>order info</h4>
-            <ul>
-            <li>
-            <p>ordeer number</p><span>:<?php $result[0]['id'] ?></span>
-            </li>
-            <li>
-              <p>date</p><span>:<?php $result[0]['date']?></span>
-            </li>
-            <li>
-              <p>total</p><span>:<?php $result[0]['total']?></span>
-            </li>
-            <li>
-              <p>mayment methord</p><span>: Check payments</span>
-            </li>
-          </ul>
+          <?php  orders(); ?>
            
           </div>
         </div>
@@ -244,7 +209,7 @@ function orders(){
 
         <div class="col-lg-6 col-lx-4">
           <div class="single_confirmation_details">
-            <h4>shipping Address</h4>
+            <!-- <h4>shipping Address</h4>
             <ul>
               <li>
                 <p>Street</p><span>: 56/8</span>
@@ -258,7 +223,7 @@ function orders(){
               <li>
                 <p>postcode</p><span>: 36952</span>
               </li>
-            </ul>
+            </ul> -->
           </div>
         </div>
       </div>
@@ -266,46 +231,20 @@ function orders(){
         <div class="col-lg-12">
           <div class="order_details_iner">
             <h3>Order Details</h3>
+
             <table class="table table-borderless">
-              <thead>
+            <thead>
                 <tr>
                   <th scope="col" colspan="2">Product</th>
                   <th scope="col">Quantity</th>
                   <th scope="col">Total</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <th colspan="2"><span>Pixelstore fresh Blackberry</span></th>
-                  <th>x02</th>
-                  <th> <span>$720.00</span></th>
-                </tr>
-                <tr>
-                  <th colspan="2"><span>Pixelstore fresh Blackberry</span></th>
-                  <th>x02</th>
-                  <th> <span>$720.00</span></th>
-                </tr>
-                <tr>
-                  <th colspan="2"><span>Pixelstore fresh Blackberry</span></th>
-                  <th>x02</th>
-                  <th> <span>$720.00</span></th>
-                </tr>
-                <tr>
-                  <th colspan="3">Subtotal</th>
-                  <th> <span>$2160.00</span></th>
-                </tr>
-                <tr>
-                  <th colspan="3">shipping</th>
-                  <th><span>flat rate: $50.00</span></th>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th scope="col" colspan="3">Quantity</th>
-                  <th scope="col">Total</th>
-                </tr>
-              </tfoot>
-            </table>
+
+            <?php orderDetails(); ?>
+            
+          </table>
+
           </div>
         </div>
       </div>
