@@ -18,8 +18,10 @@ session_start();
       $sql=$pdo->prepare($data);
       $sql->execute();
       $result=$sql->fetch();
-     var_dump($result);
+    //  var_dump($result);
        $flag=false;
+       if($result['stock'] > 0 ){
+
       if(isset($_SESSION['products'])){
           foreach($_SESSION['products'] as $element){
             if($element['id']==$product_id)  {
@@ -59,26 +61,20 @@ session_start();
           $_SESSION['products'][$product_id]['product_price_after_discount']=$_SESSION['products'][$product_id]['product_price'];
   
         }
-
-
-
-         }
-       
-        }
-
-        else{
-            // echo "haneen";
-            // $_SESSION['products'][]=[];
-            // session_unset();
-        }
-        //   echo "<pre>";
-        //    var_dump($_SESSION['products']);
-           
-        header("location: cart.php");
-     
     }
+    // header("location: category.php");
+    echo '<script type="text/javascript">alert("add to cart")</script>';
+
+   }
+   }
+   else{
+     echo '<script type="text/javascript">alert("is empty stock")</script>';
+    // header("location: category.php");
+     
+   }
+}  
 }
-   
+
 
 
 ?>

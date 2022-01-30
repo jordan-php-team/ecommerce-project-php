@@ -21,6 +21,8 @@ include_once "../db.php";
       $result=$sql->fetch();
      var_dump($result);
        $flag=false;
+       if($result['stock'] > 0 ){
+
       if(isset($_SESSION['products'])){
           foreach($_SESSION['products'] as $element){
             if($element['id']==$product_id)  {
@@ -38,7 +40,7 @@ include_once "../db.php";
 
          foreach($_SESSION['products'] as $element){
 
-            $_SESSION['products'][$product_id]['Total']= 0*intval($element['product_price']);
+            $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']);
                     
             if($_SESSION['products'][$product_id]['product_discount']> 0){
 
@@ -64,13 +66,19 @@ include_once "../db.php";
 
 
          }
-
+         header("location: cart.php");
         }
-          echo "<pre>";
-           var_dump($_SESSION['products']);
-           
-          header("location: cart.php");
-     
+
+       
+      
+        }
+
+        else{
+          echo '<script type="text/javascript">alert("is not loggin")</script>';
+         header("location: category.php");
+          
+        }
+    
     }
 }
    
@@ -241,7 +249,7 @@ include_once "../db.php";
 
                           ?>
 
-                          <a href="category.html" class="btn_2">buy now</a>
+                          <a href="category.php" class="btn_2">buy now</a>
                         </div>
                       </div>
                     </div>
@@ -472,7 +480,7 @@ include_once "../db.php";
                 <h2>Weekly Sale on 60% Off All Products</h2>
                 <div class="date_countdown">
                   <div id="timer">
-                    <div id="days" class="date"></div>
+                    <div  class="date"></div>
                     <div id="hours" class="date"></div>
                     <div id="minutes" class="date"></div>
                     <div id="seconds" class="date"></div>

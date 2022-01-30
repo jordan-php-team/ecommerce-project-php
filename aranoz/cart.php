@@ -229,7 +229,14 @@ $cart = $_SESSION["products"];
           </table>
           <div class="checkout_btn_inner float-right">
             <!-- <a class="btn_1" href="#">Continue Shopping</a> -->
-            <a class="btn_1 checkout_btn_1" href="checkout.php">Proceed to checkout</a>
+            <?php
+            if(count($cart) > 0){?>
+             <a class="btn_1 checkout_btn_1" href="checkout.php">Proceed to checkout</a>
+          <?php  }?>
+
+       
+
+           
           </div>
         </div>
       </div>
