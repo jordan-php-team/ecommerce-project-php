@@ -7,7 +7,7 @@ $cart = $_SESSION["products"];
 $loggedSession = $_SESSION['loggedUser'];
 
 // echo "<pre>";
-// var_dump($cart);
+var_dump($cart);
 // var_dump($loggedSession);
 // echo "</pre>";
 
@@ -407,8 +407,10 @@ foreach ($cart  as $element) {
 
                       <?php
                       if (isset($Total_All_After_discount)) {
+                        // $_SESSION['products'][] = $Total_after_dicount;
                         echo  $Total_All_After_discount;
                       } else {
+                        // $_SESSION['products'][][] = $Total;
                         echo $Total;
                       }
                       ?> JD</span>
@@ -427,6 +429,7 @@ foreach ($cart  as $element) {
                   <a href="#">TotalAftercoupon
                     <span><?php
                           if (isset($TotalAftercoupon))
+                            // $_SESSION['products'][] = $TotalAftercoupon;
                             echo $TotalAftercoupon; ?> JD</span>
                   </a>
                 </li>
