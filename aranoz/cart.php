@@ -9,7 +9,7 @@ $cart = $_SESSION["products"];
 
 ?>
 
-
+<?php include "../functions.php"; ?>
 
 <!doctype html>
 <html lang="zxx">
@@ -67,29 +67,32 @@ $cart = $_SESSION["products"];
                   <a class="nav-link" href="index.php">Home</a>
                 </li>
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <a class="nav-link " href="category.php" id="navbarDropdown_1">
                     Shop
                   </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+                  <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
                     <a class="dropdown-item" href="category.php">
                       shop category</a>
-                    <!-- <a class="dropdown-item" href="single-product.php">product details</a> -->
-                  </div>
+                    <a class="dropdown-item" href="single-product.php">product details</a>
+                  </div> -->
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                    <?php if ($_SESSION['user_logged_in']) : ?>
-                      <a class="dropdown-item" href="login.php" id="login-field"> Logout</a>
-                    <?php else : ?>
+                    <?php logout(); ?>
+                    <?php if ($_SESSION['loggedUser']) : ?>
+                      <form action="login.php" method="post">
 
+                        <?php echo  "<button type='submit' name='logout_btn' class='dropdown-item' id='login-field'> Logout</button>" ?>
+                      </form>
+                    <?php else : ?>
                       <a class="dropdown-item" href="login.php" id="login-field"> login</a>
                     <?php endif; ?>
                     <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
-                    <a class="dropdown-item" href="checkout.php">product checkout</a>
-                    <a class="dropdown-item" href="cart.php">shopping cart</a>
+                    <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
+                    <!-- <a class="dropdown-item" href="cart.php">shopping cart</a> -->
                     <a class="dropdown-item" href="confirmation.php">confirmation</a>
                     <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
                   </div>
@@ -112,25 +115,13 @@ $cart = $_SESSION["products"];
             <div class="hearer_icon d-flex">
               <!-- <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a> -->
               <!-- <a href="#"><i class="ti-heart"></i></a> -->
-              <div class="dropdown cart">
-                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-cart-plus"></i>
-                </a>
-              </div>
+
             </div>
           </nav>
         </div>
       </div>
     </div>
-    <div class="search_input" id="search_input_box">
-      <div class="container">
-        <form class="d-flex justify-content-between search-inner">
-          <input type="text" class="form-control" id="search_input" placeholder="Search Here" />
-          <button type="submit" class="btn"></button>
-          <span class="ti-close" id="close_search" title="Close Search"></span>
-        </form>
-      </div>
-    </div>
+
   </header>
   <!-- Header part end-->
 

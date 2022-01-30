@@ -127,7 +127,7 @@ function loggedUsers()
                     $stmt = $pdo->query($query);
 
                     $_SESSION['loggedUser'] = $result[0]; //if you use only fetch ,there is non need for '[0]' anymore
-                    $_SESSION['user_logged_in'] = true;
+
 
                     header("location:index.php");
                 } else {
@@ -688,11 +688,7 @@ function checkoutButton()
                         foreach ((array) $row as $products) {
                             $stock2 = $products['stock'];
                             $newStock = $stock2 - $qty;
-                            // print_r($newStock);
-                            // print_r($qty);
                             $query = "UPDATE products SET stock = '$newStock'  WHERE id= $product_id  ";
-
-
                             $stmt = $pdo->prepare($query);
                             $stmt = $pdo->query($query);
                         }
@@ -702,25 +698,14 @@ function checkoutButton()
         }
     }
 }
-
-// function bb()
-// {
-
-//     $query = "SELECT stock FROM products WHERE (id = '$product_id') ";
-
-
-//         $select_all_stocks = $pdo->query($query);
-//         $select_all_stocks->execute();
+function logout()
+{
+    if (isset($_POST['logout_btn'])) {
+        $_SESSION['loggedUser'] = '';
+    }
+}
 
 
-//         while ($row = $select_all_stocks->fetchAll()) {
-
-//             foreach ((array) $row as $products) {
-//                 $stock2 = $products['stock'];
-//                 $newStock=$stock2 -$qty;
-//                 $query = "UPDATE products SET stock = '$newStock'  WHERE id= $product_id  ";
-//             }
-//     }
 
 
 
