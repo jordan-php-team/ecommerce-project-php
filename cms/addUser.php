@@ -134,19 +134,19 @@ include_once "../db.php";
                                 <li>
                                     <a href="addUser.php">Add User</a>
                                 </li>
-                                <li>
-                                    <a href="editUser.php">Edit User</a>
-                                </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" data-toggle="collapse" data-target="#products"><i class="fas fa-sitemap"></i> Products <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="products" class="collapse">
+                            <a href="#" data-toggle="collapse" data-target="#users"><i class="fas fa-users"></i>Users <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="users" class="collapse">
                                 <li>
-                                    <a href="productsAdmin.php">View All Products</a>
+                                    <a href="table.php">View All Users</a>
                                 </li>
                                 <li>
-                                    <a href="addPost.php">Add Product</a>
+                                    <a href="addUser.php">Add User</a>
+                                </li>
+                                <li>
+                                    <a href="editUser.php">Edit User</a>
                                 </li>
                             </ul>
                         </li>
@@ -177,7 +177,6 @@ include_once "../db.php";
                             <a href="orders.php"> <i class="fas fa-truck"></i> Orders</a>
                         </li>
 
-
                     </ul>
                 </nav>
             </div>
@@ -198,7 +197,118 @@ include_once "../db.php";
                                 </button>
                             </form>
                             <div class="header-button">
-
+                                <div class="noti-wrap">
+                                    <div class="noti__item js-item-menu">
+                                        <i class="zmdi zmdi-comment-more"></i>
+                                        <span class="quantity">1</span>
+                                        <div class="mess-dropdown js-dropdown">
+                                            <div class="mess__title">
+                                                <p>You have 2 news message</p>
+                                            </div>
+                                            <div class="mess__item">
+                                                <div class="image img-cir img-40">
+                                                    <img src="images/icon/avatar-06.jpg" alt="Michelle Moreno" />
+                                                </div>
+                                                <div class="content">
+                                                    <h6>Michelle Moreno</h6>
+                                                    <p>Have sent a photo</p>
+                                                    <span class="time">3 min ago</span>
+                                                </div>
+                                            </div>
+                                            <div class="mess__item">
+                                                <div class="image img-cir img-40">
+                                                    <img src="images/icon/avatar-04.jpg" alt="Diane Myers" />
+                                                </div>
+                                                <div class="content">
+                                                    <h6>Diane Myers</h6>
+                                                    <p>You are now connected on message</p>
+                                                    <span class="time">Yesterday</span>
+                                                </div>
+                                            </div>
+                                            <div class="mess__footer">
+                                                <a href="#">View all messages</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="noti__item js-item-menu">
+                                        <i class="zmdi zmdi-email"></i>
+                                        <span class="quantity">1</span>
+                                        <div class="email-dropdown js-dropdown">
+                                            <div class="email__title">
+                                                <p>You have 3 New Emails</p>
+                                            </div>
+                                            <div class="email__item">
+                                                <div class="image img-cir img-40">
+                                                    <img src="images/icon/avatar-06.jpg" alt="Cynthia Harvey" />
+                                                </div>
+                                                <div class="content">
+                                                    <p>Meeting about new dashboard...</p>
+                                                    <span>Cynthia Harvey, 3 min ago</span>
+                                                </div>
+                                            </div>
+                                            <div class="email__item">
+                                                <div class="image img-cir img-40">
+                                                    <img src="images/icon/avatar-05.jpg" alt="Cynthia Harvey" />
+                                                </div>
+                                                <div class="content">
+                                                    <p>Meeting about new dashboard...</p>
+                                                    <span>Cynthia Harvey, Yesterday</span>
+                                                </div>
+                                            </div>
+                                            <div class="email__item">
+                                                <div class="image img-cir img-40">
+                                                    <img src="images/icon/avatar-04.jpg" alt="Cynthia Harvey" />
+                                                </div>
+                                                <div class="content">
+                                                    <p>Meeting about new dashboard...</p>
+                                                    <span>Cynthia Harvey, April 12,,2018</span>
+                                                </div>
+                                            </div>
+                                            <div class="email__footer">
+                                                <a href="#">See all emails</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="noti__item js-item-menu">
+                                        <i class="zmdi zmdi-notifications"></i>
+                                        <span class="quantity">3</span>
+                                        <div class="notifi-dropdown js-dropdown">
+                                            <div class="notifi__title">
+                                                <p>You have 3 Notifications</p>
+                                            </div>
+                                            <div class="notifi__item">
+                                                <div class="bg-c1 img-cir img-40">
+                                                    <i class="zmdi zmdi-email-open"></i>
+                                                </div>
+                                                <div class="content">
+                                                    <p>You got a email notification</p>
+                                                    <span class="date">April 12, 2018 06:50</span>
+                                                </div>
+                                            </div>
+                                            <div class="notifi__item">
+                                                <div class="bg-c2 img-cir img-40">
+                                                    <i class="zmdi zmdi-account-box"></i>
+                                                </div>
+                                                <div class="content">
+                                                    <p>Your account has been blocked</p>
+                                                    <span class="date">April 12, 2018 06:50</span>
+                                                </div>
+                                            </div>
+                                            <div class="notifi__item">
+                                                <div class="bg-c3 img-cir img-40">
+                                                    <i class="zmdi zmdi-file-text"></i>
+                                                </div>
+                                                <div class="content">
+                                                    <p>You got a new file</p>
+                                                    <span class="date">April 12, 2018 06:50</span>
+                                                </div>
+                                            </div>
+                                            <div class="notifi__footer">
+                                                <a href="#">All notifications</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
@@ -298,37 +408,40 @@ include_once "../db.php";
 
                                         <?php
 
-                                        getAddedProduct();
+                                        getAddedUsers();
 
                                         ?>
-                                        <form action="" method="post" enctype="multipart/form-data">
+                                        <form method="post" action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>>
                                             <div class="form-group">
-                                                <label for="add_product">Product Name</label>
-                                                <input class="form-control" type="text" name="product_name" required>
+                                                <label>Username</label>
+                                                <input class="au-input au-input--full" type="text" name='username' placeholder="Username" id="username-field">
                                             </div>
+                                            <div class="msg1"></div>
                                             <div class="form-group">
-                                                <label for="add_product">Product Price</label>
-                                                <input class="form-control" type="text" name="product_price" required>
+                                                <label>Email</label>
+                                                <input class="au-input au-input--full" type="email" name="email" placeholder="email" id="email-field" />
                                             </div>
+                                            <div class="msg2"></div>
                                             <div class="form-group">
-                                                <label for="add_product">Product Des</label>
-                                                <input class="form-control" type="text" name="product_des" required>
+                                                <label>Password</label>
+                                                <input class="au-input au-input--full" type="password" name="password" placeholder="Password" id="password-field" />
                                             </div>
+                                            <div class="msg3"></div>
                                             <div class="form-group">
-                                                <label for="add_product">Product Image</label>
-                                                <input class="form-control" type="file" name="product_img" required>
+                                                <label>Repeat Password</label>
+                                                <input class="au-input au-input--full" type="password" name="repeatPass" placeholder="repeat password" id="repeatPass-field" />
                                             </div>
+                                            <div class="msg4"></div>
                                             <div class="form-group">
-                                                <label for="add_product">Category Id</label>
-                                                <input class="form-control" type="text" name="category_id" required>
+                                                <label>Age</label>
+                                                <input class="au-input au-input--full" type="date" name="age" max="2005-12-31" id="date-field" />
                                             </div>
-                                            <div class="form-group">
-                                                <label for="add_product">Stock</label>
-                                                <input class="form-control" type="number" name="product_stock" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <input class="btn btn-primary" type="submit" name="add_product_submit" value="Add Product">
-                                            </div>
+                                            <div class="msg5"></div>
+
+                                            <input class="au-btn au-btn--block au-btn--green m-b-20" type="submit" id="submit-btn" value='Submit' name='submit_add_user'>
+
+
+
                                         </form>
                                     </div>
 
@@ -379,6 +492,7 @@ include_once "../db.php";
 
         <!-- Main JS-->
         <script src="js/main.js"></script>
+        <script src="../validation.js"></script>
 
 </body>
 

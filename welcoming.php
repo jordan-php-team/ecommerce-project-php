@@ -17,11 +17,11 @@ session_start();
 <body>
     <?php
 
-    function destroy()
-    {
+    // function destroy()
+    // {
         
-        $_SESSION['loggedUser'] = "";
-    }
+    //     $_SESSION['loggedUser'] = "";
+    // }
 
     ?>
     <header class="masthead text-white text-center">

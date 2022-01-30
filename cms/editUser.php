@@ -107,7 +107,45 @@ include_once "../db.php";
                                 </li>
                             </ul>
                         </li>
-
+                        <li class="has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-desktop"></i>UI Elements</a>
+                            <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                <li>
+                                    <a href="button.html">Button</a>
+                                </li>
+                                <li>
+                                    <a href="badge.html">Badges</a>
+                                </li>
+                                <li>
+                                    <a href="tab.html">Tabs</a>
+                                </li>
+                                <li>
+                                    <a href="card.html">Cards</a>
+                                </li>
+                                <li>
+                                    <a href="alert.html">Alerts</a>
+                                </li>
+                                <li>
+                                    <a href="progress-bar.html">Progress Bars</a>
+                                </li>
+                                <li>
+                                    <a href="modal.html">Modals</a>
+                                </li>
+                                <li>
+                                    <a href="switch.html">Switchs</a>
+                                </li>
+                                <li>
+                                    <a href="grid.html">Grids</a>
+                                </li>
+                                <li>
+                                    <a href="fontawesome.html">Fontawesome Icon</a>
+                                </li>
+                                <li>
+                                    <a href="typo.html">Typography</a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -124,7 +162,20 @@ include_once "../db.php";
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
-
+                        <!-- <li class="has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                <li>
+                                    <a href="index.html">Dashboard 1</a>
+                                </li>
+                            
+                            </ul>
+                        </li> -->
+                        <!-- <li>
+                            <a href="chart.html">
+                                <i class="fas fa-chart-bar"></i>Charts</a>
+                        </li> -->
                         <li class="active">
                             <a href="#" data-toggle="collapse" data-target="#users"><i class="fas fa-users"></i>Users <i class="fa fa-fw fa-caret-down"></i></a>
                             <ul id="users" class="collapse">
@@ -177,7 +228,6 @@ include_once "../db.php";
                             <a href="orders.php"> <i class="fas fa-truck"></i> Orders</a>
                         </li>
 
-
                     </ul>
                 </nav>
             </div>
@@ -198,6 +248,7 @@ include_once "../db.php";
                                 </button>
                             </form>
                             <div class="header-button">
+
 
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
@@ -298,37 +349,30 @@ include_once "../db.php";
 
                                         <?php
 
-                                        getAddedProduct();
+                                        updateUser();
 
                                         ?>
-                                        <form action="" method="post" enctype="multipart/form-data">
+
+                                        <form action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> method='post'>
                                             <div class="form-group">
-                                                <label for="add_product">Product Name</label>
-                                                <input class="form-control" type="text" name="product_name" required>
+
+                                                <label for='username'>username</label>
+                                                <input type="text" class="form-control" name='username'>
                                             </div>
                                             <div class="form-group">
-                                                <label for="add_product">Product Price</label>
-                                                <input class="form-control" type="text" name="product_price" required>
+                                                <label for='password'>password</label>
+                                                <input type="password" class="form-control" name='password'>
                                             </div>
                                             <div class="form-group">
-                                                <label for="add_product">Product Des</label>
-                                                <input class="form-control" type="text" name="product_des" required>
+                                                <select name="id" id="">
+                                                    <?php
+                                                    read();
+                                                    ?>
+                                                </select>
+
                                             </div>
-                                            <div class="form-group">
-                                                <label for="add_product">Product Image</label>
-                                                <input class="form-control" type="file" name="product_img" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="add_product">Category Id</label>
-                                                <input class="form-control" type="text" name="category_id" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="add_product">Stock</label>
-                                                <input class="form-control" type="number" name="product_stock" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <input class="btn btn-primary" type="submit" name="add_product_submit" value="Add Product">
-                                            </div>
+                                            <input type="submit" class="btn btn-primary" value='UPDATE' name='submit'>
+
                                         </form>
                                     </div>
 
@@ -379,6 +423,7 @@ include_once "../db.php";
 
         <!-- Main JS-->
         <script src="js/main.js"></script>
+        <script src="../validation.js"></script>
 
 </body>
 

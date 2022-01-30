@@ -1,40 +1,50 @@
 <?php
-include_once "../db.php";
+ob_start();
 session_start();
+// session_unset();
+
+$cart = $_SESSION["products"];
+// echo "<pre>";
+// var_dump($cart);
+
 ?>
+
 <?php include "../functions.php"; ?>
-<?php
-getUsers();
-?>
-<!DOCTYPE html>
-<html lang="en">
-<!-- Mirrored from technext.github.io/aranoz/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
+
+<!doctype html>
+<html lang="zxx">
+
+
+<!-- Mirrored from technext.github.io/aranoz/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
 <!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 
 <head>
   <!-- Required meta tags -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <title>aranoz</title>
-  <link rel="icon" href="img/favicon.png" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>aranaz</title>
+  <link rel="icon" href="img/favicon.png">
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <!-- animate CSS -->
-  <link rel="stylesheet" href="css/animate.css" />
+  <link rel="stylesheet" href="css/animate.css">
   <!-- owl carousel CSS -->
-  <link rel="stylesheet" href="css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="css/owl.carousel.min.css">
+  <!-- nice select CSS -->
+  <link rel="stylesheet" href="css/nice-select.css">
   <!-- font awesome CSS -->
-  <link rel="stylesheet" href="css/all.css" />
+  <link rel="stylesheet" href="css/all.css">
   <!-- flaticon CSS -->
-  <link rel="stylesheet" href="css/flaticon.css" />
-  <link rel="stylesheet" href="css/themify-icons.css" />
+  <link rel="stylesheet" href="css/flaticon.css">
+  <link rel="stylesheet" href="css/themify-icons.css">
   <!-- font awesome CSS -->
-  <link rel="stylesheet" href="css/magnific-popup.css" />
+  <link rel="stylesheet" href="css/magnific-popup.css">
   <!-- swiper CSS -->
-  <link rel="stylesheet" href="css/slick.css" />
+  <link rel="stylesheet" href="css/slick.css">
+  <link rel="stylesheet" href="css/price_rangs.css">
   <!-- style CSS -->
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -82,7 +92,7 @@ getUsers();
                     <?php endif; ?>
                     <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
                     <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
-                    <a class="dropdown-item" href="cart.php">shopping cart</a>
+                    <!-- <a class="dropdown-item" href="cart.php">shopping cart</a> -->
                     <a class="dropdown-item" href="confirmation.php">confirmation</a>
                     <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
                   </div>
@@ -103,12 +113,9 @@ getUsers();
               </ul>
             </div>
             <div class="hearer_icon d-flex">
+              <!-- <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a> -->
+              <!-- <a href="#"><i class="ti-heart"></i></a> -->
 
-              <!-- <div class="dropdown cart">
-                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-cart-plus"></i>
-                </a>
-              </div> -->
             </div>
           </nav>
         </div>
@@ -118,6 +125,8 @@ getUsers();
   </header>
   <!-- Header part end-->
 
+
+  <!--================Home Banner Area =================-->
   <!-- breadcrumb start-->
   <section class="breadcrumb breadcrumb_bg">
     <div class="container">
@@ -125,8 +134,8 @@ getUsers();
         <div class="col-lg-8">
           <div class="breadcrumb_iner">
             <div class="breadcrumb_iner_item">
-              <h2>Register</h2>
-              <p>Home <span>-</span> Register</p>
+              <h2>Cart Products</h2>
+              <p>Home <span>-</span>Cart Products</p>
             </div>
           </div>
         </div>
@@ -135,65 +144,97 @@ getUsers();
   </section>
   <!-- breadcrumb start-->
 
-  <!--================login_part Area =================-->
-  <section class="login_part padding_top">
+  <!--================Cart Area =================-->
+  <section class="cart_area padding_top">
     <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-6 col-md-6">
-          <div class="login_part_text text-center">
-            <div class="login_part_text_iner">
-              <h2>New to our Shop?</h2>
-              <p>
-                There are advances being made in science and technology
-                everyday, and a good example of this is the
-              </p>
-              <a href="login.php" class="btn_3">Login</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6">
-          <div class="login_part_form">
-            <div class="login_part_form_iner">
-              <h3>
-                Welcome Back ! <br />
-                Please Sign in now
-              </h3>
-              <form class="row contact_form" method="post" action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>>
-                <div class="col-md-12 form-group p_star">
-                  <input type="text" class="form-control" id="username-field" name='username' placeholder="username" />
-                </div>
-                <div class="msg1"></div>
-                <div class="col-md-12 form-group p_star">
-                  <input type="email" class="form-control" id="email-field" name="email" placeholder="email" />
-                </div>
-                <div class="msg2"></div>
-                <div class="col-md-12 form-group p_star">
-                  <input type="password" class="form-control" id="password-field" name="password" placeholder="Password" />
-                </div>
-                <div class="msg3"></div>
-                <div class="col-md-12 form-group p_star">
-                  <input type="password" class="form-control" id="repeatPass-field" name="repeatPass" placeholder="Repeat Password" />
-                </div>
-                <div class="msg4"></div>
-                <div class="col-md-12 form-group p_star">
-                  <input type="date" class="form-control" id="password" max="2005-12-31" name="date" placeholder="Date " />
-                </div>
-                <div class="col-md-12 form-group">
-                  <div class="creat_account d-flex align-items-center">
-                    <input type="checkbox" id="f-option" name="selector" />
-                    <label for="f-option">Remember me</label>
-                  </div>
-                  <input type="submit" id="submit-btn" value='Submit' name='submit' class="btn_3">
+      <div class="cart_inner">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Price </th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+                <th scope="col">Delete</th>
 
-                </div>
-              </form>
-            </div>
+              </tr>
+            </thead>
+            <tbody>
+
+              <?php
+
+      if(isset($cart)){
+              foreach ($cart as $element) { ?>
+                <tr>
+                  <td>
+                    <div class="media">
+                      <div class="d-flex">
+                        <img src=<?php echo $element['product_image']; ?> alt="" width=200px height=170px />
+                      </div>
+                      <div class="media-body">
+                        <p><?php 
+                        // echo $element['product_price_after_discount'];
+                            ?></p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <h5><?php
+                     echo $element['product_price_after_discount']; ?>JD</h5>
+                  </td>
+                  <td>
+                    <div class="product_count">
+                      <!-- <span class="input-number-decrement"> <i class="ti-angle-down"></i></span> -->
+                      <!-- <input class="input-number" type="text" value="1" min="1" max="10"> -->
+                      <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Dencrement'>-</a>
+                      <p> <?php echo $element[0]; ?></p>
+                      <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Increment'>+</a>
+                      <!-- <span class="input-number-increment"> <i class="ti-angle-up"></i></span> -->
+
+
+                    </div>
+                  </td>
+                  <td>
+                    <h5><?php 
+                    echo $element['Total_after_discount']; ?> JD</h5>
+                  </td>
+                  <td>
+                    <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=delete'>delete</a>
+                  </td>
+                </tr>
+                <?php
+                // echo $element['Total_after_discount'];
+
+                global $Total;
+                $Total = $Total + $element['Total_after_discount'];
+
+                ?>
+              <?php }} ?>
+
+              <tr>
+                <td></td>
+                <td></td>
+                <td>
+                  <h5>Total</h5>
+                </td>
+                <td>
+    <?php if(!empty($Total)){?>
+                  <h5><?php echo $Total; ?> JD</h5>
+                </td>
+<?php }?>
+              </tr>
+
+            </tbody>
+          </table>
+          <div class="checkout_btn_inner float-right">
+            <!-- <a class="btn_1" href="#">Continue Shopping</a> -->
+            <a class="btn_1 checkout_btn_1" href="checkout.php">Proceed to checkout</a>
           </div>
         </div>
       </div>
-    </div>
   </section>
-  <!--================login_part end =================-->
+  <!--================End Cart Area =================-->
 
   <!--::footer_part start::-->
   <footer class="footer_part">
@@ -264,9 +305,9 @@ getUsers();
   <script src="js/price_rangs.js"></script>
   <!-- custom js -->
   <script src="js/custom.js"></script>
-  <script src="../validation.js"></script>
 </body>
 
-<!-- Mirrored from technext.github.io/aranoz/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
+
+<!-- Mirrored from technext.github.io/aranoz/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
 
 </html>
