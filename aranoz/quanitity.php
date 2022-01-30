@@ -16,6 +16,8 @@ if($_SERVER["REQUEST_METHOD"]=="GET"){
 
   if(isset($_GET["name"]) && $_GET["name"]=="Increment"){
     $_SESSION['products'][$_GET['id']][0]+=1;
+    $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']);
+    
     header("location:cart.php");
 
   }

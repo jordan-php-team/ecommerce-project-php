@@ -327,23 +327,31 @@ $loggedSession = $_SESSION['loggedUser'];
                     <a><?php echo $element['product_name']; ?>
                       <span class="middle">x <?php echo $element[0]; ?></span>
                       <span class="last">
-                        <?php if ($element['product_discount'] > 0) {
-                          $Total_product_before_dicount = $element[0] * $element['product_price'];
-                          //  echo $Total_product_before_dicount;
-                          $discount_percentage_product = 0;
-                          $discount_percentage_product = $Total_product_before_dicount * ($element['product_discount'] / 100);
-                          $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product;
-                        }
-                        global  $Total_All_After_discount;
+                        <?php//    if($element['product_discount'] > 0){
+                    //  $Total_product_before_dicount=$element[0] * $element['product_price'];
+                    //  echo $Total_product_before_dicount;
+                    // $discount_percentage_product=0;
+                    //  $discount_percentage_product= $Total_product_before_dicount *($element['product_discount']/100);
+                    //  $Total_product_after_dicount =$Total_product_before_dicount - $discount_percentage_product;
+                    //    }
+                    //     global  $Total_All_After_discount;
 
-                        if (isset($Total_product_after_dicount)) {
-                          echo  $Total_product_after_dicount;
-                          global  $Total_All_After_discount;
-                          $Total_All_After_discount = $Total_All_After_discount + $Total_product_after_dicount;
-                        } else {
+                    //    if(isset($Total_product_after_dicount)){
+                    //     echo  $Total_product_after_dicount ; 
+                    //     global  $Total_All_After_discount;
+                    //     $Total_All_After_discount=$Total_All_After_discount+$Total_product_after_dicount;
+                    //    }
 
-                          echo $element[0] * $element['product_price'];
-                        }
+                    //    else{
+                      $Total+= $element['Total_after_discount'];
+                         echo $element['Total_after_discount'];
+                      //  }
+                
+                    ?> JD</span>
+                    <!-- <span class="last"> -->
+                      <?php 
+                    // echo $element['Total_after_discount'];; 
+                    // 
 
                         ?> JD</span>
                       <!-- <span class="last"> -->
@@ -362,25 +370,26 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $discount_percentage=$Total*0.2;
     global $TotalAftercoupon;
       $TotalAftercoupon =$Total-$discount_percentage;
- 
+  }
+}
 
-                if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                  if (isset($_GET['coupon']) && $_GET['coupon'] == 'furniture') {
-                    $coupon = $_GET['coupon'];
+                // if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                //   if (isset($_GET['coupon']) && $_GET['coupon'] == 'furniture') {
+                //     $coupon = $_GET['coupon'];
 
-                    if (isset($Total_All_After_discount)) {
-                      $discount_percentage = $Total_All_After_discount * 0.2;
-                      // echo $Total;
-                      global $TotalAftercoupon;
-                      $TotalAftercoupon = $Total_All_After_discount - $discount_percentage;
-                    } else {
-                      $discount_percentage = $Total * 0.2;
-                      // echo $Total;
-                      global $TotalAftercoupon;
-                      $TotalAftercoupon = $Total - $discount_percentage;
-                    }
-                  }
-                }
+                //     if (isset($Total_All_After_discount)) {
+                //       $discount_percentage = $Total_All_After_discount * 0.2;
+                //       // echo $Total;
+                //       global $TotalAftercoupon;
+                //       $TotalAftercoupon = $Total_All_After_discount - $discount_percentage;
+                //     } else {
+                //       $discount_percentage = $Total * 0.2;
+                //       // echo $Total;
+                //       global $TotalAftercoupon;
+                //       $TotalAftercoupon = $Total - $discount_percentage;
+                //     }
+                //   }
+                // }
                 ?>
 
               </ul>

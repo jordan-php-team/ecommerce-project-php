@@ -4,8 +4,8 @@ session_start();
 // session_unset();
 
 $cart = $_SESSION["products"];
-// echo "<pre>";
-// var_dump($cart);
+echo "<pre>";
+var_dump($cart);
 
 ?>
 
@@ -213,6 +213,7 @@ $cart = $_SESSION["products"];
                   </td>
                 </tr>
                 <?php
+                echo $element['Total_after_discount'];
 
                 global $Total;
                 $Total = $Total + $element['Total_after_discount'];

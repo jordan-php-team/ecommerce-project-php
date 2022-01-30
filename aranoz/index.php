@@ -37,7 +37,7 @@ include_once "../db.php";
 
          foreach($_SESSION['products'] as $element){
 
-            $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']);
+            $_SESSION['products'][$product_id]['Total']= 0*intval($element['product_price']);
                     
             if($_SESSION['products'][$product_id]['product_discount']> 0){
 

@@ -68,13 +68,13 @@ session_start();
 
         else{
             // echo "haneen";
-            $_SESSION['products'][]=[];
+            // $_SESSION['products'][]=[];
             // session_unset();
         }
-        //   echo "<pre>";
-        //    var_dump($_SESSION['products']);
+          echo "<pre>";
+           var_dump($_SESSION['products']);
            
-        header("location: cart.php");
+        // header("location: cart.php");
      
     }
 }
@@ -262,23 +262,7 @@ session_start();
                                  
                                
                   }
-                                    ?>
-                                    <!-- <li>
-                                        <a href="#">Meat Alternatives</a>
-                                        <span>(250)</span>
-                                    </li> -->
-                                    <!-- <li>
-                                        <a href="#">Fresh Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat Alternatives</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat</a>
-                                        <span>(250)</span>
-                                    </li> -->
+                               ?>
                                 </ul>
                             </div>
                         </aside>
@@ -453,93 +437,39 @@ if(isset($_GET['id']) && $_GET['id']==1){
 // var_dump($data);
    $data->execute();
 
-   foreach($data as $element ){
-  echo  "<a href='single-product.php?id=$element[id]'><div class='col-lg-4 col-sm-6'>";
-  echo   "<div class='single_product_item'>";
-    echo    "<img src='$element[product_image]' alt='' width=500px height=170px>";
-      echo  "<div class='single_product_text'>";
-      echo      "<h4>$element[product_name]</h4>";
-       echo     "<h3>$element[product_price]JD</h3>";
-       echo "<form method='GET'>";
-       echo     "<input type='submit' value=$element[id] name='addToCart' class='add_cart'>+ add to cart<i class='ti-heart'></i></input>";
-       echo "</form>";
-     echo   "</div>";
-     echo   "</div>";
-     echo   "</div></a>";
-   }
-                    
- ?>
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_2.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_3.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_4.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_5.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_6.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_7.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_8.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                      -->
+   foreach ($data as $element) {
+    if ($element['product_discount'] > 0) {
+        $Total_product_before_dicount = $element['product_price'];
+        $discount_percentage_product = 0;
+        $discount_percentage_product = $Total_product_before_dicount * ($element['product_discount'] / 100);
+        $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product;
+    } else {
+        $Total_product_after_dicount = ' ';
+    }
+
+
+    echo  "<div class='col-lg-4 col-sm-6'>";
+    echo   "<div class='single_product_item'>";
+    echo    "<a href='single-product.php?id=$element[id]'><img src='$element[product_image]' alt='' width=500px height=170px>";
+    echo  "<div class='single_product_text'>";
+    echo      "<h4>$element[product_name]</h4>";
+    if ($element['product_discount'] > 0) {
+        echo     "<h3><del>$element[product_price]JD</del></h3>";
+    } else {
+        echo     "<h3>$element[product_price]JD</h3>";
+    }
+
+    echo    "<h3>$Total_product_after_dicount</h3>";
+    echo "<form method='GET'>";
+    echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
+    echo "</form>";
+    echo   "</div>";
+    echo   "</div>";
+    echo   "</div></a>";
+}
+
+?>
+                        
                         <div class="col-lg-12">
                             <div class="pageination">
                                 <nav aria-label="Page navigation example">
