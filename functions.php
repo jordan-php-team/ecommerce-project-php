@@ -310,5 +310,9 @@ function getDeletedProduct()
     }
 }
 
-
+function addToCart(){
+    if(isset($_GET['addToCart'])){
+        echo $_GET['addToCart'];
+    }
+}
 ?>
