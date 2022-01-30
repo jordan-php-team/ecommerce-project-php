@@ -44,6 +44,7 @@ session_start();
             $discount_percentage_product= $_SESSION['products'][$product_id]['Total'] *($element['product_discount']/100);
           $Total_product_after_dicount =$_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
           $_SESSION['products'][$product_id]['Total_after_discount']= $Total_product_after_dicount;
+        
 
 
           $discount_percentage_product= ($element['product_discount']/100) *intval($element['product_price']);
@@ -56,8 +57,7 @@ session_start();
             $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']); 
             $_SESSION['products'][$product_id]['Total_after_discount']=$_SESSION['products'][$product_id]['Total'];
           $_SESSION['products'][$product_id]['product_price_after_discount']=$_SESSION['products'][$product_id]['product_price'];
-
-            
+  
         }
 
 
@@ -71,10 +71,10 @@ session_start();
             // $_SESSION['products'][]=[];
             // session_unset();
         }
-          echo "<pre>";
-           var_dump($_SESSION['products']);
+        //   echo "<pre>";
+        //    var_dump($_SESSION['products']);
            
-        // header("location: cart.php");
+        header("location: cart.php");
      
     }
 }

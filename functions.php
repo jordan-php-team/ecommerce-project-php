@@ -646,22 +646,26 @@ function addcomments()
 }
 
 
-function checkoutButton()
+function checkoutButton($Total)
 {
+    echo "haneen";
     global $pdo;
     $cart = $_SESSION["products"];
-    $whoLogged = $_SESSION["loggedUser"];
-    $user_id = $whoLogged['id'];
+    if(isset($_SESSION["loggedUser"])){
+        $whoLogged = $_SESSION["loggedUser"];
+        $user_id = $whoLogged['id'];
+    }
+ 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (isset($_POST['checkout_submit'])) {
             //orders table
-            $query = "INSERT INTO orders (user_id)";
-            $query .= "VALUES (?)";
+            $query = "INSERT INTO orders (user_id,total)";
+            $query .= "VALUES (?,?)";
             $stmt = $pdo->prepare($query);
             if ($stmt) {
 
-                $stmt->execute([$user_id]);
+                $stmt->execute([$user_id,$Total]);
                 //getting last order id from orders table
                 $query = $pdo->prepare("SELECT max(id) FROM orders");
                 $query->execute();
@@ -677,7 +681,7 @@ function checkoutButton()
                 $stmt = $pdo->prepare($query);
                 if ($stmt) {
 
-                    $stmt->execute([$maxId, $product_id, $qty]);
+                    $stmt->execute([$maxId, $product_id,$qty]);
                     //updating stock in products table
                     $query = "SELECT stock FROM products WHERE (id = '$product_id') ";
                     $select_all_stocks = $pdo->query($query);

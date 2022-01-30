@@ -3,8 +3,15 @@ include_once "../db.php";
 include "../functions.php";
 session_start();
 // session_unset();
-$cart = $_SESSION["products"];
-$loggedSession = $_SESSION['loggedUser'];
+if(isset($_SESSION["products"])){
+  $cart = $_SESSION["products"];
+}
+
+if(isset( $_SESSION['loggedUser'])){
+  $loggedSession = $_SESSION['loggedUser'];
+}
+
+
 
 // echo "<pre>";
 // var_dump($cart);
@@ -13,8 +20,8 @@ $loggedSession = $_SESSION['loggedUser'];
 
 ?>
      <?php 
-                    echo "<pre>";
-                    var_dump($_SESSION['products']);
+                    // echo "<pre>";
+                    // var_dump($_SESSION['products']);
                    ?>
 
 <?php
@@ -123,11 +130,7 @@ $loggedSession = $_SESSION['loggedUser'];
                 <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fas fa-cart-plus"></i>
                 </a>
-                <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <div class="single_product">
-
-                                </div>
-                            </div> -->
+              
 
               </div>
             </div>
@@ -168,39 +171,7 @@ $loggedSession = $_SESSION['loggedUser'];
   <!--================Checkout Area =================-->
   <section class="checkout_area padding_top">
     <div class="container">
-      <!-- <div class="returning_customer">
-        <div class="check_title">
-          <h2>
-            Returning Customer?
-            <a href="#">Click here to login</a>
-          </h2>
-        </div>
-        <p>
-          If you have shopped with us before, please enter your details in the
-          boxes below. If you are a new customer, please proceed to the
-          Billing & Shipping section.
-        </p>
-        <form class="row contact_form" action="#" method="post" novalidate="novalidate">
-          <div class="col-md-6 form-group p_star">
-            <input type="text" class="form-control" id="name" name="name" value=" " />
-            <span class="placeholder" data-placeholder="Username or Email"></span>
-          </div>
-          <div class="col-md-6 form-group p_star">
-            <input type="password" class="form-control" id="password" name="password" value="" />
-            <span class="placeholder" data-placeholder="Password"></span>
-          </div>
-          <div class="col-md-12 form-group">
-            <button type="submit" value="submit" class="btn_3">
-              log in
-            </button>
-            <div class="creat_account">
-              <input type="checkbox" id="f-option" name="selector" />
-              <label for="f-option">Remember me</label>
-            </div>
-            <a class="lost_pass" href="#">Lost your password?</a>
-          </div>
-        </form>
-      </div> -->
+  
       <div class="cupon_area">
         <div class="check_title">
           <h2>
@@ -208,7 +179,7 @@ $loggedSession = $_SESSION['loggedUser'];
               <h2><strong>discount : 20%</strong></h2>
               coupon code : furniture
             </strong>
-            <!-- <a href="#">Click here to enter your code</a> -->
+        
           </h2>
         </div>
         <?php
@@ -231,9 +202,7 @@ $loggedSession = $_SESSION['loggedUser'];
                 <input type="text" class="form-control" id="last" name="name" />
                 <span class="placeholder" data-placeholder="Last name"></span>
               </div>
-              <!-- <div class="col-md-12 form-group">
-                <input type="text" class="form-control" id="company" name="company" placeholder="Company name" />
-              </div> -->
+          
               <div class="col-md-6 form-group p_star">
                 <input type="text" class="form-control" id="number" name="number" />
                 <span class="placeholder" data-placeholder="Phone number"></span>
@@ -242,13 +211,7 @@ $loggedSession = $_SESSION['loggedUser'];
                 <input type="text" class="form-control" id="email" name="compemailany" />
                 <span class="placeholder" data-placeholder="Email Address"></span>
               </div>
-              <!-- <div class="col-md-12 form-group p_star">
-                <select class="country_select">
-                  <option value="1">Country</option>
-                  <option value="2">Country</option>
-                  <option value="4">Country</option>
-                </select>
-              </div> -->
+          
               <div class="col-md-12 form-group p_star">
                 <input type="text" class="form-control" id="add1" name="add1" />
                 <span class="placeholder" data-placeholder="Address line 01"></span>
@@ -257,32 +220,9 @@ $loggedSession = $_SESSION['loggedUser'];
                 <input type="text" class="form-control" id="add2" name="add2" />
                 <span class="placeholder" data-placeholder="Address line 02"></span>
               </div>
-              <!-- <div class="col-md-12 form-group p_star">
-                <input type="text" class="form-control" id="city" name="city" />
-                <span class="placeholder" data-placeholder="Town/City"></span>
-              </div> -->
-              <!-- <div class="col-md-12 form-group p_star">
-                <select class="country_select">
-                  <option value="1">District</option>
-                  <option value="2">District</option>
-                  <option value="4">District</option>
-                </select>
-              </div> -->
-              <!-- <div class="col-md-12 form-group">
-                <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP" />
-              </div> -->
-              <!-- <div class="col-md-12 form-group">
-                <div class="creat_account">
-                  <input type="checkbox" id="f-option2" name="selector" />
-                  <label for="f-option2">Create an account?</label>
-                </div>
-              </div> -->
+        
               <div class="col-md-12 form-group">
-                <!-- <div class="creat_account">
-                  <h3>Shipping Details</h3>
-                  <input type="checkbox" id="f-option3" name="selector" />
-                  <label for="f-option3">Ship to a different address?</label>
-                </div> -->
+            
                 <textarea class="form-control" name="message" id="message" rows="1" placeholder="Order Notes"></textarea>
               </div>
             </form>
@@ -303,54 +243,19 @@ $loggedSession = $_SESSION['loggedUser'];
                 foreach ($cart  as $element){?>
 
                
-                <li>
-                  <a ><?php echo $element['product_name'];?>
-                    <span class="middle">x <?php echo $element[0]; ?></span>
-                    <span class="last">
-                      <?php
-             
-                      $Total+= $element['Total_after_discount'];
-                         echo $element['Total_after_discount'];
-                      //  }
-                
-                    ?> JD</span>
-                  
-            
-
-                  </a>
-                </li>
-                <?php
-                foreach ($cart  as $element) { ?>
-
-
                   <li>
                     <a><?php echo $element['product_name']; ?>
                       <span class="middle">x <?php echo $element[0]; ?></span>
                       <span class="last">
-                        <?php//    if($element['product_discount'] > 0){
-                    //  $Total_product_before_dicount=$element[0] * $element['product_price'];
-                    //  echo $Total_product_before_dicount;
-                    // $discount_percentage_product=0;
-                    //  $discount_percentage_product= $Total_product_before_dicount *($element['product_discount']/100);
-                    //  $Total_product_after_dicount =$Total_product_before_dicount - $discount_percentage_product;
-                    //    }
-                    //     global  $Total_All_After_discount;
-
-                    //    if(isset($Total_product_after_dicount)){
-                    //     echo  $Total_product_after_dicount ; 
-                    //     global  $Total_All_After_discount;
-                    //     $Total_All_After_discount=$Total_All_After_discount+$Total_product_after_dicount;
-                    //    }
-
-                    //    else{
+                        <?php
                       $Total+= $element['Total_after_discount'];
                          echo $element['Total_after_discount'];
-                      //  }
+                   
                 
-                    ?> JD</span>
+                       ?> JD</span>
                     <!-- <span class="last"> -->
                       <?php 
-                    // echo $element['Total_after_discount'];; 
+                    // echo $element['Total_after_discount'];
                     // 
 
                         ?> JD</span>
@@ -359,37 +264,21 @@ $loggedSession = $_SESSION['loggedUser'];
                       // echo $element[0] * $element['product_price']; 
                       // 
                       ?>
-                      <!-- JD</span> -->
-
+          
+                       <?php }?>
                     </a>
                   </li>
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
-  if(isset($_GET['coupon']) && $_GET['coupon']=='furniture'){
-  $coupon=$_GET['coupon'];
-    $discount_percentage=$Total*0.2;
-    global $TotalAftercoupon;
-      $TotalAftercoupon =$Total-$discount_percentage;
-  }
-}
+// if ($_SERVER["REQUEST_METHOD"] == "GET") {
+//   if(isset($_GET['coupon']) && $_GET['coupon']=='furniture'){
+//   $coupon=$_GET['coupon'];
+//     $discount_percentage=$Total*0.2;
+//     global $TotalAftercoupon;
+//       $TotalAftercoupon =$Total-$discount_percentage;
+//   }
+// }
 
-                // if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                //   if (isset($_GET['coupon']) && $_GET['coupon'] == 'furniture') {
-                //     $coupon = $_GET['coupon'];
-
-                //     if (isset($Total_All_After_discount)) {
-                //       $discount_percentage = $Total_All_After_discount * 0.2;
-                //       // echo $Total;
-                //       global $TotalAftercoupon;
-                //       $TotalAftercoupon = $Total_All_After_discount - $discount_percentage;
-                //     } else {
-                //       $discount_percentage = $Total * 0.2;
-                //       // echo $Total;
-                //       global $TotalAftercoupon;
-                //       $TotalAftercoupon = $Total - $discount_percentage;
-                //     }
-                //   }
-                // }
+       
                 ?>
 
               </ul>
@@ -400,10 +289,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                   <span>
                
                   <?php   
-             
+            //  foreach ($cart  as $element){
                     if(isset($Total)){
                       echo $Total;
-                      $_SESSION['products'][]['all_total']=$Total;
                     }
                   
              
@@ -411,17 +299,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                   </a>
                 </li>
 
-                <li>
-                  <a href="#">TotalAftercoupon
-                    <span><?php  
-                     if(isset($TotalAftercoupon) ){
-                      echo $TotalAftercoupon ;
-                      $_SESSION['products'][]['all_total']=$TotalAftercoupon;
-                     }
+                <!-- <li> -->
+                  <!-- <a href="#">TotalAftercoupon -->
+                    <!-- <span> -->
+                      <?php  
+                    //  if(isset($TotalAftercoupon) ){
+                    //    $element['all_Total']=$TotalAftercoupon;
+                    //   echo $TotalAftercoupon ;
+                    //  }
                  
-                     ;?> JD</span>
-                  </a>
-                </li>
+                    //    }   ?> 
+                    <!-- JD</span> -->
+                  <!-- </a> -->
+                <!-- </li> -->
 
 
               </ul>
@@ -433,7 +323,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 </div>
 
               </div>
-              <?php checkoutButton(); ?>
+              
+              <?php 
+                  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    checkoutButton($Total);
+                  }
+
+          ?>
               <form method="post">
                 <input type="submit" class="btn_3" name="checkout_submit" value="Checkout">
               </form>

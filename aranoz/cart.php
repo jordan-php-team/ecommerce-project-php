@@ -4,8 +4,8 @@ session_start();
 // session_unset();
 
 $cart = $_SESSION["products"];
-echo "<pre>";
-var_dump($cart);
+// echo "<pre>";
+// var_dump($cart);
 
 ?>
 
