@@ -76,7 +76,7 @@ getUsers();
                 <div class="msg4"></div>
                 <div class="form-group">
                   <label>Age</label>
-                  <input class="au-input au-input--full" type="date" name="date" max="2005-12-31" id="date-field" />
+                  <input class="au-input au-input--full" type="date" name="age" max="2005-12-31" id="date-field" />
                 </div>
                 <div class="msg5"></div>
 

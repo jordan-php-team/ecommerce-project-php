@@ -107,7 +107,45 @@ include_once "../db.php";
                                 </li>
                             </ul>
                         </li>
-
+                        <li class="has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-desktop"></i>UI Elements</a>
+                            <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                <li>
+                                    <a href="button.html">Button</a>
+                                </li>
+                                <li>
+                                    <a href="badge.html">Badges</a>
+                                </li>
+                                <li>
+                                    <a href="tab.html">Tabs</a>
+                                </li>
+                                <li>
+                                    <a href="card.html">Cards</a>
+                                </li>
+                                <li>
+                                    <a href="alert.html">Alerts</a>
+                                </li>
+                                <li>
+                                    <a href="progress-bar.html">Progress Bars</a>
+                                </li>
+                                <li>
+                                    <a href="modal.html">Modals</a>
+                                </li>
+                                <li>
+                                    <a href="switch.html">Switchs</a>
+                                </li>
+                                <li>
+                                    <a href="grid.html">Grids</a>
+                                </li>
+                                <li>
+                                    <a href="fontawesome.html">Fontawesome Icon</a>
+                                </li>
+                                <li>
+                                    <a href="typo.html">Typography</a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -124,7 +162,20 @@ include_once "../db.php";
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
-
+                        <!-- <li class="has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                <li>
+                                    <a href="index.html">Dashboard 1</a>
+                                </li>
+                            
+                            </ul>
+                        </li> -->
+                        <!-- <li>
+                            <a href="chart.html">
+                                <i class="fas fa-chart-bar"></i>Charts</a>
+                        </li> -->
                         <li class="active">
                             <a href="#" data-toggle="collapse" data-target="#users"><i class="fas fa-users"></i>Users <i class="fa fa-fw fa-caret-down"></i></a>
                             <ul id="users" class="collapse">
@@ -146,18 +197,7 @@ include_once "../db.php";
                                     <a href="productsAdmin.php">View All Products</a>
                                 </li>
                                 <li>
-                                    <a href="addProduct.php">Add Product</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" data-toggle="collapse" data-target="#comments"> <i class="fas fa-comments"></i>Comments <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="comments" class="collapse">
-                                <li>
-                                    <a href="commentsAdmin.php">View All Comments</a>
-                                </li>
-                                <li>
-                                    <a href="addComment.php">Add Comment</a>
+                                    <a href="addPost.php">Add Product</a>
                                 </li>
                             </ul>
                         </li>
@@ -169,6 +209,18 @@ include_once "../db.php";
                                 </li>
                                 <li>
                                     <a href="addCategory.php">Add Category</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#" data-toggle="collapse" data-target="#comments"> <i class="fas fa-comments"></i>Comments <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="comments" class="collapse">
+                                <li>
+                                    <a href="commentsAdmin.php">View All Comments</a>
+                                </li>
+                                <li>
+                                    <a href="addComment.php">Add Comment</a>
                                 </li>
                             </ul>
                         </li>
@@ -196,6 +248,7 @@ include_once "../db.php";
                                 </button>
                             </form>
                             <div class="header-button">
+
 
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
@@ -292,85 +345,85 @@ include_once "../db.php";
 
                                 </div>
                                 <div class="table-responsive table-responsive-data2">
-                                    <table class="table table-data2">
-                                        <thead>
-                                            <tr>
+                                    <div class="col-lg-6">
 
-                                                <th>id</th>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Password</th>
-                                                <th>date created</th>
-                                                <th>date last login</th>
-                                                <th>Age</th>
-                                                <th>edit</th>
-                                                <th>delete</th>
+                                        <?php
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                        updateUser();
 
+                                        ?>
 
-                                            <?php
+                                        <form action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> method='post'>
+                                            <div class="form-group">
 
-                                            deleteUser();
-                                            getData();
-                                            ?>
+                                                <label for='username'>username</label>
+                                                <input type="text" class="form-control" name='username'>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for='password'>password</label>
+                                                <input type="password" class="form-control" name='password'>
+                                            </div>
+                                            <div class="form-group">
+                                                <select name="id" id="">
+                                                    <?php
+                                                    read();
+                                                    ?>
+                                                </select>
 
+                                            </div>
+                                            <input type="submit" class="btn btn-primary" value='UPDATE' name='submit'>
 
-                                        </tbody>
-                                    </table>
+                                        </form>
+                                    </div>
 
-
-
+                                    <!-- END DATA TABLE -->
                                 </div>
-                                <!-- END DATA TABLE -->
                             </div>
-                        </div>
-                        <div class="row m-t-30">
-                            <div class="col-md-12">
-                                <!-- DATA TABLE-->
+                            <div class="row m-t-30">
+                                <div class="col-md-12">
+                                    <!-- DATA TABLE-->
 
-                                <!-- END DATA TABLE-->
+                                    <!-- END DATA TABLE-->
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="copyright">
-                                    <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="copyright">
+                                        <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
-    </div>
+        <!-- Jquery JS-->
+        <script src="vendor/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap JS-->
+        <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+        <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+        <!-- Vendor JS       -->
+        <script src="vendor/slick/slick.min.js">
+        </script>
+        <script src="vendor/wow/wow.min.js"></script>
+        <script src="vendor/animsition/animsition.min.js"></script>
+        <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+        </script>
+        <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+        <script src="vendor/counter-up/jquery.counterup.min.js">
+        </script>
+        <script src="vendor/circle-progress/circle-progress.min.js"></script>
+        <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+        <script src="vendor/select2/select2.min.js">
+        </script>
 
-    <!-- Jquery JS-->
-    <script src="vendor/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap JS-->
-    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- Vendor JS       -->
-    <script src="vendor/slick/slick.min.js">
-    </script>
-    <script src="vendor/wow/wow.min.js"></script>
-    <script src="vendor/animsition/animsition.min.js"></script>
-    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-    </script>
-    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="vendor/counter-up/jquery.counterup.min.js">
-    </script>
-    <script src="vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="vendor/select2/select2.min.js">
-    </script>
-
-    <!-- Main JS-->
-    <script src="js/main.js"></script>
+        <!-- Main JS-->
+        <script src="js/main.js"></script>
+        <script src="../validation.js"></script>
 
 </body>
 

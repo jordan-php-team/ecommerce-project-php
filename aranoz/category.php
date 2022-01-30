@@ -1,6 +1,86 @@
 
 <?php
 include_once "../db.php";
+session_start();
+// session_unset();
+// unset($_SESSION['products']);
+
+?>
+
+<?php
+ global $pdo;
+ $quanitity=1;
+    if($_SERVER["REQUEST_METHOD"]=="GET"){
+    if(isset($_GET['addToCart'])){
+      $product_id= $_GET['addToCart'];
+
+      $data="SELECT * FROM products WHERE id=$product_id";
+      $sql=$pdo->prepare($data);
+      $sql->execute();
+      $result=$sql->fetch();
+     var_dump($result);
+       $flag=false;
+      if(isset($_SESSION['products'])){
+          foreach($_SESSION['products'] as $element){
+            if($element['id']==$product_id)  {
+                $_SESSION['products'][$product_id][0]+=1;
+                $flag=true;
+                break;
+            }
+        }
+
+         if($flag==false){
+        $_SESSION['products'][$product_id]=$result;
+        $_SESSION['products'][$product_id][0]=$quanitity;
+         }
+
+
+         foreach($_SESSION['products'] as $element){
+
+            $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']);
+                    
+            if($_SESSION['products'][$product_id]['product_discount']> 0){
+
+            $discount_percentage_product= $_SESSION['products'][$product_id]['Total'] *($element['product_discount']/100);
+          $Total_product_after_dicount =$_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
+          $_SESSION['products'][$product_id]['Total_after_discount']= $Total_product_after_dicount;
+
+
+          $discount_percentage_product= ($element['product_discount']/100) *intval($element['product_price']);
+          $price_product_after_dicount = intval($element['product_price'])- $discount_percentage_product;
+          $_SESSION['products'][$product_id]['product_price_after_discount']= $price_product_after_dicount;
+        }
+
+
+        else{
+            $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']); 
+            $_SESSION['products'][$product_id]['Total_after_discount']=$_SESSION['products'][$product_id]['Total'];
+          $_SESSION['products'][$product_id]['product_price_after_discount']=$_SESSION['products'][$product_id]['product_price'];
+
+            
+        }
+
+
+
+         }
+       
+        }
+
+        else{
+            // echo "haneen";
+            // $_SESSION['products'][]=[];
+            // session_unset();
+        }
+          echo "<pre>";
+           var_dump($_SESSION['products']);
+           
+        // header("location: cart.php");
+     
+    }
+}
+   
+
+
 ?>
 <?php 
 // include "../functions.php";
@@ -48,7 +128,102 @@ include_once "../db.php";
 
 <body>
     <!--::header part start::-->
-    <?php include('header.php');?>
+    <header class="main_menu home_menu">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <a class="navbar-brand" href="index.php"> <img src="img/logo.png" alt="logo"> </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="menu_icon"><i class="fas fa-bars"></i></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="index.php">Home</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Shop
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+                                        <a class="dropdown-item" href="category.html"> shop category</a>
+                                        <a class="dropdown-item" href="single-product.html">product details</a>
+
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        pages
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
+                                        <a class="dropdown-item" href="login.html"> login</a>
+                                        <a class="dropdown-item" href="tracking.html">tracking</a>
+                                        <a class="dropdown-item" href="checkout.html">product checkout</a>
+                                        <a class="dropdown-item" href="cart.html">shopping cart</a>
+                                        <a class="dropdown-item" href="confirmation.html">confirmation</a>
+                                        <a class="dropdown-item" href="elements.html">elements</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        blog
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
+                                        <?php if ($_SESSION['user_logged_in']) : ?>
+                                            <a class="dropdown-item" href="login.php" id="login-field"> Logout</a>
+                                        <?php else : ?>
+                                            <a class="dropdown-item" href="login.php" id="login-field"> login</a>
+                                        <?php endif; ?>
+                                        <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
+                                        <a class="dropdown-item" href="checkout.php">product checkout</a>
+                                        <a class="dropdown-item" href="cart.php">shopping cart</a>
+                                        <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                                        <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
+                                    </div>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="contact.html">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="hearer_icon d-flex">
+                            <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
+                            <a href="#"><i class="ti-heart"></i></a>
+                            <div class="dropdown cart">
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-cart-plus"></i>
+                                </a>
+                                <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <div class="single_product">
+    
+                                    </div>
+                                </div> -->
+
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="search_input" id="search_input_box">
+            <div class="container ">
+                <form class="d-flex justify-content-between search-inner">
+                    <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+                    <button type="submit" class="btn"></button>
+                    <span class="ti-close" id="close_search" title="Close Search"></span>
+                </form>
+            </div>
+        </div>
+    </header>
     <!-- Header part end-->
 
     <!--================Home Banner Area =================-->
@@ -93,23 +268,7 @@ include_once "../db.php";
                                  
                                
                   }
-                                    ?>
-                                    <!-- <li>
-                                        <a href="#">Meat Alternatives</a>
-                                        <span>(250)</span>
-                                    </li> -->
-                                    <!-- <li>
-                                        <a href="#">Fresh Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat Alternatives</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat</a>
-                                        <span>(250)</span>
-                                    </li> -->
+                               ?>
                                 </ul>
                             </div>
                         </aside>
@@ -263,101 +422,60 @@ $data=$pdo->prepare("SELECT * from products WHERE category_id=$_GET[id]");}
 
 
 else{
-    $data=$pdo->prepare("SELECT * from products"); 
+    $data=$pdo->prepare("SELECT * FROM products WHERE id<= 18 OR  id > 28"); 
+    
+
 }
 
 if(isset($_GET['id']) && $_GET['id']==4){
-    $data=$pdo->prepare("SELECT * from products"); 
+    $data=$pdo->prepare("SELECT * from products  WHERE id <= 18 OR  id > 28 "); 
 
 }
+
+
+
+if(isset($_GET['id']) && $_GET['id']==1){
+    $data=$pdo->prepare("SELECT * from products  WHERE ( id <= 18 OR  id > 28) AND (category_id=$_GET[id]) "); 
+
+}
+
+
 // var_dump($data);
    $data->execute();
 
-   foreach($data as $element ){
-//   echo  "<a href='single-product.php?id=$element[id]'><div class='col-lg-4 col-sm-6'>";
-  echo   "<div class='single_product_item'>";
-    echo    "<img src='$element[product_image]' alt='' width=500px height=170px>";
-      echo  "<div class='single_product_text'>";
-      echo      "<h4>$element[product_description]</h4>";
-       echo     "<h3>$element[product_price]JD</h3>";
-       echo     "<input type='button' name='addToCart' value=$element[id] class='add_cart'>+ add to cart<i class='ti-heart'></i></input>";
-     echo   "</div>";
-     echo   "</div>";
-     echo   "</div></a>";
-   }
-                    
- ?>
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_2.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_3.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_4.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_5.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_6.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_7.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_8.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                      -->
+   foreach ($data as $element) {
+    if ($element['product_discount'] > 0) {
+        $Total_product_before_dicount = $element['product_price'];
+        $discount_percentage_product = 0;
+        $discount_percentage_product = $Total_product_before_dicount * ($element['product_discount'] / 100);
+        $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product;
+    } else {
+        $Total_product_after_dicount = ' ';
+    }
+
+
+    echo  "<div class='col-lg-4 col-sm-6'>";
+    echo   "<div class='single_product_item'>";
+    echo    "<a href='single-product.php?id=$element[id]'><img src='$element[product_image]' alt='' width=500px height=170px>";
+    echo  "<div class='single_product_text'>";
+    echo      "<h4>$element[product_name]</h4>";
+    if ($element['product_discount'] > 0) {
+        echo     "<h3><del>$element[product_price]JD</del></h3>";
+    } else {
+        echo     "<h3>$element[product_price]JD</h3>";
+    }
+
+    echo    "<h3>$Total_product_after_dicount</h3>";
+    echo "<form method='GET'>";
+    echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
+    echo "</form>";
+    echo   "</div>";
+    echo   "</div>";
+    echo   "</div></a>";
+}
+
+?>
+                        
                         <div class="col-lg-12">
                             <div class="pageination">
                                 <nav aria-label="Page navigation example">

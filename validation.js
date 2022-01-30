@@ -4,6 +4,7 @@ let password = document.querySelector("#password-field");
 let repeatPassword = document.querySelector("#repeatPass-field");
 let date = document.querySelector("#date-field");
 let submitBtn = document.querySelector("#submit-btn");
+let loginField = document.querySelector("#login-field");
 
 let msg1 = document.querySelector(".msg1");
 let msg2 = document.querySelector(".msg2");
@@ -17,6 +18,9 @@ let emailState = false;
 let usernameState = false;
 let passwordState = false;
 let repasswordState = false;
+
+let isLoggin = $_SESSION["logged"];
+console.log(isLoggin);
 
 username.addEventListener("keyup", usernameTracker);
 function usernameTracker() {

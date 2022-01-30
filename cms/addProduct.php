@@ -146,18 +146,7 @@ include_once "../db.php";
                                     <a href="productsAdmin.php">View All Products</a>
                                 </li>
                                 <li>
-                                    <a href="addProduct.php">Add Product</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" data-toggle="collapse" data-target="#comments"> <i class="fas fa-comments"></i>Comments <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="comments" class="collapse">
-                                <li>
-                                    <a href="commentsAdmin.php">View All Comments</a>
-                                </li>
-                                <li>
-                                    <a href="addComment.php">Add Comment</a>
+                                    <a href="addPost.php">Add Product</a>
                                 </li>
                             </ul>
                         </li>
@@ -172,9 +161,22 @@ include_once "../db.php";
                                 </li>
                             </ul>
                         </li>
+
+                        <li>
+                            <a href="#" data-toggle="collapse" data-target="#comments"> <i class="fas fa-comments"></i>Comments <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="comments" class="collapse">
+                                <li>
+                                    <a href="commentsAdmin.php">View All Comments</a>
+                                </li>
+                                <li>
+                                    <a href="addComment.php">Add Comment</a>
+                                </li>
+                            </ul>
+                        </li>
                         <li>
                             <a href="orders.php"> <i class="fas fa-truck"></i> Orders</a>
                         </li>
+
 
                     </ul>
                 </nav>
@@ -292,85 +294,91 @@ include_once "../db.php";
 
                                 </div>
                                 <div class="table-responsive table-responsive-data2">
-                                    <table class="table table-data2">
-                                        <thead>
-                                            <tr>
+                                    <div class="col-lg-6">
 
-                                                <th>id</th>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Password</th>
-                                                <th>date created</th>
-                                                <th>date last login</th>
-                                                <th>Age</th>
-                                                <th>edit</th>
-                                                <th>delete</th>
+                                        <?php
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                        getAddedProduct();
 
+                                        ?>
+                                        <form action="" method="post" enctype="multipart/form-data">
+                                            <div class="form-group">
+                                                <label for="add_product">Product Name</label>
+                                                <input class="form-control" type="text" name="product_name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_product">Product Price</label>
+                                                <input class="form-control" type="text" name="product_price" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_product">Product Des</label>
+                                                <input class="form-control" type="text" name="product_des" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_product">Product Image</label>
+                                                <input class="form-control" type="file" name="product_img" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_product">Category Id</label>
+                                                <input class="form-control" type="text" name="category_id" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_product">Stock</label>
+                                                <input class="form-control" type="number" name="product_stock" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="btn btn-primary" type="submit" name="add_product_submit" value="Add Product">
+                                            </div>
+                                        </form>
+                                    </div>
 
-                                            <?php
-
-                                            deleteUser();
-                                            getData();
-                                            ?>
-
-
-                                        </tbody>
-                                    </table>
-
-
-
+                                    <!-- END DATA TABLE -->
                                 </div>
-                                <!-- END DATA TABLE -->
                             </div>
-                        </div>
-                        <div class="row m-t-30">
-                            <div class="col-md-12">
-                                <!-- DATA TABLE-->
+                            <div class="row m-t-30">
+                                <div class="col-md-12">
+                                    <!-- DATA TABLE-->
 
-                                <!-- END DATA TABLE-->
+                                    <!-- END DATA TABLE-->
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="copyright">
-                                    <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="copyright">
+                                        <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
-    </div>
+        <!-- Jquery JS-->
+        <script src="vendor/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap JS-->
+        <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+        <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+        <!-- Vendor JS       -->
+        <script src="vendor/slick/slick.min.js">
+        </script>
+        <script src="vendor/wow/wow.min.js"></script>
+        <script src="vendor/animsition/animsition.min.js"></script>
+        <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+        </script>
+        <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+        <script src="vendor/counter-up/jquery.counterup.min.js">
+        </script>
+        <script src="vendor/circle-progress/circle-progress.min.js"></script>
+        <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+        <script src="vendor/select2/select2.min.js">
+        </script>
 
-    <!-- Jquery JS-->
-    <script src="vendor/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap JS-->
-    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- Vendor JS       -->
-    <script src="vendor/slick/slick.min.js">
-    </script>
-    <script src="vendor/wow/wow.min.js"></script>
-    <script src="vendor/animsition/animsition.min.js"></script>
-    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-    </script>
-    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="vendor/counter-up/jquery.counterup.min.js">
-    </script>
-    <script src="vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="vendor/select2/select2.min.js">
-    </script>
-
-    <!-- Main JS-->
-    <script src="js/main.js"></script>
+        <!-- Main JS-->
+        <script src="js/main.js"></script>
 
 </body>
 

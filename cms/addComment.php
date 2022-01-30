@@ -2,7 +2,13 @@
 
 include_once "../db.php";
 ?>
+
 <?php include "../functions.php"; ?>
+<?php
+
+getAddedComment();
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -151,17 +157,6 @@ include_once "../db.php";
                             </ul>
                         </li>
                         <li>
-                            <a href="#" data-toggle="collapse" data-target="#comments"> <i class="fas fa-comments"></i>Comments <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="comments" class="collapse">
-                                <li>
-                                    <a href="commentsAdmin.php">View All Comments</a>
-                                </li>
-                                <li>
-                                    <a href="addComment.php">Add Comment</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
                             <a href="#" data-toggle="collapse" data-target="#categories"><i class="fas fa-filter"></i> Categories <i class="fa fa-fw fa-caret-down"></i></a>
                             <ul id="categories" class="collapse">
                                 <li>
@@ -169,6 +164,18 @@ include_once "../db.php";
                                 </li>
                                 <li>
                                     <a href="addCategory.php">Add Category</a>
+                                </li>
+                            </ul>
+
+                        </li>
+                        <li>
+                            <a href="#" data-toggle="collapse" data-target="#comments"> <i class="fas fa-comments"></i>Comments <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="comments" class="collapse">
+                                <li>
+                                    <a href="commentsAdmin.php">View All Comments</a>
+                                </li>
+                                <li>
+                                    <a href="addComment.php">Add Comment</a>
                                 </li>
                             </ul>
                         </li>
@@ -292,36 +299,29 @@ include_once "../db.php";
 
                                 </div>
                                 <div class="table-responsive table-responsive-data2">
-                                    <table class="table table-data2">
-                                        <thead>
-                                            <tr>
 
-                                                <th>id</th>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Password</th>
-                                                <th>date created</th>
-                                                <th>date last login</th>
-                                                <th>Age</th>
-                                                <th>edit</th>
-                                                <th>delete</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                    <div class="col-lg-6">
 
 
-                                            <?php
+                                        <form action="" method="post">
+                                            <div class="form-group">
+                                                <label for="add_comment">Comments</label>
+                                                <input class="form-control" type="text" name="new_comment">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_comment">User Id</label>
+                                                <input class="form-control" type="number" name="user_id">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_comment">Product Id</label>
+                                                <input class="form-control" type="number" name="product_id">
+                                            </div>
 
-                                            deleteUser();
-                                            getData();
-                                            ?>
-
-
-                                        </tbody>
-                                    </table>
-
-
+                                            <div class="form-group">
+                                                <input class="btn btn-primary" type="submit" name="add_comment_submit" value="Add Comment">
+                                            </div>
+                                        </form>
+                                    </div>
 
                                 </div>
                                 <!-- END DATA TABLE -->
