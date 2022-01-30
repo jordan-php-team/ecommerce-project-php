@@ -21,6 +21,8 @@ include_once "../db.php";
       $result=$sql->fetch();
      var_dump($result);
        $flag=false;
+       if($result['stock'] > 0 ){
+
       if(isset($_SESSION['products'])){
           foreach($_SESSION['products'] as $element){
             if($element['id']==$product_id)  {
@@ -38,7 +40,7 @@ include_once "../db.php";
 
          foreach($_SESSION['products'] as $element){
 
-            $_SESSION['products'][$product_id]['Total']= 0*intval($element['product_price']);
+            $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']);
                     
             if($_SESSION['products'][$product_id]['product_discount']> 0){
 
@@ -64,13 +66,19 @@ include_once "../db.php";
 
 
          }
-
+         header("location: cart.php");
         }
-          echo "<pre>";
-           var_dump($_SESSION['products']);
-           
-          header("location: cart.php");
-     
+
+       
+      
+        }
+
+        else{
+          echo '<script type="text/javascript">alert("is not loggin")</script>';
+         header("location: category.php");
+          
+        }
+    
     }
 }
    
@@ -87,8 +95,8 @@ include_once "../db.php";
   <!-- Required meta tags -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <title>aranoz</title>
-  <link rel="icon" href="img/favicon.png" />
+  <title>kenbae</title>
+    <link rel="icon" href="img/favicon1.png" />
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css" />
   <!-- animate CSS -->
@@ -139,7 +147,7 @@ include_once "../db.php";
         <div class="col-lg-12">
           <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="index.php">
-              <img src="img/logo.png" alt="logo" />
+            <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -241,7 +249,7 @@ include_once "../db.php";
 
                           ?>
 
-                          <a href="category.html" class="btn_2">buy now</a>
+                          <a href="category.php" class="btn_2">buy now</a>
                         </div>
                       </div>
                     </div>
@@ -472,7 +480,7 @@ include_once "../db.php";
                 <h2>Weekly Sale on 60% Off All Products</h2>
                 <div class="date_countdown">
                   <div id="timer">
-                    <div id="days" class="date"></div>
+                    <div  class="date"></div>
                     <div id="hours" class="date"></div>
                     <div id="minutes" class="date"></div>
                     <div id="seconds" class="date"></div>

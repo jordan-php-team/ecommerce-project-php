@@ -42,8 +42,8 @@ if(isset( $_SESSION['loggedUser'])){
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>aranaz</title>
-  <link rel="icon" href="img/favicon.png">
+  <title>kenbae</title>
+  <link rel="icon" href="img/favicon1.png" />
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <!-- animate CSS -->
@@ -96,7 +96,7 @@ if(isset( $_SESSION['loggedUser'])){
         <div class="col-lg-12">
           <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="index.php">
-              <img src="img/logo.png" alt="logo" />
+            <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -132,26 +132,13 @@ if(isset( $_SESSION['loggedUser'])){
                     <?php else : ?>
                       <a class="dropdown-item" href="login.php" id="login-field"> login</a>
                     <?php endif; ?>
-                    <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
-                    <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
+              
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
                     <a class="dropdown-item" href="confirmation.php">confirmation</a>
-                    <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
+               
                   </div>
                 </li>
-                <!-- <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    blog
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                    <a class="dropdown-item" href="blog.html"> blog</a>
-                    <a class="dropdown-item" href="single-blog.html">Single blog</a>
-                  </div>
-                </li> -->
-
-                <!-- <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contact</a>
-                </li> -->
+               
               </ul>
             </div>
             <div class="hearer_icon d-flex">
@@ -180,7 +167,7 @@ if(isset( $_SESSION['loggedUser'])){
         <div class="col-lg-8">
           <div class="breadcrumb_iner">
             <div class="breadcrumb_iner_item">
-              <h2>Producta Checkout</h2>
+              <h2>Order Checkout</h2>
               <p>Home <span>-</span> Shop Single</p>
             </div>
           </div>
@@ -193,24 +180,11 @@ if(isset( $_SESSION['loggedUser'])){
   <!--================Checkout Area =================-->
   <section class="checkout_area padding_top">
     <div class="container">
-  
-      <div class="cupon_area">
-        <div class="check_title">
-          <h2>
-            <strong>
-              <h2><strong>discount : 20%</strong></h2>
-              coupon code : furniture
-            </strong>
-        
-          </h2>
-        </div>
+
         <?php
-        echo  "<form>";
-        echo  "<input type='text' placeholder='Enter coupon code' name='coupon'/>";
-        echo "<button class='tp_btn' type='submit'>Apply Coupon</button>";
-        echo  "</form>";
+      
         ?>
-      </div>
+      </div> 
       <div class="billing_details">
         <div class="row">
           <div class="col-lg-8">
@@ -248,6 +222,7 @@ if(isset( $_SESSION['loggedUser'])){
                 <textarea class="form-control" name="message" id="message" rows="1" placeholder="Order Notes"></textarea>
               </div>
             </form>
+         
           </div>
           <div class="col-lg-4">
             <div class="order_box">

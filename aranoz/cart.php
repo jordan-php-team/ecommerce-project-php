@@ -23,8 +23,8 @@ $cart = $_SESSION["products"];
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>aranaz</title>
-  <link rel="icon" href="img/favicon.png">
+  <title>kenbae</title>
+  <link rel="icon" href="img/favicon1.png" />
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <!-- animate CSS -->
@@ -55,7 +55,7 @@ $cart = $_SESSION["products"];
         <div class="col-lg-12">
           <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="index.php">
-              <img src="img/logo.png" alt="logo" />
+            <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -229,7 +229,14 @@ $cart = $_SESSION["products"];
           </table>
           <div class="checkout_btn_inner float-right">
             <!-- <a class="btn_1" href="#">Continue Shopping</a> -->
-            <a class="btn_1 checkout_btn_1" href="checkout.php">Proceed to checkout</a>
+            <?php
+            if(count($cart) > 0){?>
+             <a class="btn_1 checkout_btn_1" href="checkout.php">Proceed to checkout</a>
+          <?php  }?>
+
+       
+
+           
           </div>
         </div>
       </div>

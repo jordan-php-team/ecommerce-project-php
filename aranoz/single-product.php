@@ -9,6 +9,89 @@ addcomments();
 
 ?>
 
+<?php
+ global $pdo;
+ $quanitity=1;
+    if($_SERVER["REQUEST_METHOD"]=="GET" ){
+      // if($_POST['name']=='addToCart'){
+        if(isset($_GET['addToCart'])){
+          $product_id= $_GET['addToCart'];
+    
+          $data="SELECT * FROM products WHERE id=$product_id";
+          $sql=$pdo->prepare($data);
+          $sql->execute();
+          $result=$sql->fetch();
+         var_dump($result);
+           $flag=false;
+
+           if($result['stock'] > 0 ){
+          if(isset($_SESSION['products'])){
+         
+                     
+            
+              foreach($_SESSION['products'] as $element){
+              
+                if($element['id']==$product_id){
+                    $_SESSION['products'][$product_id][0]+=1;
+                    $flag=true;
+                    break;
+                }
+
+            }
+    
+             if($flag==false){
+            $_SESSION['products'][$product_id]=$result;
+            $_SESSION['products'][$product_id][0]=$quanitity;
+             }
+    
+    
+             foreach($_SESSION['products'] as $element){
+    
+                $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']);
+                        
+                if($_SESSION['products'][$product_id]['product_discount']> 0){
+    
+                $discount_percentage_product= $_SESSION['products'][$product_id]['Total'] *($element['product_discount']/100);
+              $Total_product_after_dicount =$_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
+              $_SESSION['products'][$product_id]['Total_after_discount']= $Total_product_after_dicount;
+            
+    
+    
+              $discount_percentage_product= ($element['product_discount']/100) *intval($element['product_price']);
+              $price_product_after_dicount = intval($element['product_price'])- $discount_percentage_product;
+              $_SESSION['products'][$product_id]['product_price_after_discount']= $price_product_after_dicount;
+            }
+    
+    
+            else{
+                $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']); 
+                $_SESSION['products'][$product_id]['Total_after_discount']=$_SESSION['products'][$product_id]['Total'];
+              $_SESSION['products'][$product_id]['product_price_after_discount']=$_SESSION['products'][$product_id]['product_price'];
+      
+            }
+    
+    
+    
+             }
+             header("location: cart.php");
+            }
+
+           
+          
+            }
+
+            else{
+              echo '<script type="text/javascript">alert("is not loggin")</script>';
+             header("location: category.php");
+              
+            }
+        }  
+}
+   
+
+
+?>
+
 <!doctype html>
 <html lang="zxx">
 
@@ -21,8 +104,8 @@ addcomments();
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>aranoz</title>
-  <link rel="icon" href="img/favicon.png">
+  <title>kenbae</title>
+  <link rel="icon" href="img/favicon1.png" />
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <!-- animate CSS -->
@@ -73,7 +156,7 @@ addcomments();
         <div class="col-lg-12">
           <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="index.php">
-              <img src="img/logo.png" alt="logo" />
+            <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -189,7 +272,21 @@ addcomments();
           <div class="s_product_text">
             <h5>previous <span>|</span> next</h5>
             <?php echo "<h3>$element[product_name]</h3>"; ?>
-            <?php echo "<h2>$element[product_price]JD</h2>"; ?>
+<?php 
+            if ($element['product_discount'] > 0) {
+                      $Total_product_before_dicount = $element['product_price'];
+                      $discount_percentage_product = 0;
+                      $discount_percentage_product = $Total_product_before_dicount * ($element['product_discount'] / 100);
+                      $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product;
+                    } else {
+                      $Total_product_after_dicount =$element['product_price'];
+                    }
+                    ?>
+            <?php 
+            // echo "<h2>$element[product_price]JD</h2>"; 
+            ?>
+            <?php   echo    "<h2>$Total_product_after_dicount JD</h2>";?>
+
             <ul class="list">
               <li>
                 <a class="active" href="#">
@@ -204,15 +301,19 @@ addcomments();
             <h5>Description :</h5>
             <?php echo $element['product_description'] ?>
             </p>
-            <div class="card_area d-flex justify-content-between align-items-center">
-              <div class="product_count">
-                <span class="inumber-decrement"> <i class="ti-minus"></i></span>
-                <input class="input-number" type="text" value="1" min="0" max="10">
-                <span class="number-increment"> <i class="ti-plus"></i></span>
-              </div>
-              <a href="#" class="btn_3">add to cart</a>
-              <a href="#" class="like_us"> <i class="ti-heart"></i> </a>
-            </div>
+            <!-- <div class="card_area d-flex justify-content-between align-items-center"> -->
+              <!-- <div class="product_count"> -->
+                <!-- <span class="inumber-decrement"> <i class="ti-minus"></i></span> -->
+                <!-- <input class="input-number" type="text" value="1" min="0" max="10"> -->
+                <!-- <span class="number-increment"> <i class="ti-plus"></i></span> -->
+              <!-- </div> -->
+              <?php
+         echo "<form method='GET'>";
+         echo "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
+         echo "</form>"; ?>  
+              <!-- <a href="#" class="btn_3">add to cart</a> -->
+              <!-- <a href="#" class="like_us"> <i class="ti-heart"></i> </a> -->
+            <!-- </div> -->
 
           </div>
         <?php } ?>

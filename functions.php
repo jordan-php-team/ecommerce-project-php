@@ -724,24 +724,27 @@ function getDeletedOrders()
 function addcomments()
 {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_SESSION['loggedUser'])) {
-            global $pdo;
-            // echo "<h1>haneen</h1>";
-            // var_dump($_SESSION['loggedUser']);
-
-            $message = $_POST['message'];
-            $idproduct = $_GET['id'];
-            $iduser = $_SESSION['loggedUser']['id'];
-
-
-            $data = "INSERT INTO comments(user_id,comments,product_id) 
-      VALUE ('$iduser','$message' ,'$idproduct')";
-
-            $stmt = $pdo->prepare($data);
-            $stmt->execute();
-        } else {
-            echo '<script type="text/javascript">alert("is not loggin")</script>';
-        }
+        // if($_POST['name']=='submit'){
+            if (isset($_SESSION['loggedUser'])) {
+                global $pdo;
+                // echo "<h1>haneen</h1>";
+                // var_dump($_SESSION['loggedUser']);
+    
+                $message = $_POST['message'];
+                $idproduct = $_GET['id'];
+                $iduser = $_SESSION['loggedUser']['id'];
+    
+    
+                $data = "INSERT INTO comments(user_id,comments,product_id) 
+          VALUE ('$iduser','$message' ,'$idproduct')";
+    
+                $stmt = $pdo->prepare($data);
+                $stmt->execute();
+            } else {
+                echo '<script type="text/javascript">alert("is not loggin")</script>';
+            }
+        // }
+        
     }
 }
 

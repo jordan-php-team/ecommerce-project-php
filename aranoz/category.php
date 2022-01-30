@@ -2,7 +2,7 @@
 <?php
 include_once "../db.php";
 session_start();
-// session_unset();
+ //session_unset();
 // unset($_SESSION['products']);
 
 ?>
@@ -18,8 +18,10 @@ session_start();
       $sql=$pdo->prepare($data);
       $sql->execute();
       $result=$sql->fetch();
-     var_dump($result);
+    //  var_dump($result);
        $flag=false;
+       if($result['stock'] > 0 ){
+
       if(isset($_SESSION['products'])){
           foreach($_SESSION['products'] as $element){
             if($element['id']==$product_id)  {
@@ -59,26 +61,20 @@ session_start();
           $_SESSION['products'][$product_id]['product_price_after_discount']=$_SESSION['products'][$product_id]['product_price'];
   
         }
-
-
-
-         }
-       
-        }
-
-        else{
-            // echo "haneen";
-            // $_SESSION['products'][]=[];
-            // session_unset();
-        }
-        //   echo "<pre>";
-        //    var_dump($_SESSION['products']);
-           
-        header("location: cart.php");
-     
     }
+    // header("location: category.php");
+    echo '<script type="text/javascript">alert("add to cart")</script>';
+
+   }
+   }
+   else{
+     echo '<script type="text/javascript">alert("is empty stock")</script>';
+    // header("location: category.php");
+     
+   }
+}  
 }
-   
+
 
 
 ?>
@@ -96,8 +92,8 @@ session_start();
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>aranoz</title>
-    <link rel="icon" href="img/favicon.png">
+    <title>kenbae</title>
+    <link rel="icon" href="img/favicon1.png" />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- animate CSS -->
@@ -150,7 +146,7 @@ session_start();
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <a class="navbar-brand" href="index.php">
-                            <img src="img/logo.png" alt="logo" />
+                        <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="menu_icon"><i class="fas fa-bars"></i></span>
