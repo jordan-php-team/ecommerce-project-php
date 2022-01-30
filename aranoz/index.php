@@ -19,7 +19,7 @@ include_once "../db.php";
       $sql=$pdo->prepare($data);
       $sql->execute();
       $result=$sql->fetch();
-     var_dump($result);
+    //  var_dump($result);
        $flag=false;
        if($result['stock'] > 0 ){
 
@@ -59,28 +59,20 @@ include_once "../db.php";
             $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']); 
             $_SESSION['products'][$product_id]['Total_after_discount']=$_SESSION['products'][$product_id]['Total'];
           $_SESSION['products'][$product_id]['product_price_after_discount']=$_SESSION['products'][$product_id]['product_price'];
-
-            
         }
-
-
-
-         }
-         header("location: cart.php");
-        }
-
+      }
+      // header("location: category.php");
+      echo '<script type="text/javascript">alert("add to cart")</script>';
+  
+     }
+     }
+     else{
+       echo '<script type="text/javascript">alert("is empty stock")</script>';
+      // header("location: category.php");
        
-      
-        }
-
-        else{
-          echo '<script type="text/javascript">alert("is not loggin")</script>';
-         header("location: category.php");
-          
-        }
-    
-    }
-}
+     }
+  }  
+  }
    
 ?>
 
@@ -210,6 +202,12 @@ include_once "../db.php";
               <div class="dropdown cart">
                 <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
                   <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
+                  <?php 
+                                    if(isset($_SESSION['products'])){
+                                        $count=count($_SESSION['products']);
+                                        echo "<strong>$count</strong>";
+                                    }
+                                    ?>
                 </a>
               </div>
             </div>

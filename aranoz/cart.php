@@ -81,7 +81,9 @@ $cart = $_SESSION["products"];
                     Account
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                    <?php logout(); ?>
+                    <?php 
+                    // logout();
+                     ?>
                     <?php if ($_SESSION['loggedUser']) : ?>
                       <form action="login.php" method="post">
 
@@ -156,7 +158,7 @@ $cart = $_SESSION["products"];
                 <th scope="col">Price </th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Total</th>
-                <th scope="col">Delete</th>
+                <!-- <th scope="col">Delete</th> -->
 
               </tr>
             </thead>
@@ -229,9 +231,23 @@ $cart = $_SESSION["products"];
           </table>
           <div class="checkout_btn_inner float-right">
             <!-- <a class="btn_1" href="#">Continue Shopping</a> -->
-            <?php
+
+            <?php if(isset($_POST['to_checkout'])){
+            if($_SESSION['loggedUser']){
+           
+               header("location: checkout.php");
+            }
+          else{
+          
+            header("location: login.php");
+
+          }
+          }
+           
             if(count($cart) > 0){?>
-             <a class="btn_1 checkout_btn_1" href="checkout.php">Proceed to checkout</a>
+            <form method="post">
+             <button class="btn_1 checkout_btn_1" name="to_checkout">Proceed to checkout</button>
+             </form>
           <?php  }?>
 
        

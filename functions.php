@@ -699,29 +699,46 @@ function getDeletedOrders()
 
 function addcomments()
 {
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // if($_POST['name']=='submit'){
-            if (isset($_SESSION['loggedUser'])) {
+
+
+    // if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    //    var_dump($_SESSION['loggedUser']);
+            if (!empty($_SESSION['loggedUser'] > 0)){
                 global $pdo;
-                // echo "<h1>haneen</h1>";
-                // var_dump($_SESSION['loggedUser']);
-    
+
+          
+                 echo "<div id='haneen' class='col-lg-6'>";
+                echo  "<div class='review_box'>";
+               echo     "<h4>Post a comment</h4>";
+                  echo  "<form action='' method='post'>";
+                     echo "<div class='form-group'>";
+                      echo  "<label>comments</label>";
+                    echo    "<textarea class='form-control' name='message' id='message' rows='1' placeholder='Message'></textarea>";
+                   echo   "</div>";
+                   echo   "<input type='submit' value='comment' name='submit' class='btn_3' />";
+                 echo   "</form>";
+                echo  "</div>";
+                echo  "</div>";
+                if(isset($_POST['message'])){
                 $message = $_POST['message'];
                 $idproduct = $_GET['id'];
+                if(isset($_SESSION['loggedUser']['id'])){
                 $iduser = $_SESSION['loggedUser']['id'];
     
     
                 $data = "INSERT INTO comments(user_id,comments,product_id) 
-          VALUE ('$iduser','$message' ,'$idproduct')";
+                VALUE ('$iduser','$message' ,'$idproduct')";
     
                 $stmt = $pdo->prepare($data);
-                $stmt->execute();
-            } else {
-                echo '<script type="text/javascript">alert("is not loggin")</script>';
+                $stmt->execute();}
             }
+            }
+            //  else {
+            //     echo '<script type="text/javascript">alert("is not loggin")</script>';
+            // }
         // }
         
-    }
+    // }
 }
 
 

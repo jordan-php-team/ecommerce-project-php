@@ -4,7 +4,8 @@ include_once "../db.php";
 session_start();
  //session_unset();
 // unset($_SESSION['products']);
-
+// echo "<pre>";
+// var_dump($_SESSION['products']);
 ?>
 <?php include "../functions.php"; ?>
 <?php
@@ -22,7 +23,7 @@ session_start();
        $flag=false;
        if($result['stock'] > 0 ){
 
-      if(isset($_SESSION['products'])){
+    //   if(isset($_SESSION['products'])){
           foreach($_SESSION['products'] as $element){
             if($element['id']==$product_id)  {
                 $_SESSION['products'][$product_id][0]+=1;
@@ -62,14 +63,18 @@ session_start();
   
         }
     }
-    // header("location: category.php");
-    echo '<script type="text/javascript">alert("add to cart")</script>';
+    
 
-   }
+    echo '<script type="text/javascript">alert("add to cart")</script>';
+    //   echo    "<script>Swal.fire('add to cart')</script>";
+
+
+//    }
+   
    }
    else{
      echo '<script type="text/javascript">alert("is empty stock")</script>';
-    // header("location: category.php");
+  
      
    }
 }  
@@ -114,6 +119,7 @@ session_start();
     <link rel="stylesheet" href="css/price_rangs.css">
     <!-- style CSS -->
     <link rel="stylesheet" href="css/style.css">
+    
 </head>
 <style>
     .main_menu .cart i:after {
@@ -208,6 +214,12 @@ session_start();
                             <div class="dropdown cart">
                                 <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
                                     <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
+                                    <?php 
+                                    if(isset($_SESSION['products'])){
+                                        $count=count($_SESSION['products']);
+                                        echo "<strong>$count</strong>";
+                                    }
+                                    ?>
                                 </a>
                             </div>
                         </div>
@@ -280,6 +292,9 @@ session_start();
                            
                                 <div class="single_product_menu d-flex">
                                     <div class="input-group">
+                                        <?php 
+                                        $data="SELECT * FROM products
+                                        WHERE products LIKE '%or%'";?>
                                         <input type="text" class="form-control" placeholder="search"
                                             aria-describedby="inputGroupPrepend">
                                         <div class="input-group-prepend">
