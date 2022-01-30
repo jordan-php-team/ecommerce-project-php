@@ -2,8 +2,6 @@
 ob_start();
 include_once "db.php";
 
-
-
 ?>
 <?php
 
@@ -189,53 +187,79 @@ function orders(){
 
 function orderDetails(){
     global $pdo;
-
     $userid=$_SESSION['loggedUser']['id'];
     $query = "SELECT * FROM orders WHERE user_id = $userid";
     $stmt = $pdo->prepare($query);
     $stmt = $pdo->query($query);
     $stmt->execute();
-    $result=$stmt->fetchAll();
-    $order_id=$result[1]['id'];
+    $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+    $order_id=COUNT($result)-1;
+    echo $order_id ;
+    $total=$result[$order_id]['total']-50;
+    $quantity=0;
     $query2 = "SELECT * FROM order_item WHERE order_id = $order_id";
     $stmt2 = $pdo->prepare($query2);
     $stmt2 = $pdo->query($query2);
     $stmt2->execute();
-    $result2=$stmt2->fetchAll();  
+    $result2=$stmt2->fetchAll(PDO::FETCH_ASSOC);  
+    $productnum=COUNT($result2);
+    echo $productnum;
 
-            //  echo "<tbody>";
-            //   echo  "<tr>";
-            //   echo    '<th colspan="2"><span>'."Pixelstore fresh Blackberry".'</span></th>';
-            //   echo    '<th>'.x02.'</th>';
-            //   echo    '<th> <span>'.720.00.'</span></th>';
-            //   echo  "</tr>";
-            //   echo  "<tr>";
-            //   echo    '<th colspan="2"><span>'."Pixelstore fresh Blackberry".'</span></th>';
-            //   echo    '<th>'.x02.'</th>';
-            //   echo    '<th> <span>'.720.00.'</span></th>';
-            //   echo  "</tr>";
-            //   echo  "<tr>";
-            //   echo    '<th colspan="2"><span>'."Pixelstore fresh Blackberry".'</span></th>';
-            //   echo   '<th>'.x02.'</th>';
-            //   echo   '<th> <span>'.720.00.'</span></th>';
-            //   echo   "</tr>";
-            //   echo  "<tr>";
-            //   echo   '<th colspan="3">'."Subtotal".'</th>';
-            //   echo    '<th> <span>'.2160.00.'</span></th>';
-            //   echo  "</tr>";
-            //   echo   "<tr>";
-            //   echo    '<th colspan="3">'."shipping".'</th>';
-            //   echo    '<th><span>'."flat rate: 50.00".'</span></th>';
-            //   echo  "</tr>";
-            //   echo  "</tbody>";
-            //   echo  "<tfoot>";
-            //   echo  "<tr>";
-            //   echo  '<th scope="col" colspan="3">'."Quantity".'</th>';
-            //   echo  '<th scope="col">'."Total".'</th>';
-            //   echo  "</tr>";
-            //   echo  "</tfoot>";
+    echo "<tbody>";
+
+    for($i=0 ;$i< $productnum ; $i++){
+        $id= $result2[$i]['product_id'];
+    $query3 = "SELECT * FROM products WHERE id = $id";
+    $stmt3 = $pdo->prepare($query3);
+    $stmt3 = $pdo->query($query3);
+    $stmt3->execute();
+    $result3=$stmt3->fetch();
+              echo  "<tr>";
+              echo    '<th colspan="2"><span>'.$result3['product_name'].'</span></th>';
+              echo    '<th>'.$result2[$i]['quantity'].'</th>';
+              echo    '<th> <span>'.$result3['product_price'].'</span></th>';
+              echo  "</tr>";
+                $quantity=$quantity+$result2[$i]['quantity'];
+    }
+        
+              echo   "<tr>";
+              echo    '<th colspan="3">'."shipping".'</th>';
+              echo    '<th><span>'."flat rate: 50.00".'</span></th>';
+              echo  "</tr>";
+              echo  "</tbody>";
+              echo  "<tfoot>";
+              echo  "<tr>";
+              echo  '<th  colspan="2">'."Quantity".'</th>';
+              echo   '<th>'.$quantity.'</th>';
+              echo  '<th scope="col">'.$total.'</th>';
+              echo  "</tr>";
+              echo  "</tfoot>";
            
 
+}
+
+function editInfo(){
+
+    if(isset($_POST['edit'])){
+        global $pdo;
+        $id = $_SESSION['loggedUser']['id'];
+        $password = $_SESSION['loggedUser']['password'];
+        $username=$_POST['name'];
+        print_r($username);
+        $usermobile=$_POST['mobile'];
+        $query = "UPDATE registredusers SET username = '$username' , mobile = '$usermobile' WHERE (id= $id)";
+        $stmt = $pdo->prepare($query);
+        $stmt = $pdo->query($query);
+        $query = "SELECT * FROM registredusers WHERE id=$id";
+        $stmt = $pdo->prepare($query);
+        $stmt = $pdo->query($query);
+        $stmt->execute();
+        $result=$stmt->fetch();
+        $_SESSION['loggedUser']['username']=$result['username'];
+        $_SESSION['loggedUser']['mobile']=$result['mobile'];
+        header('Location:confirmation.php');
+      
+    }
 }
 
 function updateUser()
