@@ -162,7 +162,7 @@ global $Total;
                   <?php
                   if (isset($_SESSION['products'])) {
                     $count = count($_SESSION['products']);
-                    echo "<strong>$count</strong>";
+                    echo "<strong style='color:#eb1a50 !important'>$count</strong>";
                   }
                   ?>
                 </a>
