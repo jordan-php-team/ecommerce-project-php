@@ -142,7 +142,13 @@ global $Total;
                     <?php endif; ?>
 
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
+
+              <?php  if ($_SESSION['loggedUser']) :?>
+                   
                     <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                  
+                  
+                     <?php endif; ?> 
 
                   </div>
                 </li>

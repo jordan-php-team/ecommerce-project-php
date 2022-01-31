@@ -194,7 +194,12 @@ include "../functions.php";
                     <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
                     <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
-                    <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                    <?php  if ($_SESSION['loggedUser']) :?>
+                   
+                   <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                 
+                 
+                    <?php endif; ?> 
                     <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
                   </div>
                 </li>
