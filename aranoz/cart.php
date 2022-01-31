@@ -172,7 +172,7 @@ $cart = $_SESSION["products"];
                     <td>
                       <div class="media">
                         <div class="d-flex">
-                          <img src=<?php echo $element['product_image']; ?> alt="" width=200px height=170px />
+                          <img src="img/products/<?php echo $element['product_image']; ?>" alt="" width=200px height=170px />
                         </div>
                         <div class="media-body">
                           <p><?php

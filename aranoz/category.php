@@ -355,7 +355,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
                             echo  "<div class='col-lg-4 col-sm-6'>";
                             echo   "<div class='single_product_item'>";
-                            echo    "<a href='single-product.php?id=$element[id]'><img src='$element[product_image]' alt='' width=500px height=170px>";
+                            echo    "<a href='single-product.php?id=$element[id]'><img src='img/products/$element[product_image]' alt='' width=500px height=170px>";
                             echo  "<div class='single_product_text'>";
                             echo      "<h4>$element[product_name]</h4>";
                             if ($element['product_discount'] > 0) {
@@ -372,7 +372,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             echo   "</div>";
                             echo   "</div></a>";
                         }
-
                         ?>
 
                         <div class="col-lg-12">

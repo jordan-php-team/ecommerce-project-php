@@ -7541,6 +7541,10 @@ h6 {
   text-transform: capitalize;
 }
 
+/* .main_menu {
+  position: fixed !important;
+} */
+
 @media (max-width: 576px) {
   /* line 19, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_breadcrumb.scss */
   .breadcrumb .breadcrumb_iner .breadcrumb_iner_item h2 {

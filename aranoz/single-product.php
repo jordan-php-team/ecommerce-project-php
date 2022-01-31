@@ -266,7 +266,7 @@ include "../functions.php";
               $data->execute();
               foreach ($data as $element) { ?>
                 <div data-thumb="img/product/single-product/product_1.png">
-                  <?php echo    "<img src='$element[product_image]' alt=''>"; ?>
+                  <?php echo    "<img src='img/products/$element[product_image]' alt=''>"; ?>
                 </div>
 
             </div>

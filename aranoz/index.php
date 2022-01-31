@@ -413,7 +413,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     ?>
                     <div class="col-lg-3 col-sm-6">
                       <div class="single_product_item">
-                        <img src="<?php echo  $product['product_image']; ?>" alt="" />
+
+
+                        <img src="img/products/<?php echo  $product['product_image']; ?>" alt="" />
                         <div class="single_product_text">
                           <?php
                           echo "<h4>" . $product['product_name'] . "</h4>";
@@ -525,7 +527,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
               foreach ((array) $products as $product) {
             ?>
                 <div class="single_product_item">
-                  <img src="<?php echo  $product['product_image']; ?>" alt="" />
+                  <img src="img/products/<?php echo  $product['product_image']; ?>" alt="" />
 
                   <div class="single_product_text">
                     <?php
