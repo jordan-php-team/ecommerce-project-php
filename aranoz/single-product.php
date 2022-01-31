@@ -3,7 +3,7 @@ session_start();
 include_once "../db.php";
 
 include "../functions.php";
-addcomments();
+
 
 
 
@@ -218,6 +218,12 @@ addcomments();
               <div class="dropdown cart">
                 <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
                   <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
+                  <?php
+                                    if (isset($_SESSION['products'])) {
+                                        $count = count($_SESSION['products']);
+                                        echo "<strong>$count</strong>";
+                                    }
+                                    ?>
                 </a>
               </div>
             </div>
@@ -260,7 +266,7 @@ addcomments();
               $data->execute();
               foreach ($data as $element) { ?>
                 <div data-thumb="img/product/single-product/product_1.png">
-                  <?php echo    "<img src='$element[product_image]' alt=''>"; ?>
+                  <?php echo    "<img src='img/products/$element[product_image]' alt=''>"; ?>
                 </div>
 
             </div>
@@ -471,7 +477,7 @@ addcomments();
                   </p>
                 </div> -->
 
-        <div id="haneen" class="col-lg-6">
+        <!-- <div id="haneen" class="col-lg-6">
           <div class="review_box">
             <h4>Post a comment</h4>
 
@@ -483,13 +489,14 @@ addcomments();
                 <label>comments</label>
                 <textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
               </div>
+          </div>
 
 
               <input type="submit" value="comment" name="submit" class="btn_3" />
             </form>
           </div>
-        </div>
-
+        </div> -->
+       <?php addcomments();?>
         <?php
 
         $data = $pdo->prepare("SELECT comments.user_id ,comments.comments,

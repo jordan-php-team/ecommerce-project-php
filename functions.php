@@ -20,14 +20,21 @@ function getUsers()
 
         $username = test_input($_POST['username']);
         $email = test_input($_POST['email']);
-        $password = test_input($_POST['password']);
+        // $password = test_input($_POST['password']);
+        // $password = crypt($_POST['password'], '$2a$07$usesomesillystringforsalt$');
+        // $repeatPass = crypt($_POST['repeatPass'], '$2a$07$usesomesillystringforsalt$');
+        $password = password_hash(test_input($_POST['password']), PASSWORD_DEFAULT);
+        // $password = password_hash(test_input($_POST['password']), PASSWORD_DEFAULT);
         $repeatPass = test_input($_POST['repeatPass']);
         $age = test_input($_POST['age']);
+        $mobile = test_input($_POST['mobile']);
 
         $usernamePattern = " /^[A-Za-z]{3,13}$/";
         $emailRegex = "/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
+        $phone = "/^\d{10}$/";
 
-        if (preg_match($usernamePattern, $username) && preg_match($emailRegex, $email) && strlen($password) >= 8 && $password == $repeatPass) {
+
+        if (preg_match($usernamePattern, $username) && preg_match($emailRegex, $email)   && strlen($password) >= 8 && password_verify($repeatPass, $password) && preg_match($phone, $mobile) && strlen($mobile) == 10) {
 
             $sql = "SELECT email FROM registredusers WHERE email='$email'";
             $stmt = $pdo->prepare($sql);
@@ -37,10 +44,10 @@ function getUsers()
                 echo '<script type="text/javascript">alert("email exist")</script>';
             } else {
 
-                $query = "INSERT INTO registredusers (username,email,password,age)";
-                $query .= "VALUES (?,?,?)";
+                $query = "INSERT INTO registredusers (username,email,password,age,mobile)";
+                $query .= "VALUES (?,?,?,?,?)";
                 $stmt = $pdo->prepare($query);
-                $stmt->execute([$username, $email, $password, $age]);
+                $stmt->execute([$username, $email, $password, $age, $mobile]);
                 header("location:login.php");
             }
         } else {
@@ -48,6 +55,8 @@ function getUsers()
         }
     }
 }
+
+
 function getAddedUsers()
 {
     if (isset($_POST['submit_add_user'])) {
@@ -55,14 +64,17 @@ function getAddedUsers()
 
         $username = test_input($_POST['username']);
         $email = test_input($_POST['email']);
-        $password = test_input($_POST['password']);
+        $password = password_hash(test_input($_POST['password']), PASSWORD_DEFAULT);
         $repeatPass = test_input($_POST['repeatPass']);
         $age = test_input($_POST['age']);
+        $mobile = test_input($_POST['mobile']);
 
         $usernamePattern = " /^[A-Za-z]{3,13}$/";
         $emailRegex = "/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
+        $phone = "/^\d{10}$/";
 
-        if (preg_match($usernamePattern, $username) && preg_match($emailRegex, $email) && strlen($password) >= 8 && $password == $repeatPass) {
+        if (preg_match($usernamePattern, $username) && preg_match($emailRegex, $email) && strlen($password) >= 8 && password_verify($repeatPass, $password) && preg_match($phone, $mobile) && strlen($mobile) == 10) {
+
 
             $sql = "SELECT email FROM registredusers WHERE email='$email'";
             $stmt = $pdo->prepare($sql);
@@ -72,13 +84,14 @@ function getAddedUsers()
                 echo '<script type="text/javascript">alert("email exist")</script>';
             } else {
 
-                $query = "INSERT INTO registredusers (username,email,password,age)";
-                $query .= "VALUES (?,?,?,?)";
+                $query = "INSERT INTO registredusers (username,email,password,age,mobile)";
+                $query .= "VALUES (?,?,?,?,?)";
                 $stmt = $pdo->prepare($query);
-                $stmt->execute([$username, $email, $password, $age]);
-                header("location:addUser.php");
+                $stmt->execute([$username, $email, $password, $age, $mobile]);
+                header("location:table.php");
             }
         } else {
+
             echo '<script type="text/javascript">alert("please check your information")</script>';
         }
     }
@@ -97,13 +110,20 @@ function loggedUsers()
         $email = test_input($_POST['email']);
         $password = test_input($_POST['password']);
         $emailRegex = "/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
+
         if (preg_match($emailRegex, $email)) {
 
-            $query = "SELECT * FROM registredusers WHERE (email = '$email') AND (password = '$password')  ";
+            $query = "SELECT * FROM registredusers WHERE (email = '$email')  ";
             $stmt = $pdo->prepare($query);
             $stmt = $pdo->query($query); //we run it
+            $result3 = $stmt->fetch();
+            $passwordFromDb = $result3['password'];
 
-            if ($stmt->fetchColumn() > 0) {
+
+
+            if (password_verify($password, $passwordFromDb)) {
+
+
                 $stmt->execute();
                 $result = $stmt->fetchAll(); //we set the default behavior in db file (fetch mode) ,also you use fetch without all
                 $isAdmin = $result[0]['is_admin'];
@@ -129,7 +149,7 @@ function loggedUsers()
                     header("location:../cms/table.php");
                 }
             } else {
-                echo '<script type="text/javascript">alert("incorrect email or password")</script>';
+                echo '<script type="text/javascript">alert("please check your information")</script>';
             }
         } else {
             echo '<script type="text/javascript">alert("please check your information")</script>';
@@ -140,25 +160,71 @@ function loggedUsers()
 
 
 
-function read()
+
+
+function getUpdatedUsers()
 {
-    global $pdo;
-    $query = "SELECT * FROM registredusers";
-    $stmt = $pdo->prepare($query);
-    $stmt = $pdo->query($query);
-    if (!$stmt) {
-        die('failed'); //stop every thing
-    }
-    while ($row = $stmt->fetch()) {
-        $id = $row['id'];
-        echo "<option value='$id'>$id</option> ";
+
+    if (isset($_GET['edit_user'])) {
+
+        global $pdo;
+
+        $user_id = $_GET['edit_user'];
+        $query3 = "SELECT * FROM registredusers WHERE id = $user_id";
+        $stmt3 = $pdo->prepare($query3);
+        $stmt3 = $pdo->query($query3);
+        $stmt3->execute();
+        $result3 = $stmt3->fetch();
+?>
+
+        <form method='post'>
+            <div class="form-group">
+
+                <label for='username'>username</label>
+                <input type="text" class="form-control" name='username' value="<?php echo $result3['username']; ?>">
+            </div>
+            <div class="form-group">
+                <label for='password'>password</label>
+                <input type="password" class="form-control" name='password' value="<?php echo $result3['password']; ?>">
+            </div>
+            <div class="form-group">
+                <!-- <select name="id" id="">
+                     
+                    </select> -->
+
+            </div>
+            <input type="submit" class="btn btn-primary" value='UPDATE' name='submit'>
+
+        </form>
+
+        <?php
+        if (isset($_POST['submit'])) {
+            $newUsername = $_POST['username'];
+            $newPassword = password_hash(test_input($_POST['password']), PASSWORD_DEFAULT);
+            $query = "UPDATE registredusers SET username = '$newUsername', password='$newPassword'  WHERE id= $user_id  ";
+            // $query = "UPDATE registredusers SET username = '$newUsername' , mobile = '$newPassword' WHERE (id= $user_id)";
+
+
+            $stmt = $pdo->prepare($query);
+            $stmt = $pdo->query($query);
+
+            if (!$stmt) {
+                echo 'failed';
+            } else {
+                header("location: table.php");
+                // print_r($newPassword);
+                // print_r($newUsername);
+            }
+        }
     }
 }
 
-function orders(){
+
+function orders()
+{
     global $pdo;
 
-    $userid=$_SESSION['loggedUser']['id'];
+    $userid = $_SESSION['loggedUser']['id'];
     $query = "SELECT * FROM orders WHERE user_id = $userid";
     $stmt = $pdo->prepare($query);
     $stmt = $pdo->query($query);
@@ -190,7 +256,7 @@ function orders(){
 
 function orderDetails(){
     global $pdo;
-    $userid=$_SESSION['loggedUser']['id'];
+    $userid = $_SESSION['loggedUser']['id'];
     $query = "SELECT * FROM orders WHERE user_id = $userid";
     $stmt = $pdo->prepare($query);
     $stmt = $pdo->query($query);
@@ -208,46 +274,45 @@ function orderDetails(){
 
     echo "<tbody>";
 
-    for($i=0 ;$i< $productnum ; $i++){
-        $id= $result2[$i]['product_id'];
-    $query3 = "SELECT * FROM products WHERE id = $id";
-    $stmt3 = $pdo->prepare($query3);
-    $stmt3 = $pdo->query($query3);
-    $stmt3->execute();
-    $result3=$stmt3->fetch();
-              echo  "<tr>";
-              echo    '<th colspan="2"><span>'.$result3['product_name'].'</span></th>';
-              echo    '<th>'.$result2[$i]['quantity'].'</th>';
-              echo    '<th> <span>'.$result3['product_price'].'</span></th>';
-              echo  "</tr>";
-                $quantity=$quantity+$result2[$i]['quantity'];
+    for ($i = 0; $i < $productnum; $i++) {
+        $id = $result2[$i]['product_id'];
+        $query3 = "SELECT * FROM products WHERE id = $id";
+        $stmt3 = $pdo->prepare($query3);
+        $stmt3 = $pdo->query($query3);
+        $stmt3->execute();
+        $result3 = $stmt3->fetch();
+        echo  "<tr>";
+        echo    '<th colspan="2"><span>' . $result3['product_name'] . '</span></th>';
+        echo    '<th>' . $result2[$i]['quantity'] . '</th>';
+        echo    '<th> <span>' . $result3['product_price'] . '</span></th>';
+        echo  "</tr>";
+        $quantity = $quantity + $result2[$i]['quantity'];
     }
-        
-              echo   "<tr>";
-              echo    '<th colspan="3">'."shipping".'</th>';
-              echo    '<th><span>'."flat rate: 50.00".'</span></th>';
-              echo  "</tr>";
-              echo  "</tbody>";
-              echo  "<tfoot>";
-              echo  "<tr>";
-              echo  '<th  colspan="2">'."Quantity".'</th>';
-              echo   '<th>'.$quantity.'</th>';
-              echo  '<th scope="col">'.$total.'</th>';
-              echo  "</tr>";
-              echo  "</tfoot>";
-           
 
+    echo   "<tr>";
+    echo    '<th colspan="3">' . "shipping" . '</th>';
+    echo    '<th><span>' . "flat rate: 50.00" . '</span></th>';
+    echo  "</tr>";
+    echo  "</tbody>";
+    echo  "<tfoot>";
+    echo  "<tr>";
+    echo  '<th  colspan="2">' . "Quantity" . '</th>';
+    echo   '<th>' . $quantity . '</th>';
+    echo  '<th scope="col">' . $total . '</th>';
+    echo  "</tr>";
+    echo  "</tfoot>";
 }
 
-function editInfo(){
+function editInfo()
+{
 
-    if(isset($_POST['edit'])){
+    if (isset($_POST['edit'])) {
         global $pdo;
         $id = $_SESSION['loggedUser']['id'];
         $password = $_SESSION['loggedUser']['password'];
-        $username=$_POST['name'];
+        $username = $_POST['name'];
         print_r($username);
-        $usermobile=$_POST['mobile'];
+        $usermobile = $_POST['mobile'];
         $query = "UPDATE registredusers SET username = '$username' , mobile = '$usermobile' WHERE (id= $id)";
         $stmt = $pdo->prepare($query);
         $stmt = $pdo->query($query);
@@ -255,11 +320,10 @@ function editInfo(){
         $stmt = $pdo->prepare($query);
         $stmt = $pdo->query($query);
         $stmt->execute();
-        $result=$stmt->fetch();
-        $_SESSION['loggedUser']['username']=$result['username'];
-        $_SESSION['loggedUser']['mobile']=$result['mobile'];
+        $result = $stmt->fetch();
+        $_SESSION['loggedUser']['username'] = $result['username'];
+        $_SESSION['loggedUser']['mobile'] = $result['mobile'];
         header('Location:confirmation.php');
-      
     }
 }
 
@@ -325,13 +389,8 @@ function getData()
             echo   '<td>' . $user['date created'] . '</td>';
             echo   '<td>' . $user['last_login_date'] . '</td>';
             echo   '<td>' . $user['age'] . '</td>';
-?>
-            <form method='post' action='editUser.php'>
-                <?php
-
-                echo '<td>     <button name="update-user" value=' . $user['id'] . ' type="submit" class="item" data-toggle="tooltip" data-placement="top" title="Edit"><i class="zmdi zmdi-edit"></i></button></td>';
-                ?>
-            </form>
+            echo "<td> <a href='editUser.php?edit_user={$user['id']}'>Update</td>";
+        ?>
             <form method='post'>
                 <?php
                 echo '<td> <button name="delete-user" value=' . $user['id'] . ' type="submit" class="item" data-toggle="tooltip" data-placement="top" title="Delete"><i class="zmdi zmdi-delete"></i></button></td>';
@@ -360,7 +419,7 @@ function getProducts()
             echo   '<td>' . $user['product_price'] . '</td>';
             echo   '<td>' . $user['product_description'] . '</td>';
             echo   '<td>' ?>
-            <img class="img-responsive" src="<?php echo  $user['product_image']; ?>" alt="">
+            <img src="<?php echo $user['product_image']  ?>" alt="">
             <?php
             echo '</td>';
             echo   '<td>' . $user['category_id'] . '</td>';
@@ -422,7 +481,6 @@ function getComments()
             echo   '<td>' . $user['comments'] . '</td>';
             echo   '<td>' . $user['user_id'] . '</td>';
             echo   '<td>' . $user['product_id'] . '</td>';
-            echo "<td> <a href='commentsAdmin.php?edit-comment={$user['id']}'>Update</td>";
             echo "<td> <a href='commentsAdmin.php?delete-comment={$user['id']}'><i class='zmdi zmdi-delete'></i></td>";
 
 
@@ -449,8 +507,9 @@ function getOrders()
             echo   '<td>' . $user['user_id'] . '</td>';
             echo   '<td>' . $user['total'] . '</td>';
             echo   '<td>' . $user['date'] . '</td>';
-
+            echo   '<td>' . $user['city'] . '</td>';
             echo "<td> <a href='orders.php?delete-order={$user['id']}'><i class='zmdi zmdi-delete'></i></td>";
+
 
 
 
@@ -591,25 +650,45 @@ function getAddedProduct()
     if (isset($_POST['add_product_submit'])) {
         global $pdo;
 
+        if (isset($_POST['category_id'])) {
 
-        $product_name = $_POST['product_name'];
-        $product_price = $_POST['product_price'];
-        $product_des = $_POST['product_des'];
-        $product_img = $_FILES['product_img']['name'];
-        $product_img_temp = $_FILES['product_img']['tmp_name'];
-        $category_id = $_POST['category_id'];
-        $product_stock = $_POST['product_stock'];
+            $product_name = $_POST['product_name'];
+            $product_price = $_POST['product_price'];
+            $product_des = $_POST['product_des'];
+            // $product_img = $_FILES['product_img']['name'];
+            // $product_img_temp = $_FILES['product_img']['tmp_name'];
+            $product_img = $_POST['product_img'];
+            $category_id = $_POST['category_id'];
+            $product_stock = $_POST['product_stock'];
 
-        $query = "INSERT INTO products (product_name,product_price,product_description,category_id,product_image,stock )";
-        $query .= "VALUES (?,?,?,?,?,?)";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute([$product_name, $product_price, $product_des,  $category_id, $product_img, $product_stock]);
-        if ($stmt) {
+            $query = "INSERT INTO products (product_name,product_price,product_description,category_id,product_image,stock )";
+            $query .= "VALUES (?,?,?,?,?,?)";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([$product_name, $product_price, $product_des,  $category_id, $product_img, $product_stock]);
+            if ($stmt) {
 
-            move_uploaded_file($product_img_temp, "../images/$product_img");
-        } else {
-            echo 'failed';
+                // move_uploaded_file($product_img_temp, "../images/$product_img");
+                header("location:productsAdmin.php");
+            } else {
+                echo 'failed';
+            }
         }
+    }
+}
+
+function read()
+{
+    global $pdo;
+    $query = "SELECT * FROM categories";
+    $stmt = $pdo->prepare($query);
+    $stmt = $pdo->query($query);
+    if (!$stmt) {
+        die('failed'); //stop every thing
+    }
+    while ($row = $stmt->fetch()) {
+        $category_title = $row['id'];
+
+        echo "<option value='$category_title'>$category_title</option> ";
     }
 }
 
@@ -619,6 +698,7 @@ function getAddedCategory()
 
 
     if (isset($_POST['add_category_submit'])) {
+
 
         global $pdo;
         $category_title = $_POST['category_title'];
@@ -655,7 +735,7 @@ function getDeletedProduct()
         global $pdo;
 
         $the_product_id = $_POST['delete-product'];
-        print_r($the_product_id);
+
         $query = "DELETE FROM products WHERE id='$the_product_id'";
         $stmt = $pdo->prepare($query);
         $stmt = $pdo->query($query);
@@ -718,94 +798,126 @@ function getDeletedOrders()
         $stmt = $pdo->query($query);
         if ($stmt) {
             header("location: orders.php");
+        } else {
+            echo 'dekijdikje';
         }
     }
 }
 
 function addcomments()
 {
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // if($_POST['name']=='submit'){
-            if (isset($_SESSION['loggedUser'])) {
-                global $pdo;
-                // echo "<h1>haneen</h1>";
-                // var_dump($_SESSION['loggedUser']);
-    
-                $message = $_POST['message'];
-                $idproduct = $_GET['id'];
+
+
+    // if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    //    var_dump($_SESSION['loggedUser']);
+    if (!empty($_SESSION['loggedUser'] > 0)) {
+        global $pdo;
+
+
+        echo "<div id='haneen' class='col-lg-6'>";
+        echo  "<div class='review_box'>";
+        echo     "<h4>Post a comment</h4>";
+        echo  "<form action='' method='post'>";
+        echo "<div class='form-group'>";
+        echo  "<label>comments</label>";
+        echo    "<textarea class='form-control' name='message' id='message' rows='1' placeholder='Message'></textarea>";
+        echo   "</div>";
+        echo   "<input type='submit' value='comment' name='submit' class='btn_3' />";
+        echo   "</form>";
+        echo  "</div>";
+        echo  "</div>";
+        if (isset($_POST['message'])) {
+            $message = $_POST['message'];
+            $idproduct = $_GET['id'];
+            if (isset($_SESSION['loggedUser']['id'])) {
                 $iduser = $_SESSION['loggedUser']['id'];
-    
-    
+
+
                 $data = "INSERT INTO comments(user_id,comments,product_id) 
-          VALUE ('$iduser','$message' ,'$idproduct')";
-    
+                VALUE ('$iduser','$message' ,'$idproduct')";
+
                 $stmt = $pdo->prepare($data);
                 $stmt->execute();
-            } else {
-                echo '<script type="text/javascript">alert("is not loggin")</script>';
             }
-        // }
-        
+        }
     }
+    //  else {
+    //     echo '<script type="text/javascript">alert("is not loggin")</script>';
+    // }
+    // }
+
+    // }
 }
 
 
 function checkoutButton($Total)
 {
-    echo "haneen";
+
     global $pdo;
     $cart = $_SESSION["products"];
-    if(isset($_SESSION["loggedUser"])){
+
+    if (isset($_SESSION["loggedUser"])) {
         $whoLogged = $_SESSION["loggedUser"];
         $user_id = $whoLogged['id'];
     }
- 
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (isset($_POST['checkout_submit'])) {
-            //orders table
-            $query = "INSERT INTO orders (user_id,total)";
-            $query .= "VALUES (?,?)";
-            $stmt = $pdo->prepare($query);
-            if ($stmt) {
+            $city = $_POST['city'];
+            $deliveryNumber = $_POST['deliveryNumber'];
+            if ($city !== '' && $deliveryNumber !== '') {
 
-                $stmt->execute([$user_id,$Total]);
-                //getting last order id from orders table
-                $query = $pdo->prepare("SELECT max(id) FROM orders");
-                $query->execute();
-                $result = $query->fetchAll();
-                $maxId = $result[0]['max(id)'];
-            }
-            //order_item table
-            foreach ($cart as $product) {
-                $product_id =  $product['id'];
-                $qty =  $product[0];
-                $query = "INSERT INTO order_item (order_id,product_id,quantity)";
+                //orders table
+                $query = "INSERT INTO orders (user_id,total,city)";
                 $query .= "VALUES (?,?,?)";
                 $stmt = $pdo->prepare($query);
                 if ($stmt) {
 
-                    $stmt->execute([$maxId, $product_id,$qty]);
-                    //updating stock in products table
-                    $query = "SELECT stock FROM products WHERE (id = '$product_id') ";
-                    $select_all_stocks = $pdo->query($query);
-                    $select_all_stocks->execute();
+                    $stmt->execute([$user_id, $Total, $city]);
+                    //getting last order id from orders table
+                    $query = $pdo->prepare("SELECT max(id) FROM orders");
+                    $query->execute();
+                    $result = $query->fetchAll();
+                    $maxId = $result[0]['max(id)'];
+                }
+                //order_item table
+                foreach ($cart as $product) {
+                    $product_id =  $product['id'];
+                    $qty =  $product[0];
+                    $query = "INSERT INTO order_item (order_id,product_id,quantity)";
+                    $query .= "VALUES (?,?,?)";
+                    $stmt = $pdo->prepare($query);
+                    if ($stmt) {
 
-                    while ($row = $select_all_stocks->fetchAll()) {
+                        $stmt->execute([$maxId, $product_id, $qty]);
+                        //updating stock in products table
+                        $query = "SELECT stock FROM products WHERE (id = '$product_id') ";
+                        $select_all_stocks = $pdo->query($query);
+                        $select_all_stocks->execute();
 
-                        foreach ((array) $row as $products) {
-                            $stock2 = $products['stock'];
-                            $newStock = $stock2 - $qty;
-                            $query = "UPDATE products SET stock = '$newStock'  WHERE id= $product_id  ";
-                            $stmt = $pdo->prepare($query);
-                            $stmt = $pdo->query($query);
+                        while ($row = $select_all_stocks->fetchAll()) {
+
+                            foreach ((array) $row as $products) {
+                                $stock2 = $products['stock'];
+                                $newStock = $stock2 - $qty;
+                                $query = "UPDATE products SET stock = '$newStock'  WHERE id= $product_id  ";
+                                $stmt = $pdo->prepare($query);
+                                $stmt = $pdo->query($query);
+                            }
                         }
                     }
                 }
+                $_SESSION['products'] = [];
+                header("location: index.php");
+            } else {
+                echo '<script type="text/javascript">alert("please fill your information")</script>';
             }
         }
     }
 }
+
+
 function logout()
 {
     if (isset($_POST['logout_btn'])) {

@@ -9,79 +9,66 @@ include_once "../db.php";
 
 
 <?php
- global $pdo;
- $quanitity=1;
-    if($_SERVER["REQUEST_METHOD"]=="GET"){
-    if(isset($_GET['addToCart'])){
-      $product_id= $_GET['addToCart'];
+global $pdo;
+$quanitity = 1;
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+  if (isset($_GET['addToCart'])) {
+    $product_id = $_GET['addToCart'];
 
-      $data="SELECT * FROM products WHERE id=$product_id";
-      $sql=$pdo->prepare($data);
-      $sql->execute();
-      $result=$sql->fetch();
-     var_dump($result);
-       $flag=false;
-       if($result['stock'] > 0 ){
+    $data = "SELECT * FROM products WHERE id=$product_id";
+    $sql = $pdo->prepare($data);
+    $sql->execute();
+    $result = $sql->fetch();
+    //  var_dump($result);
+    $flag = false;
+    if ($result['stock'] > 0) {
 
-      if(isset($_SESSION['products'])){
-          foreach($_SESSION['products'] as $element){
-            if($element['id']==$product_id)  {
-                $_SESSION['products'][$product_id][0]+=1;
-                $flag=true;
-                break;
-            }
+      if (isset($_SESSION['products'])) {
+        foreach ($_SESSION['products'] as $element) {
+          if ($element['id'] == $product_id) {
+            $_SESSION['products'][$product_id][0] += 1;
+            $flag = true;
+            break;
+          }
         }
 
-         if($flag==false){
-        $_SESSION['products'][$product_id]=$result;
-        $_SESSION['products'][$product_id][0]=$quanitity;
-         }
-
-
-         foreach($_SESSION['products'] as $element){
-
-            $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']);
-                    
-            if($_SESSION['products'][$product_id]['product_discount']> 0){
-
-            $discount_percentage_product= $_SESSION['products'][$product_id]['Total'] *($element['product_discount']/100);
-          $Total_product_after_dicount =$_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
-          $_SESSION['products'][$product_id]['Total_after_discount']= $Total_product_after_dicount;
-
-
-          $discount_percentage_product= ($element['product_discount']/100) *intval($element['product_price']);
-          $price_product_after_dicount = intval($element['product_price'])- $discount_percentage_product;
-          $_SESSION['products'][$product_id]['product_price_after_discount']= $price_product_after_dicount;
+        if ($flag == false) {
+          $_SESSION['products'][$product_id] = $result;
+          $_SESSION['products'][$product_id][0] = $quanitity;
         }
 
 
-        else{
-            $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']); 
-            $_SESSION['products'][$product_id]['Total_after_discount']=$_SESSION['products'][$product_id]['Total'];
-          $_SESSION['products'][$product_id]['product_price_after_discount']=$_SESSION['products'][$product_id]['product_price'];
+        foreach ($_SESSION['products'] as $element) {
 
-            
+          $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
+
+          if ($_SESSION['products'][$product_id]['product_discount'] > 0) {
+
+            $discount_percentage_product = $_SESSION['products'][$product_id]['Total'] * ($element['product_discount'] / 100);
+            $Total_product_after_dicount = $_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
+            $_SESSION['products'][$product_id]['Total_after_discount'] = $Total_product_after_dicount;
+
+
+            $discount_percentage_product = ($element['product_discount'] / 100) * intval($element['product_price']);
+            $price_product_after_dicount = intval($element['product_price']) - $discount_percentage_product;
+            $_SESSION['products'][$product_id]['product_price_after_discount'] = $price_product_after_dicount;
+          } else {
+            $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
+            $_SESSION['products'][$product_id]['Total_after_discount'] = $_SESSION['products'][$product_id]['Total'];
+            $_SESSION['products'][$product_id]['product_price_after_discount'] = $_SESSION['products'][$product_id]['product_price'];
+          }
         }
+        // header("location: category.php");
+        // echo '<script type="text/javascript">alert("add to cart")</script>';
+      }
+    } else {
+      echo '<script type="text/javascript">alert("is empty stock")</script>';
+      // header("location: category.php");
 
-
-
-         }
-         header("location: cart.php");
-        }
-
-       
-      
-        }
-
-        else{
-          echo '<script type="text/javascript">alert("is not loggin")</script>';
-         header("location: category.php");
-          
-        }
-    
     }
+  }
 }
-   
+
 ?>
 
 
@@ -96,7 +83,7 @@ include_once "../db.php";
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <title>kenbae</title>
-    <link rel="icon" href="img/favicon1.png" />
+  <link rel="icon" href="img/favicon1.png" />
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css" />
   <!-- animate CSS -->
@@ -137,17 +124,22 @@ include_once "../db.php";
     transform: scale(1.1);
     transition: .2s;
   }
+
+  header{
+    position: fixed !important;
+    background:white;
+  }
 </style>
 
 <body>
   <!--::header part start::-->
-  <header class="main_menu home_menu">
+  <header class="main_menu home_menu" >
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-12">
           <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="index.php">
-            <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
+              <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -210,6 +202,12 @@ include_once "../db.php";
               <div class="dropdown cart">
                 <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
                   <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
+                  <?php
+                  if (isset($_SESSION['products'])) {
+                    $count = count($_SESSION['products']);
+                    echo "<strong>$count</strong>";
+                  }
+                  ?>
                 </a>
               </div>
             </div>
@@ -415,7 +413,9 @@ include_once "../db.php";
                     ?>
                     <div class="col-lg-3 col-sm-6">
                       <div class="single_product_item">
-                        <img src="<?php echo  $product['product_image']; ?>" alt="" />
+
+
+                        <img src="img/products/<?php echo  $product['product_image']; ?>" alt="" />
                         <div class="single_product_text">
                           <?php
                           echo "<h4>" . $product['product_name'] . "</h4>";
@@ -423,11 +423,11 @@ include_once "../db.php";
                             echo     "<h3><del>$product[product_price]JD</del></h3>";
                           } else {
                             echo     "<h3>$product[product_price]JD</h3>";
-                          }  
-                           echo    "<h3>$Total_product_after_dicount</h3>";
+                          }
+                          echo    "<h3>$Total_product_after_dicount</h3>";
                           echo "<form method='GET'>";
                           echo "<button type='submit' value=$product[id] name='addToCart'   class='btn_3'>add to cart</button>";
-                          echo "</form>"; ?>     
+                          echo "</form>"; ?>
                         </div>
                       </div>
                     </div>
@@ -480,7 +480,7 @@ include_once "../db.php";
                 <h2>Weekly Sale on 60% Off All Products</h2>
                 <div class="date_countdown">
                   <div id="timer">
-                    <div  class="date"></div>
+                    <div class="date"></div>
                     <div id="hours" class="date"></div>
                     <div id="minutes" class="date"></div>
                     <div id="seconds" class="date"></div>
@@ -527,7 +527,7 @@ include_once "../db.php";
               foreach ((array) $products as $product) {
             ?>
                 <div class="single_product_item">
-                  <img src="<?php echo  $product['product_image']; ?>" alt="" />
+                  <img src="img/products/<?php echo  $product['product_image']; ?>" alt="" />
 
                   <div class="single_product_text">
                     <?php
