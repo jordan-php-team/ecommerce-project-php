@@ -3,30 +3,31 @@ include_once "../db.php";
 include "../functions.php";
 session_start();
 // session_unset();
-if(isset($_SESSION["products"])){
+if (isset($_SESSION["products"])) {
   $cart = $_SESSION["products"];
 }
 
-if(isset( $_SESSION['loggedUser'])){
+if (isset($_SESSION['loggedUser'])) {
   $loggedSession = $_SESSION['loggedUser'];
 }
 
 
 
 // echo "<pre>";
-// var_dump($cart);
-// var_dump($loggedSession);
+// // var_dump($cart);
+// var_dump($_SESSION['loggedUser']);
+// print_r($_SESSION['loggedUser']['username']);
 // echo "</pre>";
 
 ?>
-     <?php 
-                    // echo "<pre>";
-                    // var_dump($_SESSION['products']);
-                   ?>
+<?php
+// echo "<pre>";
+// var_dump($_SESSION['products']);
+?>
 
 <?php
-   global $Total;
- 
+global $Total;
+
 
 
 
@@ -98,7 +99,7 @@ if(isset( $_SESSION['loggedUser'])){
         <div class="col-lg-12">
           <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="index.php">
-            <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
+              <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -134,13 +135,13 @@ if(isset( $_SESSION['loggedUser'])){
                     <?php else : ?>
                       <a class="dropdown-item" href="login.php" id="login-field"> login</a>
                     <?php endif; ?>
-              
+
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
                     <a class="dropdown-item" href="confirmation.php">confirmation</a>
-               
+
                   </div>
                 </li>
-               
+
               </ul>
             </div>
             <div class="hearer_icon d-flex">
@@ -149,7 +150,7 @@ if(isset( $_SESSION['loggedUser'])){
                 <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
                   <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
                 </a>
-              
+
 
               </div>
             </div>
@@ -183,202 +184,211 @@ if(isset( $_SESSION['loggedUser'])){
   <section class="checkout_area padding_top">
     <div class="container">
 
-        <?php
-      
-        ?>
-      </div> 
-      <div class="billing_details">
-        <div class="row">
-          <div class="col-lg-8">
-            <h3>Billing Details</h3>
-            <form class="row contact_form" action="#" method="post" novalidate="novalidate">
-              <div class="col-md-6 form-group p_star">
-                <input type="text" class="form-control" id="first" name="name" />
-                <span class="placeholder" data-placeholder="First name"></span>
-              </div>
-              <div class="col-md-6 form-group p_star">
-                <input type="text" class="form-control" id="last" name="name" />
-                <span class="placeholder" data-placeholder="Last name"></span>
-              </div>
-          
-              <div class="col-md-6 form-group p_star">
-                <input type="text" class="form-control" id="number" name="number" />
-                <span class="placeholder" data-placeholder="Phone number"></span>
-              </div>
-              <div class="col-md-6 form-group p_star">
-                <input type="text" class="form-control" id="email" name="compemailany" />
-                <span class="placeholder" data-placeholder="Email Address"></span>
-              </div>
-          
-              <div class="col-md-12 form-group p_star">
-                <input type="text" class="form-control" id="add1" name="add1" />
-                <span class="placeholder" data-placeholder="Address line 01"></span>
-              </div>
-              <div class="col-md-12 form-group p_star">
-                <input type="text" class="form-control" id="add2" name="add2" />
-                <span class="placeholder" data-placeholder="Address line 02"></span>
-              </div>
-        
-              <div class="col-md-12 form-group">
-            
-                <textarea class="form-control" name="message" id="message" rows="1" placeholder="Order Notes"></textarea>
-              </div>
-            </form>
-         
-          </div>
-          <div class="col-lg-4">
-            <div class="order_box">
-              <h2>Your Order</h2>
-              <ul class="list">
+      <?php
+
+      ?>
+    </div>
+    <div class="billing_details">
+      <?php
+      $usernameDetail = $_SESSION['loggedUser']['username'];
+      $emailDetail = $_SESSION['loggedUser']['email'];
+      $mobileDetail = $_SESSION['loggedUser']['mobile'];
+
+
+      ?>
+
+      <div class="row mx-auto">
+        <div class="col-lg-8 ">
+          <h3>Billing Details</h3>
+          <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+            <div class="col-md-6 form-group p_star">
+              <input type="text" class="form-control" id="first" name="name" value="<?php echo $usernameDetail; ?>" disabled />
+              <!-- <span class="placeholder" data-placeholder="First name"></span> -->
+            </div>
+            <!-- <div class="col-md-6 form-group p_star">
+              <input type="text" class="form-control" id="last" name="name" />
+              <span class="placeholder" data-placeholder="Last name"></span>
+            </div> -->
+
+            <div class="col-md-6 form-group p_star">
+              <input type="text" class="form-control" id="number" name="deliveryNumber" value="<?php echo $mobileDetail; ?>" />
+              <!-- <span class="placeholder" data-placeholder=" span> -->
+            </div>
+            <div class="col-md-6 form-group p_star">
+              <input type="text" class="form-control" id="email" name="compemailany" value="<?php echo $emailDetail; ?>" disabled />
+              <!-- <span class="placeholder" data-placeholder="Email Address"></span> -->
+            </div>
+
+            <div class="col-md-6 form-group p_star">
+              <input type="text" class="form-control" id="add1" name="city" required />
+              <span class="placeholder" data-placeholder="City"></span>
+            </div>
+            <!-- <div class="col-md-12 form-group p_star">
+              <input type="text" class="form-control" id="add2" name="add2" />
+              <span class="placeholder" data-placeholder="Address line 02"></span>
+            </div> -->
+
+            <div class="col-md-12 form-group">
+
+              <textarea class="form-control" name="message" id="message" rows="1" placeholder="Order Notes"></textarea>
+            </div>
+
+
+        </div>
+        <div class="col-lg-4">
+          <div class="order_box">
+            <h2>Your Order</h2>
+            <ul class="list">
+              <li>
+                <a href="#">Product
+                  <span> <strong> after_discount</strong></span>
+                  <!-- <span> Total</span> -->
+
+
+                </a>
+              </li>
+              <?php
+              foreach ($cart  as $element) { ?>
+
+
                 <li>
-                  <a href="#">Product
-                    <span> <strong> after_discount</strong></span>
-                    <!-- <span> Total</span> -->
-             
+                  <a><?php echo $element['product_name']; ?>
+                    <span class="middle">x <?php echo $element[0]; ?></span>
+                    <span class="last">
+                      <?php
+                      $Total += $element['Total_after_discount'];
+                      echo $element['Total_after_discount'];
 
-                  </a>
-                </li>
-                <?php 
-                foreach ($cart  as $element){?>
 
-               
-                  <li>
-                    <a><?php echo $element['product_name']; ?>
-                      <span class="middle">x <?php echo $element[0]; ?></span>
-                      <span class="last">
-                        <?php
-                      $Total+= $element['Total_after_discount'];
-                         echo $element['Total_after_discount'];
-                   
-                
-                       ?> JD</span>
+                      ?> JD</span>
                     <!-- <span class="last"> -->
-                      <?php 
+                    <?php
                     // echo $element['Total_after_discount'];
                     // 
 
-                        ?> JD</span>
-                      <!-- <span class="last"> -->
-                      <?php
-                      // echo $element[0] * $element['product_price']; 
-                      // 
-                      ?>
-          
-                       <?php }?>
-                    </a>
-                  </li>
-<?php
-// if ($_SERVER["REQUEST_METHOD"] == "GET") {
-//   if(isset($_GET['coupon']) && $_GET['coupon']=='furniture'){
-//   $coupon=$_GET['coupon'];
-//     $discount_percentage=$Total*0.2;
-//     global $TotalAftercoupon;
-//       $TotalAftercoupon =$Total-$discount_percentage;
-//   }
-// }
+                    ?> JD</span>
+                    <!-- <span class="last"> -->
+                    <?php
+                    // echo $element[0] * $element['product_price']; 
+                    // 
+                    ?>
 
-       
-                ?>
-
-              </ul>
-              <ul class="list list_2">
-
-                <li>
-                  <a href="#">Total
-                  <span>
-               
-                  <?php   
-            //  foreach ($cart  as $element){
-                    if(isset($Total)){
-                      echo $Total;
-                    }
-                  
-             
-                  ?> JD</span> 
+                  <?php } ?>
                   </a>
                 </li>
-
-                <!-- <li> -->
-                  <!-- <a href="#">TotalAftercoupon -->
-                    <!-- <span> -->
-                      <?php  
-                    //  if(isset($TotalAftercoupon) ){
-                    //    $element['all_Total']=$TotalAftercoupon;
-                    //   echo $TotalAftercoupon ;
-                    //  }
-                 
-                    //    }   ?> 
-                    <!-- JD</span> -->
-                  <!-- </a> -->
-                <!-- </li> -->
+                <?php
+                // if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                //   if(isset($_GET['coupon']) && $_GET['coupon']=='furniture'){
+                //   $coupon=$_GET['coupon'];
+                //     $discount_percentage=$Total*0.2;
+                //     global $TotalAftercoupon;
+                //       $TotalAftercoupon =$Total-$discount_percentage;
+                //   }
+                // }
 
 
-              </ul>
-              <div class="payment_item">
-                <div class="radion_btn">
-                  <input type="radio" id="f-option5" name="selector" />
-                  <label for="f-option5">Pay on delivery </label>
-                  <div class="check" Required></div>
-                </div>
+                ?>
 
+            </ul>
+            <ul class="list list_2">
+
+              <li>
+                <a href="#">Total
+                  <span>
+
+                    <?php
+                    //  foreach ($cart  as $element){
+                    if (isset($Total)) {
+                      echo $Total;
+                    }
+
+
+                    ?> JD</span>
+                </a>
+              </li>
+
+              <!-- <li> -->
+              <!-- <a href="#">TotalAftercoupon -->
+              <!-- <span> -->
+              <?php
+              //  if(isset($TotalAftercoupon) ){
+              //    $element['all_Total']=$TotalAftercoupon;
+              //   echo $TotalAftercoupon ;
+              //  }
+
+              //    }   
+              ?>
+              <!-- JD</span> -->
+              <!-- </a> -->
+              <!-- </li> -->
+
+
+            </ul>
+            <div class="payment_item">
+              <div class="radion_btn">
+                <input type="radio" id="f-option5" name="selector" />
+                <label for="f-option5">Pay on delivery </label>
+                <div class="check" Required></div>
               </div>
-              
-              <?php 
-                  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    checkoutButton($Total);
-                  }
-
-          ?>
-              <form method="post">
-                <input type="submit" class="btn_3" name="checkout_submit" value="Checkout">
-              </form>
 
             </div>
+
+            <?php
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+              checkoutButton($Total);
+            }
+
+            ?>
+
+            <input type="submit" class="btn_3" name="checkout_submit" value="Checkout">
+            </form>
+
           </div>
         </div>
       </div>
+    </div>
     </div>
   </section>
   <!--================End Checkout Area =================-->
 
   <!--::footer_part start::-->
   <footer class="footer_part">
-        <div class="container">
+    <div class="container">
 
-        </div>
-        <div class="copyright_part">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="copyright_text">
-                            <p>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                Copyright &copy;
-                                <script>
-                                    document.write(new Date().getFullYear());
-                                </script>
-                                All rights reserved
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="footer_icon social_icon">
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a href="https://www.facebook.com/" class="single_social_icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                                </li>
-                                <li>
-                                    <a href="https://twitter.com/" class="single_social_icon" target="_blank"><i class="fab fa-twitter"></i></a>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+    </div>
+    <div class="copyright_part">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="copyright_text">
+              <p>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                All rights reserved
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              </p>
             </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="footer_icon social_icon">
+              <ul class="list-unstyled">
+                <li>
+                  <a href="https://www.facebook.com/" class="single_social_icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                </li>
+                <li>
+                  <a href="https://twitter.com/" class="single_social_icon" target="_blank"><i class="fab fa-twitter"></i></a>
+                </li>
+
+              </ul>
+            </div>
+          </div>
         </div>
-    </footer>
+      </div>
+    </div>
+  </footer>
   <!--::footer_part end::-->
 
   <!-- jquery plugins here-->

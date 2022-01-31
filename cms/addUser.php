@@ -411,32 +411,30 @@ include_once "../db.php";
                                         getAddedUsers();
 
                                         ?>
-                                        <form method="post" action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>>
-                                            <div class="form-group">
-                                                <label>Username</label>
-                                                <input class="au-input au-input--full" type="text" name='username' placeholder="Username" id="username-field">
+                                        <form class="row contact_form" method="post" action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>>
+                                            <div class="col-md-12 form-group p_star">
+                                                <input type="text" class="form-control" id="username-field" name='username' placeholder="username" />
                                             </div>
                                             <div class="msg1"></div>
-                                            <div class="form-group">
-                                                <label>Email</label>
-                                                <input class="au-input au-input--full" type="email" name="email" placeholder="email" id="email-field" />
+                                            <div class="col-md-12 form-group p_star">
+                                                <input type="email" class="form-control" id="email-field" name="email" placeholder="email" />
                                             </div>
                                             <div class="msg2"></div>
-                                            <div class="form-group">
-                                                <label>Password</label>
-                                                <input class="au-input au-input--full" type="password" name="password" placeholder="Password" id="password-field" />
+                                            <div class="col-md-12 form-group p_star">
+                                                <input type="password" class="form-control" id="password-field" name="password" placeholder="Password" />
                                             </div>
                                             <div class="msg3"></div>
-                                            <div class="form-group">
-                                                <label>Repeat Password</label>
-                                                <input class="au-input au-input--full" type="password" name="repeatPass" placeholder="repeat password" id="repeatPass-field" />
+                                            <div class="col-md-12 form-group p_star">
+                                                <input type="password" class="form-control" id="repeatPass-field" name="repeatPass" placeholder="Repeat Password" />
                                             </div>
                                             <div class="msg4"></div>
-                                            <div class="form-group">
-                                                <label>Age</label>
-                                                <input class="au-input au-input--full" type="date" name="age" max="2005-12-31" id="date-field" />
+                                            <div class="col-md-12 form-group p_star">
+                                                <input type="mobile" class="form-control" id="mobile-field" name="mobile" placeholder="07########" />
                                             </div>
                                             <div class="msg5"></div>
+                                            <div class="col-md-12 form-group p_star">
+                                                <input type="date" class="form-control" id="password" max="2005-12-31" name="age" placeholder="Date " required />
+                                            </div>
 
                                             <input class="au-btn au-btn--block au-btn--green m-b-20" type="submit" id="submit-btn" value='Submit' name='submit_add_user'>
 

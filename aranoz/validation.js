@@ -5,11 +5,14 @@ let repeatPassword = document.querySelector("#repeatPass-field");
 let date = document.querySelector("#date-field");
 let submitBtn = document.querySelector("#submit-btn");
 let loginField = document.querySelector("#login-field");
+let mobileField = document.querySelector("#mobile-field");
+console.log(mobileField);
 
 let msg1 = document.querySelector(".msg1");
 let msg2 = document.querySelector(".msg2");
 let msg3 = document.querySelector(".msg3");
 let msg4 = document.querySelector(".msg4");
+let msg5 = document.querySelector(".msg5");
 
 const usernamePattern = /^[A-Za-z]{3,13}$/;
 const emailRegex = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
@@ -18,9 +21,7 @@ let emailState = false;
 let usernameState = false;
 let passwordState = false;
 let repasswordState = false;
-
-let isLoggin = $_SESSION["logged"];
-console.log(isLoggin);
+let mobileState = false;
 
 username.addEventListener("keyup", usernameTracker);
 function usernameTracker() {
@@ -73,6 +74,21 @@ function repeatPassTracker() {
   }
 }
 
+mobileField.addEventListener("keyup", mobileTracker);
+function mobileTracker() {
+  let mobileValue = mobileField.value;
+  let phone = /^\d{9}$/;
+
+  if (mobileValue.match(phone) || mobileValue.length !== 10) {
+    msg5.style.visibility = "visible";
+    msg5.innerHTML = "mobile not correct";
+    msg5.style.color = "red";
+  } else {
+    msg5.style.visibility = "hidden";
+    mobileState = true;
+  }
+}
+
 submitBtn.addEventListener("click", (e) => {
   if (!usernameState) {
     e.preventDefault();
@@ -97,5 +113,11 @@ submitBtn.addEventListener("click", (e) => {
     msg4.style.visibility = "visible";
     msg4.innerHTML = "Cannot be empty";
     msg4.style.color = "red";
+  }
+  if (!mobileState) {
+    e.preventDefault();
+    msg5.style.visibility = "visible";
+    msg5.innerHTML = "Cannot be empty";
+    msg5.style.color = "red";
   }
 });

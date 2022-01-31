@@ -302,15 +302,16 @@ include_once "../db.php";
                                                     <th>User Id</th>
                                                     <th>Total</th>
                                                     <th>date</th>
+                                                    <th>City</th>
 
                                                 </tr>
                                             </thead>
                                             <tbody>
 
                                                 <?php
-                                                getDeletedOrders();
                                                 getOrders();
-                                                // getUpdateCategory();
+                                                getDeletedOrders();
+
 
                                                 ?>
 
