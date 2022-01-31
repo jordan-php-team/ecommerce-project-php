@@ -3,7 +3,7 @@ session_start();
 include_once "../db.php";
 
 include "../functions.php";
-addcomments();
+
 
 
 
@@ -471,7 +471,7 @@ addcomments();
                   </p>
                 </div> -->
 
-        <div id="haneen" class="col-lg-6">
+        <!-- <div id="haneen" class="col-lg-6">
           <div class="review_box">
             <h4>Post a comment</h4>
 
@@ -483,13 +483,14 @@ addcomments();
                 <label>comments</label>
                 <textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
               </div>
+          </div>
 
 
               <input type="submit" value="comment" name="submit" class="btn_3" />
             </form>
           </div>
-        </div>
-
+        </div> -->
+       <?php addcomments();?>
         <?php
 
         $data = $pdo->prepare("SELECT comments.user_id ,comments.comments,

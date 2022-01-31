@@ -11,8 +11,6 @@ if (isset($_SESSION['loggedUser'])) {
   $loggedSession = $_SESSION['loggedUser'];
 }
 
-
-
 // echo "<pre>";
 // // var_dump($cart);
 // var_dump($_SESSION['loggedUser']);
