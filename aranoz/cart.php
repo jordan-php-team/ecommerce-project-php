@@ -95,7 +95,12 @@ $cart = $_SESSION["products"];
                     <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
                     <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
                     <!-- <a class="dropdown-item" href="cart.php">shopping cart</a> -->
-                    <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                    <?php  if ($_SESSION['loggedUser']) :?>
+                   
+                   <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                 
+                 
+                    <?php endif; ?> 
                     <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
                   </div>
                 </li>
@@ -172,7 +177,7 @@ $cart = $_SESSION["products"];
                     <td>
                       <div class="media">
                         <div class="d-flex">
-                          <img src=<?php echo $element['product_image']; ?> alt="" width=200px height=170px />
+                          <img src="img/products/<?php echo $element['product_image']; ?>" alt="" width=200px height=170px />
                         </div>
                         <div class="media-body">
                           <p><?php

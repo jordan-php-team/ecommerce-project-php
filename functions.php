@@ -229,47 +229,48 @@ function orders()
     $stmt = $pdo->prepare($query);
     $stmt = $pdo->query($query);
     $stmt->execute();
-    $result = $stmt->fetchAll();
-    $counter = $stmt->fetchColumn();
-    $count = 1;
+    $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+    $counter=COUNT($result);
+    $count=1;
+    if($counter){
+        foreach((array) $result as $element)
+            {
+               echo '<h5>Order Number:'.$count.'</h5>';
+               echo "<ul>";
+               echo '<li><p>order Id:</p><span>'. $element['id']. '</span></li>';
+               echo '<li> <p>date:</p><span>'.$element['date'].'</span></li>';
+               echo '<li><p>total:</p><span>'. $element['total']. '</span></li>';
+               echo '<li> <p>Payment method:</p><span>"payed"</span></li>';
+               echo '</br>';
+              echo "</ul>";
+              $count++;
+                        }     
+                        // $counter=$counter-1;
+                    }
+                    else {
+                        echo "no oreders to show";
+                    }
+                   
+                                       
+  }
 
-    foreach ((array) $result as $element) {
-        echo '<h5>Order Number:' . $count . '</h5>';
-        echo "<ul>";
-        echo '<li><p>order Id:</p><span>' . $element['id'] . '</span></li>';
-        echo '<li> <p>date:</p><span>' . $element['date'] . '</span></li>';
-        echo '<li><p>total:</p><span>' . $element['total'] . '</span></li>';
-        echo '<li> <p>Payment method:</p><span>"payed"</span></li>';
-        echo '</br>';
-        echo "</ul>";
-        $count++;
-    }
-    // $counter=$counter-1;
-
-
-
-}
-
-function orderDetails()
-{
+function orderDetails(){
     global $pdo;
     $userid = $_SESSION['loggedUser']['id'];
     $query = "SELECT * FROM orders WHERE user_id = $userid";
     $stmt = $pdo->prepare($query);
     $stmt = $pdo->query($query);
     $stmt->execute();
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $order_id = COUNT($result) - 1;
-    echo $order_id;
-    $total = $result[$order_id]['total'] - 50;
-    $quantity = 0;
+    $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+    $order_id=COUNT($result)-1;
+    $total=$result[$order_id]['total']-50;
+    $quantity=0;
     $query2 = "SELECT * FROM order_item WHERE order_id = $order_id";
     $stmt2 = $pdo->prepare($query2);
     $stmt2 = $pdo->query($query2);
     $stmt2->execute();
-    $result2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-    $productnum = COUNT($result2);
-    echo $productnum;
+    $result2=$stmt2->fetchAll(PDO::FETCH_ASSOC);  
+    $productnum=COUNT($result2);
 
     echo "<tbody>";
 

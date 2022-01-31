@@ -87,6 +87,13 @@ global $Total;
     transform: scale(1.1);
     transition: .2s;
   }
+
+  
+  header{
+    position: fixed !important;
+    background:white;
+  }
+  
 </style>
 
 <body>
@@ -135,7 +142,13 @@ global $Total;
                     <?php endif; ?>
 
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
+
+              <?php  if ($_SESSION['loggedUser']) :?>
+                   
                     <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                  
+                  
+                     <?php endif; ?> 
 
                   </div>
                 </li>
@@ -147,6 +160,12 @@ global $Total;
               <div class="dropdown cart">
                 <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
                   <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
+                  <?php
+                                    if (isset($_SESSION['products'])) {
+                                        $count = count($_SESSION['products']);
+                                        echo "<strong>$count</strong>";
+                                    }
+                                    ?>
                 </a>
 
 

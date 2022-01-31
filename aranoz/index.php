@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
           }
         }
         // header("location: category.php");
-        echo '<script type="text/javascript">alert("add to cart")</script>';
+        // echo '<script type="text/javascript">alert("add to cart")</script>';
       }
     } else {
       echo '<script type="text/javascript">alert("is empty stock")</script>';
@@ -124,11 +124,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     transform: scale(1.1);
     transition: .2s;
   }
+
+  header{
+    position: fixed !important;
+    background:white;
+  }
 </style>
 
 <body>
   <!--::header part start::-->
-  <header class="main_menu home_menu">
+  <header class="main_menu home_menu" >
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-12">
@@ -173,7 +178,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
                     <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
+                    <?php  if ($_SESSION['loggedUser']) :?>
+                   
                     <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                  
+                  
+                     <?php endif; ?> 
                     <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
                   </div>
                 </li>
@@ -408,7 +418,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     ?>
                     <div class="col-lg-3 col-sm-6">
                       <div class="single_product_item">
-                        <img src="<?php echo  $product['product_image']; ?>" alt="" />
+
+
+                        <img src="img/products/<?php echo  $product['product_image']; ?>" alt="" />
                         <div class="single_product_text">
                           <?php
                           echo "<h4>" . $product['product_name'] . "</h4>";
@@ -520,7 +532,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
               foreach ((array) $products as $product) {
             ?>
                 <div class="single_product_item">
-                  <img src="<?php echo  $product['product_image']; ?>" alt="" />
+                  <img src="img/products/<?php echo  $product['product_image']; ?>" alt="" />
 
                   <div class="single_product_text">
                     <?php
