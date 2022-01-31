@@ -44,7 +44,7 @@ global $Total;
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>kenbae</title>
-  <link rel="icon" href="img/favicon1.png" />
+  <link rel="icon" href="img/favicon2.png" />
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <!-- animate CSS -->
@@ -88,12 +88,11 @@ global $Total;
     transition: .2s;
   }
 
-  
-  header{
+
+  header {
     position: fixed !important;
-    background:white;
+    background: white;
   }
-  
 </style>
 
 <body>
@@ -104,7 +103,7 @@ global $Total;
         <div class="col-lg-12">
           <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="index.php">
-              <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
+              <img style="width:7.5em" src="img/kanabelogo1.png" alt="logo" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -132,7 +131,7 @@ global $Total;
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                     <!-- this alternative syntax is excellent for improving legibility (for both PHP and HTML!) in situations where you have a mix of them. -->
                     <?php logout(); ?>
-                    <?php if ($_SESSION['loggedUser']) : ?>
+                    <?php if (!empty($_SESSION['loggedUser'])) : ?>
                       <form action="login.php" method="post">
 
                         <?php echo  "<button type='submit' name='logout_btn' class='dropdown-item' id='login-field'> Logout</button>" ?>
@@ -142,7 +141,13 @@ global $Total;
                     <?php endif; ?>
 
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
-                    <a class="dropdown-item" href="confirmation.php">confirmation</a>
+
+                    <?php if (!empty($_SESSION['loggedUser'])) : ?>
+
+                      <a class="dropdown-item" href="confirmation.php">confirmation</a>
+
+
+                    <?php endif; ?>
 
                   </div>
                 </li>
@@ -155,11 +160,11 @@ global $Total;
                 <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
                   <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
                   <?php
-                                    if (isset($_SESSION['products'])) {
-                                        $count = count($_SESSION['products']);
-                                        echo "<strong>$count</strong>";
-                                    }
-                                    ?>
+                  if (isset($_SESSION['products'])) {
+                    $count = count($_SESSION['products']);
+                    echo "<strong>$count</strong>";
+                  }
+                  ?>
                 </a>
 
 
@@ -208,7 +213,7 @@ global $Total;
 
       ?>
 
-      <div class="row mx-auto">
+      <div class="row mx-5  ">
         <div class="col-lg-8 ">
           <h3>Billing Details</h3>
           <form class="row contact_form" action="#" method="post" novalidate="novalidate">
@@ -231,8 +236,8 @@ global $Total;
             </div>
 
             <div class="col-md-6 form-group p_star">
-              <input type="text" class="form-control" id="add1" name="city" required />
-              <span class="placeholder" data-placeholder="City"></span>
+              <input type="text" class="form-control" id="add1" name="city" placeholder="city" required />
+              <!-- <span class="placeholder" data-placeholder="City"></span> -->
             </div>
             <!-- <div class="col-md-12 form-group p_star">
               <input type="text" class="form-control" id="add2" name="add2" />
@@ -241,7 +246,7 @@ global $Total;
 
             <div class="col-md-12 form-group">
 
-              <textarea class="form-control" name="message" id="message" rows="1" placeholder="Order Notes"></textarea>
+              <textarea class="form-control" name="message" id="message" rows="1" placeholder="please fill your full address" required></textarea>
             </div>
 
 
@@ -337,9 +342,11 @@ global $Total;
             </ul>
             <div class="payment_item">
               <div class="radion_btn">
-                <input type="radio" id="f-option5" name="selector" />
-                <label for="f-option5">Pay on delivery </label>
-                <div class="check" Required></div>
+                <label for="f-option5">
+                  <input type="checkbox" name="selector" required style="margin-right: .3rem;" />Pay on delivery
+                  <!-- <div class="check" Required></div>  -->
+
+                </label>
               </div>
 
             </div>

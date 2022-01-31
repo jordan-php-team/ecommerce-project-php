@@ -17,7 +17,7 @@ getUsers();
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <title>kenbae</title>
-  <link rel="icon" href="img/favicon1.png" />
+  <link rel="icon" href="img/favicon2.png" />
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css" />
   <!-- animate CSS -->
@@ -45,7 +45,7 @@ getUsers();
         <div class="col-lg-12">
           <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="index.php">
-              <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
+              <img style="width:7.5em" src="img/kanabelogo1.png" alt="logo" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -72,7 +72,7 @@ getUsers();
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                     <?php logout(); ?>
-                    <?php if ($_SESSION['loggedUser']) : ?>
+                    <?php if (!empty($_SESSION['loggedUser'])) : ?>
                       <form action="login.php" method="post">
 
                         <?php echo  "<button type='submit' name='logout_btn' class='dropdown-item' id='login-field'> Logout</button>" ?>
@@ -83,7 +83,12 @@ getUsers();
                     <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
                     <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
-                    <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                    <?php if (!empty($_SESSION['loggedUser'])) : ?>
+
+                      <a class="dropdown-item" href="confirmation.php">confirmation</a>
+
+
+                    <?php endif; ?>
                     <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
                   </div>
                 </li>

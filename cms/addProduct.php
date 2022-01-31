@@ -254,7 +254,7 @@ print_r($category_id);
                                             </div>
                                             <div class="form-group">
                                                 <label for="add_product">Product Image</label>
-                                                <input class="form-control" type="text" name="product_img" required>
+                                                <input class="form-control" type="file" name="product_img" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="add_product">Category Title</label>

@@ -8,7 +8,7 @@ session_start();
 ?>
 <?php include "../functions.php"; ?>
 <?php
-$ghassan = $_SESSION['products'] ? $ghassan = $_SESSION['products'] : $ghassan = [];
+// $ghassan = $_SESSION['products'] ? $ghassan = $_SESSION['products'] : $ghassan = [];
 global $pdo;
 $quanitity = 1;
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -26,41 +26,41 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             //   if(isset($_SESSION['products'])){
             // if ($ghassan) {
 
-                foreach ($ghassan as $element) {
-                    if ($element['id'] == $product_id) {
-                        $_SESSION['products'][$product_id][0] += 1;
-                        $flag = true;
-                        break;
-                    }
+            foreach ($_SESSION['products'] as $element) {
+                if ($element['id'] == $product_id) {
+                    $_SESSION['products'][$product_id][0] += 1;
+                    $flag = true;
+                    break;
                 }
+            }
 
-                if ($flag == false) {
-                    $_SESSION['products'][$product_id] = $result;
-                    $_SESSION['products'][$product_id][0] = $quanitity;
-                }
+            if ($flag == false) {
+                $_SESSION['products'][$product_id] = $result;
+                $_SESSION['products'][$product_id][0] = $quanitity;
+            }
 
 
-                foreach ($_SESSION['products'] as $element) {
+            foreach ($_SESSION['products'] as $element) {
 
+                $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
+
+                if ($_SESSION['products'][$product_id]['product_discount'] > 0) {
+
+                    $discount_percentage_product = $_SESSION['products'][$product_id]['Total'] * ($element['product_discount'] / 100);
+                    $Total_product_after_dicount = $_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
+                    $_SESSION['products'][$product_id]['Total_after_discount'] = $Total_product_after_dicount;
+
+
+
+                    $discount_percentage_product = ($element['product_discount'] / 100) * intval($element['product_price']);
+                    $price_product_after_dicount = intval($element['product_price']) - $discount_percentage_product;
+                    $_SESSION['products'][$product_id]['product_price_after_discount'] = $price_product_after_dicount;
+                } else {
                     $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
-
-                    if ($_SESSION['products'][$product_id]['product_discount'] > 0) {
-
-                        $discount_percentage_product = $_SESSION['products'][$product_id]['Total'] * ($element['product_discount'] / 100);
-                        $Total_product_after_dicount = $_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
-                        $_SESSION['products'][$product_id]['Total_after_discount'] = $Total_product_after_dicount;
-
-
-
-                        $discount_percentage_product = ($element['product_discount'] / 100) * intval($element['product_price']);
-                        $price_product_after_dicount = intval($element['product_price']) - $discount_percentage_product;
-                        $_SESSION['products'][$product_id]['product_price_after_discount'] = $price_product_after_dicount;
-                    } else {
-                        $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
-                        $_SESSION['products'][$product_id]['Total_after_discount'] = $_SESSION['products'][$product_id]['Total'];
-                        $_SESSION['products'][$product_id]['product_price_after_discount'] = $_SESSION['products'][$product_id]['product_price'];
-                    }
+                    $_SESSION['products'][$product_id]['Total_after_discount'] = $_SESSION['products'][$product_id]['Total'];
+                    $_SESSION['products'][$product_id]['product_price_after_discount'] = $_SESSION['products'][$product_id]['product_price'];
                 }
+            }
             // }
 
 
@@ -96,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>kenbae</title>
-    <link rel="icon" href="img/favicon1.png" />
+    <link rel="icon" href="img/favicon2.png" />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- animate CSS -->
@@ -142,11 +142,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
 
 
-    header{
-    position: fixed !important;
-    background:white;
-  }
-
+    header {
+        position: fixed !important;
+        background: white;
+    }
 </style>
 
 <body>
@@ -157,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <a class="navbar-brand" href="index.php">
-                            <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
+                            <img style="width:7.5em" src="img/kanabelogo1.png" alt="logo" />
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -184,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                                         <?php logout(); ?>
-                                        <?php if ($_SESSION['loggedUser']) : ?>
+                                        <?php if (!empty($_SESSION['loggedUser'])) : ?>
                                             <form action="login.php" method="post">
 
                                                 <?php echo  "<button type='submit' name='logout_btn' class='dropdown-item' id='login-field'> Logout</button>" ?>
@@ -195,7 +194,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                         <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
                                         <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
                                         <a class="dropdown-item" href="cart.php">shopping cart</a>
-                                        <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                                        <?php if (!empty($_SESSION['loggedUser'])) : ?>
+
+                                            <a class="dropdown-item" href="confirmation.php">confirmation</a>
+
+
+                                        <?php endif; ?>
                                         <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
                                     </div>
                                 </li>
@@ -222,7 +226,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     <?php
                                     if (isset($_SESSION['products'])) {
                                         $count = count($_SESSION['products']);
-                                        echo "<strong>$count</strong>";
+                                        echo "<strong style='color:#eb1a50 !important'>$count</strong>";
                                     }
                                     ?>
                                 </a>
@@ -309,10 +313,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                         <?php
                                         $data = "SELECT * FROM products
                                         WHERE products LIKE '%or%'"; ?>
-                                        <input type="text" class="form-control" placeholder="search" aria-describedby="inputGroupPrepend">
+                                        <!-- <input type="text" class="form-control" placeholder="search" aria-describedby="inputGroupPrepend">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroupPrepend"><i class="ti-search"></i></span>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -349,34 +353,36 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 $Total_product_before_dicount = $element['product_price'];
                                 $discount_percentage_product = 0;
                                 $discount_percentage_product = $Total_product_before_dicount * ($element['product_discount'] / 100);
-                                $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product;
+                                $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product . " JD";
                             } else {
                                 $Total_product_after_dicount = ' ';
                             }
+                            if ($element['stock'] > 0) {
 
 
-                            echo  "<div class='col-lg-4 col-sm-6'>";
-                            echo   "<div class='single_product_item'>";
-                            echo    "<a href='single-product.php?id=$element[id]'><img src='img/products/$element[product_image]' alt='' width=500px height=170px>";
-                            echo  "<div class='single_product_text'>";
-                            echo      "<h4>$element[product_name]</h4>";
-                            if ($element['product_discount'] > 0) {
-                                echo     "<h3><del>$element[product_price]JD</del></h3>";
-                            } else {
-                                echo     "<h3>$element[product_price]JD</h3>";
+                                echo  "<div class='col-lg-4 col-sm-6'>";
+                                echo   "<div class='single_product_item'>";
+                                echo    "<a href='single-product.php?id=$element[id]'><img src='img/products/$element[product_image]' alt='' width=500px height=170px>";
+                                echo  "<div class='single_product_text'>";
+                                echo      "<Span style='font-size:1.75em ;text-transform: capitalize ; color:black'>$element[product_name]</Span>";
+                                if ($element['product_discount'] > 0) {
+                                    echo     "<h3><del>$element[product_price]JD</del></h3>";
+                                } else {
+                                    echo     "<h3>$element[product_price]JD</h3>";
+                                }
+
+                                echo    "<h3>$Total_product_after_dicount </h3>";
+                                echo "<form method='GET'>";
+                                echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
+                                echo "</form>";
+                                echo   "</div>";
+                                echo   "</div>";
+                                echo   "</div></a>";
                             }
-
-                            echo    "<h3>$Total_product_after_dicount</h3>";
-                            echo "<form method='GET'>";
-                            echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
-                            echo "</form>";
-                            echo   "</div>";
-                            echo   "</div>";
-                            echo   "</div></a>";
                         }
                         ?>
 
-                        <div class="col-lg-12">
+                        <!-- <div class="col-lg-12">
                             <div class="pageination">
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-center">
@@ -399,7 +405,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     </ul>
                                 </nav>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

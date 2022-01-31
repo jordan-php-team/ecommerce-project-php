@@ -254,7 +254,8 @@ function orders()
                                        
   }
 
-function orderDetails(){
+function orderDetails()
+{
     global $pdo;
     $userid = $_SESSION['loggedUser']['id'];
     $query = "SELECT * FROM orders WHERE user_id = $userid";
@@ -265,7 +266,7 @@ function orderDetails(){
     $order_index=COUNT($result)-1;
     $order=$result[$order_index]['id'];
     if($result>0){
-    $total=$result[$order_index]['total']-50;
+    $total=$result[$order_index]['total']+25;
     $quantity=0;
     $query2 = "SELECT * FROM order_item WHERE order_id = $order";
     $stmt2 = $pdo->prepare($query2);
@@ -305,7 +306,7 @@ function orderDetails(){
 
     echo   "<tr>";
     echo    '<th colspan="3">' . "shipping" . '</th>';
-    echo    '<th><span>' . "flat rate: 50.00" . '</span></th>';
+    echo    '<th><span>' . "flat rate: 25.00" . '</span></th>';
     echo  "</tr>";
     echo  "</tbody>";
     echo  "<tfoot>";
@@ -450,7 +451,7 @@ function getProducts()
             echo   '<td>' . $user['product_price'] . '</td>';
             echo   '<td>' . $user['product_description'] . '</td>';
             echo   '<td>' ?>
-            <img src="<?php echo $user['product_image']  ?>" alt="">
+            <img class="img-responsive" src="../aranoz/img/products/<?php echo  $user['product_image']; ?>" alt="">
             <?php
             echo '</td>';
             echo   '<td>' . $user['category_id'] . '</td>';
@@ -595,22 +596,28 @@ function getUpdatedProduct()
     if (isset($_GET['editing'])) {
         global $pdo;
 
+        $product_id = $_GET['editing'];
+        $query3 = "SELECT * FROM products WHERE id = $product_id";
+        $stmt3 = $pdo->prepare($query3);
+        $stmt3 = $pdo->query($query3);
+        $stmt3->execute();
+        $result3 = $stmt3->fetch();
 
         $product_id = $_GET['editing']; ?>
         <form action="" method="post">
             <div class="form-group">
                 <label for="product">Update Name</label>
-                <input class="form-control" type="text" name="update_product_name">
+                <input class="form-control" type="text" name="update_product_name" value="<?php echo $result3['product_name']; ?>">
             </div>
             <div class="form-group">
                 <label for="product">Update Price</label>
-                <input class="form-control" type="text" name="update_product_price">
+                <input class="form-control" type="text" name="update_product_price" value="<?php echo $result3['product_price']; ?>">
             </div>
-            <div class="form-group">
+            <div class=" form-group">
                 <label for="product">Update Des</label>
-                <input class="form-control" type="text" name="update_product_des">
+                <input class="form-control" type="text" name="update_product_des" value="<?php echo $result3['product_description']; ?>">
             </div>
-            <div class="form-group">
+            <div class=" form-group">
                 <input class="btn btn-primary" type="submit" name="update_product_submit" value="Update">
             </div>
         </form>
@@ -686,9 +693,9 @@ function getAddedProduct()
             $product_name = $_POST['product_name'];
             $product_price = $_POST['product_price'];
             $product_des = $_POST['product_des'];
-            // $product_img = $_FILES['product_img']['name'];
-            // $product_img_temp = $_FILES['product_img']['tmp_name'];
-            $product_img = $_POST['product_img'];
+            $product_img = $_FILES['product_img']['name'];
+            $product_img_temp = $_FILES['product_img']['tmp_name'];
+            // $product_img = $_POST['product_img'];
             $category_id = $_POST['category_id'];
             $product_stock = $_POST['product_stock'];
 
@@ -698,7 +705,7 @@ function getAddedProduct()
             $stmt->execute([$product_name, $product_price, $product_des,  $category_id, $product_img, $product_stock]);
             if ($stmt) {
 
-                // move_uploaded_file($product_img_temp, "../images/$product_img");
+                move_uploaded_file($product_img_temp, "../aranoz/img/products/$product_img");
                 header("location:productsAdmin.php");
             } else {
                 echo 'failed';
@@ -717,9 +724,9 @@ function read()
         die('failed'); //stop every thing
     }
     while ($row = $stmt->fetch()) {
-        $category_title = $row['id'];
-
-        echo "<option value='$category_title'>$category_title</option> ";
+        $category_title = $row['category_title'];
+        $cat_id = $row['id'];
+        echo "<option value='$cat_id'>$category_title</option> ";
     }
 }
 
@@ -940,7 +947,7 @@ function checkoutButton($Total)
                     }
                 }
                 $_SESSION['products'] = [];
-                header("location: index.php");
+                header("location: confirmation.php");
             } else {
                 echo '<script type="text/javascript">alert("please fill your information")</script>';
             }
@@ -952,7 +959,8 @@ function checkoutButton($Total)
 function logout()
 {
     if (isset($_POST['logout_btn'])) {
-        $_SESSION['loggedUser'] = '';
+        $_SESSION['loggedUser'] = [];
+        $_SESSION['products'] = [];
     }
 }
 
