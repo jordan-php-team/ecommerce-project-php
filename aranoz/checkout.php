@@ -87,6 +87,12 @@ global $Total;
     transform: scale(1.1);
     transition: .2s;
   }
+
+
+  header {
+    position: fixed !important;
+    background: white;
+  }
 </style>
 
 <body>
@@ -125,7 +131,7 @@ global $Total;
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                     <!-- this alternative syntax is excellent for improving legibility (for both PHP and HTML!) in situations where you have a mix of them. -->
                     <?php logout(); ?>
-                    <?php if ($_SESSION['loggedUser']) : ?>
+                    <?php if (!empty($_SESSION['loggedUser'])) : ?>
                       <form action="login.php" method="post">
 
                         <?php echo  "<button type='submit' name='logout_btn' class='dropdown-item' id='login-field'> Logout</button>" ?>
@@ -135,7 +141,13 @@ global $Total;
                     <?php endif; ?>
 
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
-                    <a class="dropdown-item" href="confirmation.php">confirmation</a>
+
+                    <?php if (!empty($_SESSION['loggedUser'])) : ?>
+
+                      <a class="dropdown-item" href="confirmation.php">confirmation</a>
+
+
+                    <?php endif; ?>
 
                   </div>
                 </li>
@@ -147,6 +159,12 @@ global $Total;
               <div class="dropdown cart">
                 <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
                   <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
+                  <?php
+                  if (isset($_SESSION['products'])) {
+                    $count = count($_SESSION['products']);
+                    echo "<strong>$count</strong>";
+                  }
+                  ?>
                 </a>
 
 
@@ -218,8 +236,8 @@ global $Total;
             </div>
 
             <div class="col-md-6 form-group p_star">
-              <input type="text" class="form-control" id="add1" name="city" required />
-              <span class="placeholder" data-placeholder="City"></span>
+              <input type="text" class="form-control" id="add1" name="city" placeholder="city" required />
+              <!-- <span class="placeholder" data-placeholder="City"></span> -->
             </div>
             <!-- <div class="col-md-12 form-group p_star">
               <input type="text" class="form-control" id="add2" name="add2" />
@@ -228,7 +246,7 @@ global $Total;
 
             <div class="col-md-12 form-group">
 
-              <textarea class="form-control" name="message" id="message" rows="1" placeholder="Order Notes"></textarea>
+              <textarea class="form-control" name="message" id="message" rows="1" placeholder="please fill your full address" required></textarea>
             </div>
 
 

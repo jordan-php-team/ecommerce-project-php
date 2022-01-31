@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
           }
         }
         // header("location: category.php");
-        echo '<script type="text/javascript">alert("add to cart")</script>';
+        // echo '<script type="text/javascript">alert("add to cart")</script>';
       }
     } else {
       echo '<script type="text/javascript">alert("is empty stock")</script>';
@@ -125,11 +125,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     transition: .2s;
   }
 
+  header {
+    position: fixed !important;
+    background: white;
+  }
 </style>
 
 <body>
   <!--::header part start::-->
-  <header   class="main_menu home_menu">
+  <header class="main_menu home_menu">
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-12">
@@ -163,7 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                     <!-- this alternative syntax is excellent for improving legibility (for both PHP and HTML!) in situations where you have a mix of them. -->
                     <?php logout(); ?>
-                    <?php if ($_SESSION['loggedUser']) : ?>
+                    <?php if (!empty($_SESSION['loggedUser'])) : ?>
                       <form action="login.php" method="post">
 
                         <?php echo  "<button type='submit' name='logout_btn' class='dropdown-item' id='login-field'> Logout</button>" ?>
@@ -174,7 +178,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
                     <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
-                    <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                    <?php if (!empty($_SESSION['loggedUser'])) : ?>
+
+                      <a class="dropdown-item" href="confirmation.php">confirmation</a>
+
+
+                    <?php endif; ?>
                     <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
                   </div>
                 </li>

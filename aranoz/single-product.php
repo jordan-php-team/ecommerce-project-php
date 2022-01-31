@@ -10,84 +10,70 @@ include "../functions.php";
 ?>
 
 <?php
- global $pdo;
- $quanitity=1;
-    if($_SERVER["REQUEST_METHOD"]=="GET" ){
-      // if($_POST['name']=='addToCart'){
-        if(isset($_GET['addToCart'])){
-          $product_id= $_GET['addToCart'];
-    
-          $data="SELECT * FROM products WHERE id=$product_id";
-          $sql=$pdo->prepare($data);
-          $sql->execute();
-          $result=$sql->fetch();
-         var_dump($result);
-           $flag=false;
+global $pdo;
+$quanitity = 1;
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+  // if($_POST['name']=='addToCart'){
+  if (isset($_GET['addToCart'])) {
+    $product_id = $_GET['addToCart'];
 
-           if($result['stock'] > 0 ){
-          if(isset($_SESSION['products'])){
-         
-                     
-            
-              foreach($_SESSION['products'] as $element){
-              
-                if($element['id']==$product_id){
-                    $_SESSION['products'][$product_id][0]+=1;
-                    $flag=true;
-                    break;
-                }
+    $data = "SELECT * FROM products WHERE id=$product_id";
+    $sql = $pdo->prepare($data);
+    $sql->execute();
+    $result = $sql->fetch();
+    var_dump($result);
+    $flag = false;
 
-            }
-    
-             if($flag==false){
-            $_SESSION['products'][$product_id]=$result;
-            $_SESSION['products'][$product_id][0]=$quanitity;
-             }
-    
-    
-             foreach($_SESSION['products'] as $element){
-    
-                $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']);
-                        
-                if($_SESSION['products'][$product_id]['product_discount']> 0){
-    
-                $discount_percentage_product= $_SESSION['products'][$product_id]['Total'] *($element['product_discount']/100);
-              $Total_product_after_dicount =$_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
-              $_SESSION['products'][$product_id]['Total_after_discount']= $Total_product_after_dicount;
-            
-    
-    
-              $discount_percentage_product= ($element['product_discount']/100) *intval($element['product_price']);
-              $price_product_after_dicount = intval($element['product_price'])- $discount_percentage_product;
-              $_SESSION['products'][$product_id]['product_price_after_discount']= $price_product_after_dicount;
-            }
-    
-    
-            else{
-                $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']); 
-                $_SESSION['products'][$product_id]['Total_after_discount']=$_SESSION['products'][$product_id]['Total'];
-              $_SESSION['products'][$product_id]['product_price_after_discount']=$_SESSION['products'][$product_id]['product_price'];
-      
-            }
-    
-    
-    
-             }
-             header("location: cart.php");
-            }
+    if ($result['stock'] > 0) {
+      if (isset($_SESSION['products'])) {
 
-           
-          
-            }
 
-            else{
-              echo '<script type="text/javascript">alert("is not loggin")</script>';
-             header("location: category.php");
-              
-            }
-        }  
+
+        foreach ($_SESSION['products'] as $element) {
+
+          if ($element['id'] == $product_id) {
+            $_SESSION['products'][$product_id][0] += 1;
+            $flag = true;
+            break;
+          }
+        }
+
+        if ($flag == false) {
+          $_SESSION['products'][$product_id] = $result;
+          $_SESSION['products'][$product_id][0] = $quanitity;
+        }
+
+
+        foreach ($_SESSION['products'] as $element) {
+
+          $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
+
+          if ($_SESSION['products'][$product_id]['product_discount'] > 0) {
+
+            $discount_percentage_product = $_SESSION['products'][$product_id]['Total'] * ($element['product_discount'] / 100);
+            $Total_product_after_dicount = $_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
+            $_SESSION['products'][$product_id]['Total_after_discount'] = $Total_product_after_dicount;
+
+
+
+            $discount_percentage_product = ($element['product_discount'] / 100) * intval($element['product_price']);
+            $price_product_after_dicount = intval($element['product_price']) - $discount_percentage_product;
+            $_SESSION['products'][$product_id]['product_price_after_discount'] = $price_product_after_dicount;
+          } else {
+            $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
+            $_SESSION['products'][$product_id]['Total_after_discount'] = $_SESSION['products'][$product_id]['Total'];
+            $_SESSION['products'][$product_id]['product_price_after_discount'] = $_SESSION['products'][$product_id]['product_price'];
+          }
+        }
+        header("location: cart.php");
+      }
+    } else {
+      echo '<script type="text/javascript">alert("is not loggin")</script>';
+      header("location: category.php");
+    }
+  }
 }
-   
+
 
 
 ?>
@@ -183,7 +169,7 @@ include "../functions.php";
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                     <?php logout(); ?>
-                    <?php if ($_SESSION['loggedUser']) : ?>
+                    <?php if (!empty($_SESSION['loggedUser'])) : ?>
                       <form action="login.php" method="post">
 
                         <?php echo  "<button type='submit' name='logout_btn' class='dropdown-item' id='login-field'> Logout</button>" ?>
@@ -194,7 +180,12 @@ include "../functions.php";
                     <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
                     <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
-                    <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                    <?php if (!empty($_SESSION['loggedUser'])) : ?>
+
+                      <a class="dropdown-item" href="confirmation.php">confirmation</a>
+
+
+                    <?php endif; ?>
                     <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
                   </div>
                 </li>
@@ -291,7 +282,10 @@ include "../functions.php";
             <?php 
             // echo "<h2>$element[product_price]JD</h2>"; 
             ?>
-            <?php   echo    "<h2>$Total_product_after_dicount JD</h2>";?>
+            <?php
+                // echo "<h2>$element[product_price]JD</h2>"; 
+            ?>
+            <?php echo    "<h2>$Total_product_after_dicount JD</h2>"; ?>
 
             <ul class="list">
               <li>
@@ -308,17 +302,17 @@ include "../functions.php";
             <?php echo $element['product_description'] ?>
             </p>
             <!-- <div class="card_area d-flex justify-content-between align-items-center"> -->
-              <!-- <div class="product_count"> -->
-                <!-- <span class="inumber-decrement"> <i class="ti-minus"></i></span> -->
-                <!-- <input class="input-number" type="text" value="1" min="0" max="10"> -->
-                <!-- <span class="number-increment"> <i class="ti-plus"></i></span> -->
-              <!-- </div> -->
-              <?php
-         echo "<form method='GET'>";
-         echo "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
-         echo "</form>"; ?>  
-              <!-- <a href="#" class="btn_3">add to cart</a> -->
-              <!-- <a href="#" class="like_us"> <i class="ti-heart"></i> </a> -->
+            <!-- <div class="product_count"> -->
+            <!-- <span class="inumber-decrement"> <i class="ti-minus"></i></span> -->
+            <!-- <input class="input-number" type="text" value="1" min="0" max="10"> -->
+            <!-- <span class="number-increment"> <i class="ti-plus"></i></span> -->
+            <!-- </div> -->
+            <?php
+                echo "<form method='GET'>";
+                echo "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
+                echo "</form>"; ?>
+            <!-- <a href="#" class="btn_3">add to cart</a> -->
+            <!-- <a href="#" class="like_us"> <i class="ti-heart"></i> </a> -->
             <!-- </div> -->
 
           </div>
@@ -496,7 +490,7 @@ include "../functions.php";
             </form>
           </div>
         </div> -->
-       <?php addcomments();?>
+        <?php addcomments(); ?>
         <?php
 
         $data = $pdo->prepare("SELECT comments.user_id ,comments.comments,
