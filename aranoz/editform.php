@@ -189,53 +189,36 @@ editInfo();
       <div class="row">
         <div class="col-lg-6 col-lx-4">
           <div class="single_confirmation_details">
-            <form method="post">
-              <h4>User Info</h4>
-              <ul>
-                <li>
-                  <p>Name:</p>
-                  <input name="name" value="<?php if (count($_SESSION['loggedUser']) > 0) {
-                                              print_r(ucfirst($_SESSION['loggedUser']['username']));
-                                            } else {
-                                              echo "There";
-                                            } ?>"></input>
-                </li>
-                </br>
-                <li>
-                  <p>Mobile:</p>
-                  <input name="mobile" value="<?php if (count($_SESSION['loggedUser']) > 0) {
-                                                print_r(ucfirst($_SESSION['loggedUser']['mobile']));
-                                              } else {
-                                                echo "There";
-                                              } ?>"></input>
-                </li>
-                </br>
-                <li>
-                  <p>Email:</p>
-                  <?php if (count($_SESSION['loggedUser']) > 0) {
-                    print_r(ucfirst($_SESSION['loggedUser']['email']));
-                  } else {
-                    echo "There";
-                  } ?>
-                </li>
-                </br>
-                <li>
-                  <p>Password:</p>
-                  <?php if (count($_SESSION['loggedUser']) > 0) {
-                    print_r(ucfirst($_SESSION['loggedUser']['password']));
-                  } else {
-                    echo "There";
-                  } ?>
-                </li>
-              </ul>
-
-              <input class="btn-edit" value="submit" type="submit" name="edit" />
-            </form>
-          </div>
-
+          <form method="post">
+            <h4>User Info</h4>
+            <ul>
+              <li>
+                 <p>Name:</p>
+                 <input name="name" value="<?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['username']));}else{ echo "There";}?>"></input>
+              </li>
+                    </br>
+              <li>
+                <p>Mobile:</p>
+                <input name="mobile" value="<?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['mobile']));}else{ echo "There";}?>"></input>
+              </li>
+              </br>
+              <li>
+                <p>Email:</p>
+                <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['email']));}else{ echo "There";}?>
+              </li>
+              </br>
+              <li>
+                <p>Password:</p>
+                <input name="password" placeholder="*******"/>
+              </li>
+            </ul>
+            
+            <input class="btn-edit" value="submit" type="submit" name="edit" />
+                </form>
+            </div>          
+        </div>
         </div>
       </div>
-    </div>
   </section>
 
   <!--::footer_part start::-->

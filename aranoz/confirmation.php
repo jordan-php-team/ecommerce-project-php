@@ -39,20 +39,20 @@ include_once "../db.php";
   <!-- style CSS -->
   <link rel="stylesheet" href="css/style.css">
   <style>
-    .btn-edit {
-
-      margin: .5em 23em;
-      padding: 1em;
-      background-color: #ff3368;
-      color: #fff;
-      border-radius: 5px;
-      line-height: 10px;
-      border: 2px solid #ff3368;
-    }
-
-    .btn-edit a {
-      color: white;
-    }
+  
+  .btn-edit{
+   
+    margin: .5em 28em;
+    padding: 1em;
+    background-color: #ff3368;
+    color: #fff;
+    border-radius: 5px;
+    line-height: 10px;
+    border: 2px solid #ff3368;
+}
+.btn-edit a {
+  color:white;
+}
   </style>
 
   <style>
@@ -128,26 +128,11 @@ include_once "../db.php";
                     <?php else : ?>
                       <a class="dropdown-item" href="login.php" id="login-field"> login</a>
                     <?php endif; ?>
-                    <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
-                    <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
                     <a class="dropdown-item" href="confirmation.php">confirmation</a>
-                    <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
                   </div>
                 </li>
-                <!-- <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    blog
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                    <a class="dropdown-item" href="blog.html"> blog</a>
-                    <a class="dropdown-item" href="single-blog.html">Single blog</a>
-                  </div>
-                </li> -->
-
-                <!-- <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contact</a>
-                </li> -->
+               
               </ul>
             </div>
             <div class="hearer_icon d-flex">
@@ -210,94 +195,40 @@ include_once "../db.php";
         <div class="col-lg-6 col-lx-4">
           <div class="single_confirmation_details">
             <form method="post">
-              <h4>User Info</h4>
-              <ul>
-                <li>
-                  <p>Name:</p>
-                  <?php if (count($_SESSION['loggedUser']) > 0) {
-                    print_r(ucfirst($_SESSION['loggedUser']['username']));
-                  } else {
-                    echo "There";
-                  } ?>
-                </li>
-                </br>
-                <li>
-                  <p>Mobile:</p>
-                  <?php if (count($_SESSION['loggedUser']) > 0) {
-                    print_r(ucfirst($_SESSION['loggedUser']['mobile']));
-                  } else {
-                    echo "There";
-                  } ?>
-                </li>
-                </br>
-                <li>
-                  <p>Email:</p>
-                  <?php if (count($_SESSION['loggedUser']) > 0) {
-                    print_r(ucfirst($_SESSION['loggedUser']['email']));
-                  } else {
-                    echo "There";
-                  } ?>
-                </li>
-                </br>
-                <li>
-                  <p>Password:</p>
-                  <?php if (count($_SESSION['loggedUser']) > 0) {
-                    print_r(ucfirst($_SESSION['loggedUser']['password']));
-                  } else {
-                    echo "There";
-                  } ?>
-                </li>
-              </ul>
-
-              <button class="btn-edit" type="submit" name="edit"><a href="editform.php">Edit</a></button>
-            </form>
+            <h4>User Info</h4>
+            <ul>
+              <li>
+                 <p>Name:</p>
+                 <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['username']));}else{ echo "There";}?>
+              </li>
+                    </br>
+              <li>
+                <p>Mobile:</p>
+                <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['mobile']));}else{ echo "There";}?>
+              </li>
+              </br>
+              <li>
+                <p>Email:</p>
+                <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['email']));}else{ echo "There";}?>
+              </li>
+              </br>
+              <li>
+                <p>Password:</p>
+                <?php if($_SESSION['loggedUser']!=""){ echo "**********";}else{ echo "There";}?>
+              </li>
+            </ul>
+            
+            <button class="btn-edit" type="submit" name="edit" ><a href="editform.php">Edit</a></button>
+                    </form>
           </div>
           </br>
         </div>
 
-        <!-- <div class="col-lg-6 col-lx-4">
-          <div class="single_confirmation_details">
-            <h4>shipping Address</h4>
-            <ul>
-              <li>
-                <p>Street</p><span>: 56/8</span>
-              </li>
-              <li>
-                <p>city</p><span>: Los Angeles</span>
-              </li>
-              <li>
-                <p>country</p><span>: United States</span>
-              </li>
-              <li>
-                <p>postcode</p><span>: 36952</span>
-              </li>
-            </ul>
-          </div>
-        </div> -->
+
       </div>
       <div class="row">
-        <div class="col-lg-12">
-          <div class="order_details_iner">
-            <h3>Order Details</h3>
-
-            <table class="table table-borderless">
-              <thead>
-                <tr>
-                  <th scope="col" colspan="2">Product</th>
-                  <th scope="col">Quantity</th>
-                  <th scope="col">Total</th>
-                </tr>
-              </thead>
-
-              <?php orderDetails(); ?>
-
-            </table>
-
-          </div>
-        </div>
+            <?php orderDetails(); ?>
       </div>
-
-    </div>
   </section>
   <!--================ confirmation part end =================-->
 
