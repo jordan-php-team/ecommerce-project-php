@@ -245,7 +245,7 @@ function orders()
               echo "</ul>";
               $count++;
                         }     
-                        // $counter=$counter-1;
+                      
                     }
                     else {
                         echo "no oreders to show";
@@ -262,17 +262,31 @@ function orderDetails(){
     $stmt = $pdo->query($query);
     $stmt->execute();
     $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
-    $order_id=COUNT($result)-1;
-    $total=$result[$order_id]['total']-50;
+    $order_index=COUNT($result)-1;
+    $order=$result[$order_index]['id'];
+    if($result>0){
+    $total=$result[$order_index]['total']-50;
     $quantity=0;
-    $query2 = "SELECT * FROM order_item WHERE order_id = $order_id";
+    $query2 = "SELECT * FROM order_item WHERE order_id = $order";
     $stmt2 = $pdo->prepare($query2);
     $stmt2 = $pdo->query($query2);
     $stmt2->execute();
     $result2=$stmt2->fetchAll(PDO::FETCH_ASSOC);  
     $productnum=COUNT($result2);
+    if($productnum){
 
-    echo "<tbody>";
+    echo      "<div class='col-lg-12'>";
+    echo      "<div class='order_details_iner'>"; 
+    echo      "<h3>Order Details</h3>";
+    echo      "<table class='table table-borderless'>";
+    echo      "<thead>";
+    echo      "<tr>";
+    echo      '<th scope="col" colspan="2">'."Product".'</th>';
+    echo      '<th scope="col">'."Quantity".'</th>';
+    echo      '<th scope="col">'."Total".'</th>';
+    echo      "</tr>";
+    echo      "</thead>";
+    echo      "<tbody>";
 
     for ($i = 0; $i < $productnum; $i++) {
         $id = $result2[$i]['product_id'];
@@ -283,7 +297,7 @@ function orderDetails(){
         $result3 = $stmt3->fetch();
         echo  "<tr>";
         echo    '<th colspan="2"><span>' . $result3['product_name'] . '</span></th>';
-        echo    '<th>' . $result2[$i]['quantity'] . '</th>';
+        echo    '<th>' .'x'. $result2[$i]['quantity'] . '</th>';
         echo    '<th> <span>' . $result3['product_price'] . '</span></th>';
         echo  "</tr>";
         $quantity = $quantity + $result2[$i]['quantity'];
@@ -301,6 +315,12 @@ function orderDetails(){
     echo  '<th scope="col">' . $total . '</th>';
     echo  "</tr>";
     echo  "</tfoot>";
+    echo  "</table>";
+    echo  "</div>";
+    echo  "</div>";
+    echo  "</div>";
+}
+}    
 }
 
 function editInfo()
@@ -311,8 +331,10 @@ function editInfo()
         $id = $_SESSION['loggedUser']['id'];
         $password = $_SESSION['loggedUser']['password'];
         $username = $_POST['name'];
-        print_r($username);
+        
         $usermobile = $_POST['mobile'];
+        $currentpassword=$_POST['password'];
+        if($currentpassword == $password){
         $query = "UPDATE registredusers SET username = '$username' , mobile = '$usermobile' WHERE (id= $id)";
         $stmt = $pdo->prepare($query);
         $stmt = $pdo->query($query);
@@ -324,6 +346,15 @@ function editInfo()
         $_SESSION['loggedUser']['username'] = $result['username'];
         $_SESSION['loggedUser']['mobile'] = $result['mobile'];
         header('Location:confirmation.php');
+        }
+        else if($currentpassword != $password){
+        echo    '<div class="col-lg-12">';
+        echo    '<div class="confirmation_tittle">';
+        echo    '<span>your password inccorect,please insert it again.</span>';
+        echo    '</div>';
+        echo  '</div>';
+        header('Location:confirmation.php');
+        }
     }
 }
 

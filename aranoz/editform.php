@@ -205,7 +205,7 @@ editInfo();
               </br>
               <li>
                 <p>Password:</p>
-                <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['password']));}else{ echo "There";}?>
+                <input name="password" placeholder="*******"/>
               </li>
             </ul>
             
