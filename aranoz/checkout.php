@@ -88,12 +88,11 @@ global $Total;
     transition: .2s;
   }
 
-  
-  header{
+
+  header {
     position: fixed !important;
-    background:white;
+    background: white;
   }
-  
 </style>
 
 <body>
@@ -104,7 +103,7 @@ global $Total;
         <div class="col-lg-12">
           <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="index.php">
-              <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
+              <img style="width:7.5em" src="img/kanabelogo1.png" alt="logo" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -143,12 +142,12 @@ global $Total;
 
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
 
-              <?php  if ($_SESSION['loggedUser']) :?>
-                   
-                    <a class="dropdown-item" href="confirmation.php">confirmation</a>
-                  
-                  
-                     <?php endif; ?> 
+                    <?php if ($_SESSION['loggedUser']) : ?>
+
+                      <a class="dropdown-item" href="confirmation.php">confirmation</a>
+
+
+                    <?php endif; ?>
 
                   </div>
                 </li>
@@ -161,11 +160,11 @@ global $Total;
                 <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
                   <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
                   <?php
-                                    if (isset($_SESSION['products'])) {
-                                        $count = count($_SESSION['products']);
-                                        echo "<strong>$count</strong>";
-                                    }
-                                    ?>
+                  if (isset($_SESSION['products'])) {
+                    $count = count($_SESSION['products']);
+                    echo "<strong>$count</strong>";
+                  }
+                  ?>
                 </a>
 
 

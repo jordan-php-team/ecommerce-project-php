@@ -142,11 +142,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
 
 
-    header{
-    position: fixed !important;
-    background:white;
-  }
-
+    header {
+        position: fixed !important;
+        background: white;
+    }
 </style>
 
 <body>
@@ -157,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <a class="navbar-brand" href="index.php">
-                            <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
+                            <img style="width:7.5em" src="img/kanabelogo1.png" alt="logo" />
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -195,12 +194,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                         <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
                                         <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
                                         <a class="dropdown-item" href="cart.php">shopping cart</a>
-                                        <?php  if ($_SESSION['loggedUser']) :?>
-                   
-                   <a class="dropdown-item" href="confirmation.php">confirmation</a>
-                 
-                 
-                    <?php endif; ?> 
+                                        <?php if ($_SESSION['loggedUser']) : ?>
+
+                                            <a class="dropdown-item" href="confirmation.php">confirmation</a>
+
+
+                                        <?php endif; ?>
                                         <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
                                     </div>
                                 </li>
@@ -273,35 +272,34 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 <ul class="list">
                                     <?php
 
-                  $categories=$pdo->prepare("SELECT * from categories");
-                  $categories->execute();
-                $count=0;
-                  foreach($categories as $element ){
-                        
-                                  echo   "<li>";
-                                  echo  "<a href='category.php?id=$element[id]'>$element[category_title]</a>";
-                                  $title=$element['category_title'];
-                                  $query= ("SELECT * from products WHERE product_name='$title'");
-                                  $pdo->prepare($query);
-                                  $stmt = $pdo->query($query);
-                                  $stmt->execute();
-                                  $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
-                                  $quantity=COUNT($result);
-                                  $count=$count+$quantity;
-                                  if($title != "All Products")
-                                  echo  "<a href='category.php'>$quantity</a>";
-                                  else if ($title == "All Products")
-                                  echo  "<a href='category.php'>$count</a>";
-                               
-                  }
-                               ?>
+                                    $categories = $pdo->prepare("SELECT * from categories");
+                                    $categories->execute();
+                                    $count = 0;
+                                    foreach ($categories as $element) {
+
+                                        echo   "<li>";
+                                        echo  "<a href='category.php?id=$element[id]'>$element[category_title]</a>";
+                                        $title = $element['category_title'];
+                                        $query = ("SELECT * from products WHERE product_name='$title'");
+                                        $pdo->prepare($query);
+                                        $stmt = $pdo->query($query);
+                                        $stmt->execute();
+                                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                        $quantity = COUNT($result);
+                                        $count = $count + $quantity;
+                                        if ($title != "All Products")
+                                            echo  "<a href='category.php'>$quantity</a>";
+                                        else if ($title == "All Products")
+                                            echo  "<a href='category.php'>$count</a>";
+                                    }
+                                    ?>
                                 </ul>
                             </div>
                         </aside>
 
                         <div class="left_sidebar_area">
 
-                        <!-- <aside class="left_widgets p_filter_widgets">
+                            <!-- <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
                                 <h3>Browse Categories</h3>
                             </div>
@@ -339,7 +337,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             </div>
                         </aside> -->
 
-                        <!-- <aside class="left_widgets p_filter_widgets">
+                            <!-- <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
                                 <h3>Product filters</h3>
                             </div>
@@ -381,53 +379,53 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             </div>
                         </aside> -->
 
-                        <aside class="left_widgets p_filter_widgets">
-                            <div class="l_w_title">
-                                <h3>Color Filter</h3>
-                            </div>
-                            <div class="widgets_inner">
-                                <ul class="list">
-                                    <li>
-                                        <a href="#">Brown</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Green</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#">Blue</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">White</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Woody</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </aside>
+                            <aside class="left_widgets p_filter_widgets">
+                                <div class="l_w_title">
+                                    <h3>Color Filter</h3>
+                                </div>
+                                <div class="widgets_inner">
+                                    <ul class="list">
+                                        <li>
+                                            <a href="#">Brown</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Green</a>
+                                        </li>
+                                        <li class="active">
+                                            <a href="#">Blue</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">White</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Woody</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </aside>
 
-                        <aside class="left_widgets p_filter_widgets price_rangs_aside">
-                            <div class="l_w_title">
-                                <h3>Price Filter</h3>
-                            </div>
-                            <div class="widgets_inner">
-                                <div class="range_item">
-                                    <!-- <div id="slider-range"></div> -->
-                                    <input type="text" class="js-range-slider" value="" />
-                                    <div class="d-flex">
-                                        <div class="price_text">
-                                            <p>Price :</p>
-                                        </div>
-                                        <div class="price_value d-flex justify-content-center">
-                                            <input type="text" class="js-input-from" id="amount" readonly />
-                                            <span>to</span>
-                                            <input type="text" class="js-input-to" id="amount" readonly />
+                            <aside class="left_widgets p_filter_widgets price_rangs_aside">
+                                <div class="l_w_title">
+                                    <h3>Price Filter</h3>
+                                </div>
+                                <div class="widgets_inner">
+                                    <div class="range_item">
+                                        <!-- <div id="slider-range"></div> -->
+                                        <input type="text" class="js-range-slider" value="" />
+                                        <div class="d-flex">
+                                            <div class="price_text">
+                                                <p>Price :</p>
+                                            </div>
+                                            <div class="price_value d-flex justify-content-center">
+                                                <input type="text" class="js-input-from" id="amount" readonly />
+                                                <span>to</span>
+                                                <input type="text" class="js-input-to" id="amount" readonly />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </aside>
-                    </div>
+                            </aside>
+                        </div>
 
 
 
