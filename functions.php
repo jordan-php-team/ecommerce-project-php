@@ -689,9 +689,9 @@ function read()
         die('failed'); //stop every thing
     }
     while ($row = $stmt->fetch()) {
-        $category_title = $row['id'];
-
-        echo "<option value='$category_title'>$category_title</option> ";
+        $category_title = $row['category_title'];
+        $cat_id = $row['id'];
+        echo "<option value='$cat_id'>$category_title</option> ";
     }
 }
 
@@ -912,7 +912,7 @@ function checkoutButton($Total)
                     }
                 }
                 $_SESSION['products'] = [];
-                header("location: index.php");
+                header("location: confirmation.php");
             } else {
                 echo '<script type="text/javascript">alert("please fill your information")</script>';
             }
@@ -924,7 +924,8 @@ function checkoutButton($Total)
 function logout()
 {
     if (isset($_POST['logout_btn'])) {
-        $_SESSION['loggedUser'] = '';
+        $_SESSION['loggedUser'] = [];
+        $_SESSION['products'] = [];
     }
 }
 

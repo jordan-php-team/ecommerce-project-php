@@ -183,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                                         <?php logout(); ?>
-                                        <?php if ($_SESSION['loggedUser']) : ?>
+                                        <?php if (!empty($_SESSION['loggedUser'])) : ?>
                                             <form action="login.php" method="post">
 
                                                 <?php echo  "<button type='submit' name='logout_btn' class='dropdown-item' id='login-field'> Logout</button>" ?>
@@ -194,7 +194,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                         <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
                                         <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
                                         <a class="dropdown-item" href="cart.php">shopping cart</a>
-                                        <?php if ($_SESSION['loggedUser']) : ?>
+                                        <?php if (!empty($_SESSION['loggedUser'])) : ?>
 
                                             <a class="dropdown-item" href="confirmation.php">confirmation</a>
 
@@ -497,25 +497,27 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 $Total_product_after_dicount = ' ';
                             }
 
+                            if ($element['stock'] > 0) {
 
-                            echo  "<div class='col-lg-4 col-sm-6'>";
-                            echo   "<div class='single_product_item'>";
-                            echo    "<a href='single-product.php?id=$element[id]'><img src='img/products/$element[product_image]' alt='' width=500px height=170px>";
-                            echo  "<div class='single_product_text'>";
-                            echo      "<h4>$element[product_name]</h4>";
-                            if ($element['product_discount'] > 0) {
-                                echo     "<h3><del>$element[product_price]JD</del></h3>";
-                            } else {
-                                echo     "<h3>$element[product_price]JD</h3>";
+                                echo  "<div class='col-lg-4 col-sm-6'>";
+                                echo   "<div class='single_product_item'>";
+                                echo    "<a href='single-product.php?id=$element[id]'><img src='img/products/$element[product_image]' alt='' width=500px height=170px>";
+                                echo  "<div class='single_product_text'>";
+                                echo      "<h4>$element[product_name]</h4>";
+                                if ($element['product_discount'] > 0) {
+                                    echo     "<h3><del>$element[product_price]JD</del></h3>";
+                                } else {
+                                    echo     "<h3>$element[product_price]JD</h3>";
+                                }
+
+                                echo    "<h3>$Total_product_after_dicount</h3>";
+                                echo "<form method='GET'>";
+                                echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
+                                echo "</form>";
+                                echo   "</div>";
+                                echo   "</div>";
+                                echo   "</div></a>";
                             }
-
-                            echo    "<h3>$Total_product_after_dicount</h3>";
-                            echo "<form method='GET'>";
-                            echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
-                            echo "</form>";
-                            echo   "</div>";
-                            echo   "</div>";
-                            echo   "</div></a>";
                         }
                         ?>
 

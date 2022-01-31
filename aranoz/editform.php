@@ -194,7 +194,7 @@ editInfo();
               <ul>
                 <li>
                   <p>Name:</p>
-                  <input name="name" value="<?php if ($_SESSION['loggedUser'] != "") {
+                  <input name="name" value="<?php if (count($_SESSION['loggedUser']) > 0) {
                                               print_r(ucfirst($_SESSION['loggedUser']['username']));
                                             } else {
                                               echo "There";
@@ -203,7 +203,7 @@ editInfo();
                 </br>
                 <li>
                   <p>Mobile:</p>
-                  <input name="mobile" value="<?php if ($_SESSION['loggedUser'] != "") {
+                  <input name="mobile" value="<?php if (count($_SESSION['loggedUser']) > 0) {
                                                 print_r(ucfirst($_SESSION['loggedUser']['mobile']));
                                               } else {
                                                 echo "There";
@@ -212,7 +212,7 @@ editInfo();
                 </br>
                 <li>
                   <p>Email:</p>
-                  <?php if ($_SESSION['loggedUser'] != "") {
+                  <?php if (count($_SESSION['loggedUser']) > 0) {
                     print_r(ucfirst($_SESSION['loggedUser']['email']));
                   } else {
                     echo "There";
@@ -221,7 +221,7 @@ editInfo();
                 </br>
                 <li>
                   <p>Password:</p>
-                  <?php if ($_SESSION['loggedUser'] != "") {
+                  <?php if (count($_SESSION['loggedUser']) > 0) {
                     print_r(ucfirst($_SESSION['loggedUser']['password']));
                   } else {
                     echo "There";

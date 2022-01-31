@@ -214,7 +214,7 @@ include_once "../db.php";
               <ul>
                 <li>
                   <p>Name:</p>
-                  <?php if ($_SESSION['loggedUser'] != "") {
+                  <?php if (count($_SESSION['loggedUser']) > 0) {
                     print_r(ucfirst($_SESSION['loggedUser']['username']));
                   } else {
                     echo "There";
@@ -223,7 +223,7 @@ include_once "../db.php";
                 </br>
                 <li>
                   <p>Mobile:</p>
-                  <?php if ($_SESSION['loggedUser'] != "") {
+                  <?php if (count($_SESSION['loggedUser']) > 0) {
                     print_r(ucfirst($_SESSION['loggedUser']['mobile']));
                   } else {
                     echo "There";
@@ -232,7 +232,7 @@ include_once "../db.php";
                 </br>
                 <li>
                   <p>Email:</p>
-                  <?php if ($_SESSION['loggedUser'] != "") {
+                  <?php if (count($_SESSION['loggedUser']) > 0) {
                     print_r(ucfirst($_SESSION['loggedUser']['email']));
                   } else {
                     echo "There";
@@ -241,7 +241,7 @@ include_once "../db.php";
                 </br>
                 <li>
                   <p>Password:</p>
-                  <?php if ($_SESSION['loggedUser'] != "") {
+                  <?php if (count($_SESSION['loggedUser']) > 0) {
                     print_r(ucfirst($_SESSION['loggedUser']['password']));
                   } else {
                     echo "There";

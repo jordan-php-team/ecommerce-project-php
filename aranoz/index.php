@@ -167,7 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                     <!-- this alternative syntax is excellent for improving legibility (for both PHP and HTML!) in situations where you have a mix of them. -->
                     <?php logout(); ?>
-                    <?php if ($_SESSION['loggedUser']) : ?>
+                    <?php if (!empty($_SESSION['loggedUser'])) : ?>
                       <form action="login.php" method="post">
 
                         <?php echo  "<button type='submit' name='logout_btn' class='dropdown-item' id='login-field'> Logout</button>" ?>
@@ -178,7 +178,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
                     <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
-                    <?php if ($_SESSION['loggedUser']) : ?>
+                    <?php if (!empty($_SESSION['loggedUser'])) : ?>
 
                       <a class="dropdown-item" href="confirmation.php">confirmation</a>
 
