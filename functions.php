@@ -21,12 +21,11 @@ function getUsers()
         $username = test_input($_POST['username']);
         $email = test_input($_POST['email']);
         // $password = test_input($_POST['password']);
-        $password = crypt(test_input($_POST['password']), '$2a$07$usesomesill');
-        $repeatPass = crypt(test_input($_POST['repeatPass']), '$2a$07$usesomesill');
-
-        // $cryptedPassword = crypt($hash);
-        // $mohd = hash_equals($cryptedPassword, crypt($password, $cryptedPassword));
-        // $repeatPass = test_input($_POST['repeatPass']);
+        // $password = crypt($_POST['password'], '$2a$07$usesomesillystringforsalt$');
+        // $repeatPass = crypt($_POST['repeatPass'], '$2a$07$usesomesillystringforsalt$');
+        $password = password_hash(test_input($_POST['password']), PASSWORD_DEFAULT);
+        // $password = password_hash(test_input($_POST['password']), PASSWORD_DEFAULT);
+        $repeatPass = test_input($_POST['repeatPass']);
         $age = test_input($_POST['age']);
         $mobile = test_input($_POST['mobile']);
 
@@ -35,7 +34,7 @@ function getUsers()
         $phone = "/^\d{10}$/";
 
 
-        if (preg_match($usernamePattern, $username) && preg_match($emailRegex, $email) && strlen($password) >= 8 && $password == $repeatPass && preg_match($phone, $mobile) && strlen($mobile) == 10) {
+        if (preg_match($usernamePattern, $username) && preg_match($emailRegex, $email)   && strlen($password) >= 8 && password_verify($repeatPass, $password) && preg_match($phone, $mobile) && strlen($mobile) == 10) {
 
             $sql = "SELECT email FROM registredusers WHERE email='$email'";
             $stmt = $pdo->prepare($sql);
@@ -65,7 +64,7 @@ function getAddedUsers()
 
         $username = test_input($_POST['username']);
         $email = test_input($_POST['email']);
-        $password = test_input($_POST['password']);
+        $password = password_hash(test_input($_POST['password']), PASSWORD_DEFAULT);
         $repeatPass = test_input($_POST['repeatPass']);
         $age = test_input($_POST['age']);
         $mobile = test_input($_POST['mobile']);
@@ -74,7 +73,8 @@ function getAddedUsers()
         $emailRegex = "/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
         $phone = "/^\d{10}$/";
 
-        if (preg_match($usernamePattern, $username) && preg_match($emailRegex, $email) && strlen($password) >= 8 && $password == $repeatPass && preg_match($phone, $mobile) && strlen($mobile) == 10) {
+        if (preg_match($usernamePattern, $username) && preg_match($emailRegex, $email) && strlen($password) >= 8 && password_verify($repeatPass, $password) && preg_match($phone, $mobile) && strlen($mobile) == 10) {
+
 
             $sql = "SELECT email FROM registredusers WHERE email='$email'";
             $stmt = $pdo->prepare($sql);
@@ -88,9 +88,10 @@ function getAddedUsers()
                 $query .= "VALUES (?,?,?,?,?)";
                 $stmt = $pdo->prepare($query);
                 $stmt->execute([$username, $email, $password, $age, $mobile]);
-                header("location:addUser.php");
+                header("location:table.php");
             }
         } else {
+
             echo '<script type="text/javascript">alert("please check your information")</script>';
         }
     }
@@ -109,13 +110,20 @@ function loggedUsers()
         $email = test_input($_POST['email']);
         $password = test_input($_POST['password']);
         $emailRegex = "/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
+
         if (preg_match($emailRegex, $email)) {
 
-            $query = "SELECT * FROM registredusers WHERE (email = '$email') AND (password = '$password')  ";
+            $query = "SELECT * FROM registredusers WHERE (email = '$email')  ";
             $stmt = $pdo->prepare($query);
             $stmt = $pdo->query($query); //we run it
+            $result3 = $stmt->fetch();
+            $passwordFromDb = $result3['password'];
 
-            if ($stmt->fetchColumn() > 0) {
+
+            print_r(password_verify($password, $passwordFromDb));
+            if (password_verify($password, $passwordFromDb)) {
+
+
                 $stmt->execute();
                 $result = $stmt->fetchAll(); //we set the default behavior in db file (fetch mode) ,also you use fetch without all
                 $isAdmin = $result[0]['is_admin'];
@@ -141,7 +149,7 @@ function loggedUsers()
                     header("location:../cms/table.php");
                 }
             } else {
-                echo '<script type="text/javascript">alert("incorrect email or password")</script>';
+                echo '<script type="text/javascript">alert("please check your information")</script>';
             }
         } else {
             echo '<script type="text/javascript">alert("please check your information")</script>';
@@ -152,20 +160,65 @@ function loggedUsers()
 
 
 
-function read()
+
+
+function getUpdatedUsers()
 {
-    global $pdo;
-    $query = "SELECT * FROM registredusers";
-    $stmt = $pdo->prepare($query);
-    $stmt = $pdo->query($query);
-    if (!$stmt) {
-        die('failed'); //stop every thing
-    }
-    while ($row = $stmt->fetch()) {
-        $id = $row['id'];
-        echo "<option value='$id'>$id</option> ";
+
+    if (isset($_GET['edit_user'])) {
+
+        global $pdo;
+
+        $user_id = $_GET['edit_user'];
+        $query3 = "SELECT * FROM registredusers WHERE id = $user_id";
+        $stmt3 = $pdo->prepare($query3);
+        $stmt3 = $pdo->query($query3);
+        $stmt3->execute();
+        $result3 = $stmt3->fetch();
+?>
+
+        <form method='post'>
+            <div class="form-group">
+
+                <label for='username'>username</label>
+                <input type="text" class="form-control" name='username' value="<?php echo $result3['username']; ?>">
+            </div>
+            <div class="form-group">
+                <label for='password'>password</label>
+                <input type="password" class="form-control" name='password' value="<?php echo $result3['password']; ?>">
+            </div>
+            <div class="form-group">
+                <!-- <select name="id" id="">
+                     
+                    </select> -->
+
+            </div>
+            <input type="submit" class="btn btn-primary" value='UPDATE' name='submit'>
+
+        </form>
+
+        <?php
+        if (isset($_POST['submit'])) {
+            $newUsername = $_POST['username'];
+            $newPassword = password_hash(test_input($_POST['password']), PASSWORD_DEFAULT);
+            $query = "UPDATE registredusers SET username = '$newUsername', password='$newPassword'  WHERE id= $user_id  ";
+            // $query = "UPDATE registredusers SET username = '$newUsername' , mobile = '$newPassword' WHERE (id= $user_id)";
+
+
+            $stmt = $pdo->prepare($query);
+            $stmt = $pdo->query($query);
+
+            if (!$stmt) {
+                echo 'failed';
+            } else {
+                header("location: table.php");
+                // print_r($newPassword);
+                // print_r($newUsername);
+            }
+        }
     }
 }
+
 
 function orders()
 {
@@ -335,13 +388,8 @@ function getData()
             echo   '<td>' . $user['date created'] . '</td>';
             echo   '<td>' . $user['last_login_date'] . '</td>';
             echo   '<td>' . $user['age'] . '</td>';
-?>
-            <form method='post' action='editUser.php'>
-                <?php
-
-                echo '<td>     <button name="update-user" value=' . $user['id'] . ' type="submit" class="item" data-toggle="tooltip" data-placement="top" title="Edit"><i class="zmdi zmdi-edit"></i></button></td>';
-                ?>
-            </form>
+            echo "<td> <a href='editUser.php?edit_user={$user['id']}'>Update</td>";
+        ?>
             <form method='post'>
                 <?php
                 echo '<td> <button name="delete-user" value=' . $user['id'] . ' type="submit" class="item" data-toggle="tooltip" data-placement="top" title="Delete"><i class="zmdi zmdi-delete"></i></button></td>';
@@ -370,7 +418,7 @@ function getProducts()
             echo   '<td>' . $user['product_price'] . '</td>';
             echo   '<td>' . $user['product_description'] . '</td>';
             echo   '<td>' ?>
-            <img class="img-responsive" src="<?php echo  $user['product_image']; ?>" alt="">
+            <img src="<?php echo $user['product_image']  ?>" alt="">
             <?php
             echo '</td>';
             echo   '<td>' . $user['category_id'] . '</td>';
@@ -432,7 +480,6 @@ function getComments()
             echo   '<td>' . $user['comments'] . '</td>';
             echo   '<td>' . $user['user_id'] . '</td>';
             echo   '<td>' . $user['product_id'] . '</td>';
-            echo "<td> <a href='commentsAdmin.php?edit-comment={$user['id']}'>Update</td>";
             echo "<td> <a href='commentsAdmin.php?delete-comment={$user['id']}'><i class='zmdi zmdi-delete'></i></td>";
 
 
@@ -602,25 +649,45 @@ function getAddedProduct()
     if (isset($_POST['add_product_submit'])) {
         global $pdo;
 
+        if (isset($_POST['category_id'])) {
 
-        $product_name = $_POST['product_name'];
-        $product_price = $_POST['product_price'];
-        $product_des = $_POST['product_des'];
-        $product_img = $_FILES['product_img']['name'];
-        $product_img_temp = $_FILES['product_img']['tmp_name'];
-        $category_id = $_POST['category_id'];
-        $product_stock = $_POST['product_stock'];
+            $product_name = $_POST['product_name'];
+            $product_price = $_POST['product_price'];
+            $product_des = $_POST['product_des'];
+            // $product_img = $_FILES['product_img']['name'];
+            // $product_img_temp = $_FILES['product_img']['tmp_name'];
+            $product_img = $_POST['product_img'];
+            $category_id = $_POST['category_id'];
+            $product_stock = $_POST['product_stock'];
 
-        $query = "INSERT INTO products (product_name,product_price,product_description,category_id,product_image,stock )";
-        $query .= "VALUES (?,?,?,?,?,?)";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute([$product_name, $product_price, $product_des,  $category_id, $product_img, $product_stock]);
-        if ($stmt) {
+            $query = "INSERT INTO products (product_name,product_price,product_description,category_id,product_image,stock )";
+            $query .= "VALUES (?,?,?,?,?,?)";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([$product_name, $product_price, $product_des,  $category_id, $product_img, $product_stock]);
+            if ($stmt) {
 
-            move_uploaded_file($product_img_temp, "../images/$product_img");
-        } else {
-            echo 'failed';
+                // move_uploaded_file($product_img_temp, "../images/$product_img");
+                header("location:productsAdmin.php");
+            } else {
+                echo 'failed';
+            }
         }
+    }
+}
+
+function read()
+{
+    global $pdo;
+    $query = "SELECT * FROM categories";
+    $stmt = $pdo->prepare($query);
+    $stmt = $pdo->query($query);
+    if (!$stmt) {
+        die('failed'); //stop every thing
+    }
+    while ($row = $stmt->fetch()) {
+        $category_title = $row['id'];
+
+        echo "<option value='$category_title'>$category_title</option> ";
     }
 }
 
@@ -630,6 +697,7 @@ function getAddedCategory()
 
 
     if (isset($_POST['add_category_submit'])) {
+
 
         global $pdo;
         $category_title = $_POST['category_title'];
@@ -839,7 +907,7 @@ function checkoutButton($Total)
                         }
                     }
                 }
-
+                $_SESSION['products'] = [];
                 header("location: index.php");
             } else {
                 echo '<script type="text/javascript">alert("please fill your information")</script>';

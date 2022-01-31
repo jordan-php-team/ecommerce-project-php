@@ -8,6 +8,7 @@ session_start();
 ?>
 <?php include "../functions.php"; ?>
 <?php
+$ghassan = $_SESSION['products'] ? $ghassan = $_SESSION['products'] : $ghassan = [];
 global $pdo;
 $quanitity = 1;
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -23,39 +24,42 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         if ($result['stock'] > 0) {
 
             //   if(isset($_SESSION['products'])){
-            foreach ($_SESSION['products'] as $element) {
-                if ($element['id'] == $product_id) {
-                    $_SESSION['products'][$product_id][0] += 1;
-                    $flag = true;
-                    break;
+            if ($ghassan) {
+
+                foreach ($ghassan as $element) {
+                    if ($element['id'] == $product_id) {
+                        $_SESSION['products'][$product_id][0] += 1;
+                        $flag = true;
+                        break;
+                    }
                 }
-            }
 
-            if ($flag == false) {
-                $_SESSION['products'][$product_id] = $result;
-                $_SESSION['products'][$product_id][0] = $quanitity;
-            }
-
-
-            foreach ($_SESSION['products'] as $element) {
-
-                $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
-
-                if ($_SESSION['products'][$product_id]['product_discount'] > 0) {
-
-                    $discount_percentage_product = $_SESSION['products'][$product_id]['Total'] * ($element['product_discount'] / 100);
-                    $Total_product_after_dicount = $_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
-                    $_SESSION['products'][$product_id]['Total_after_discount'] = $Total_product_after_dicount;
+                if ($flag == false) {
+                    $_SESSION['products'][$product_id] = $result;
+                    $_SESSION['products'][$product_id][0] = $quanitity;
+                }
 
 
+                foreach ($_SESSION['products'] as $element) {
 
-                    $discount_percentage_product = ($element['product_discount'] / 100) * intval($element['product_price']);
-                    $price_product_after_dicount = intval($element['product_price']) - $discount_percentage_product;
-                    $_SESSION['products'][$product_id]['product_price_after_discount'] = $price_product_after_dicount;
-                } else {
                     $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
-                    $_SESSION['products'][$product_id]['Total_after_discount'] = $_SESSION['products'][$product_id]['Total'];
-                    $_SESSION['products'][$product_id]['product_price_after_discount'] = $_SESSION['products'][$product_id]['product_price'];
+
+                    if ($_SESSION['products'][$product_id]['product_discount'] > 0) {
+
+                        $discount_percentage_product = $_SESSION['products'][$product_id]['Total'] * ($element['product_discount'] / 100);
+                        $Total_product_after_dicount = $_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
+                        $_SESSION['products'][$product_id]['Total_after_discount'] = $Total_product_after_dicount;
+
+
+
+                        $discount_percentage_product = ($element['product_discount'] / 100) * intval($element['product_price']);
+                        $price_product_after_dicount = intval($element['product_price']) - $discount_percentage_product;
+                        $_SESSION['products'][$product_id]['product_price_after_discount'] = $price_product_after_dicount;
+                    } else {
+                        $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
+                        $_SESSION['products'][$product_id]['Total_after_discount'] = $_SESSION['products'][$product_id]['Total'];
+                        $_SESSION['products'][$product_id]['product_price_after_discount'] = $_SESSION['products'][$product_id]['product_price'];
+                    }
                 }
             }
 
@@ -209,7 +213,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
                                     <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
                                     <?php
-                                    if (isset($_SESSION['products'])) {
+                                    if (!isset($_SESSION['products'])) {
                                         $count = count($_SESSION['products']);
                                         echo "<strong>$count</strong>";
                                     }
