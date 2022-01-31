@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
           }
         }
         // header("location: category.php");
-        echo '<script type="text/javascript">alert("add to cart")</script>';
+        // echo '<script type="text/javascript">alert("add to cart")</script>';
       }
     } else {
       echo '<script type="text/javascript">alert("is empty stock")</script>';
@@ -124,11 +124,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     transform: scale(1.1);
     transition: .2s;
   }
+
+  header{
+    position: fixed !important;
+    background:white;
+  }
 </style>
 
 <body>
   <!--::header part start::-->
-  <header class="main_menu home_menu">
+  <header class="main_menu home_menu" >
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-12">

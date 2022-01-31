@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             // }
 
 
-            echo '<script type="text/javascript">alert("add to cart")</script>';
+            // echo '<script type="text/javascript">alert("add to cart")</script>';
             //   echo    "<script>Swal.fire('add to cart')</script>";
 
 
@@ -140,6 +140,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         transform: scale(1.1);
         transition: .2s;
     }
+
+
+    header{
+    position: fixed !important;
+    background:white;
+  }
+
 </style>
 
 <body>
