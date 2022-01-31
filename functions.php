@@ -120,7 +120,7 @@ function loggedUsers()
             $passwordFromDb = $result3['password'];
 
 
-            print_r(password_verify($password, $passwordFromDb));
+
             if (password_verify($password, $passwordFromDb)) {
 
 
