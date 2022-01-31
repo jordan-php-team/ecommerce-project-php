@@ -24,7 +24,7 @@ $cart = $_SESSION["products"];
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>kenbae</title>
-  <link rel="icon" href="img/favicon1.png" />
+  <link rel="icon" href="img/favicon2.png" />
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <!-- animate CSS -->
@@ -55,7 +55,7 @@ $cart = $_SESSION["products"];
         <div class="col-lg-12">
           <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="index.php">
-              <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
+              <img style="width:7.5em" src="img/kanabelogo1.png" alt="logo" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -172,7 +172,7 @@ $cart = $_SESSION["products"];
                     <td>
                       <div class="media">
                         <div class="d-flex">
-                          <img src=<?php echo $element['product_image']; ?> alt="" width=200px height=170px />
+                          <img src="img/products/<?php echo $element['product_image']; ?> " alt="" width=200px height=170px />
                         </div>
                         <div class="media-body">
                           <p><?php
@@ -189,9 +189,9 @@ $cart = $_SESSION["products"];
                       <div class="product_count">
                         <!-- <span class="input-number-decrement"> <i class="ti-angle-down"></i></span> -->
                         <!-- <input class="input-number" type="text" value="1" min="1" max="10"> -->
-                        <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Dencrement'>-</a>
-                        <p> <?php echo $element[0]; ?></p>
-                        <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Increment'>+</a>
+                        <a style='color:#eb1a50 !important;font-size:1.75em' href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Dencrement'>-</a>
+                        <p style='font-weight:300'> <?php echo $element[0]; ?></p>
+                        <a style='color:#eb1a50 !important;font-size:1.75em ' href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Increment'>+</a>
                         <!-- <span class="input-number-increment"> <i class="ti-angle-up"></i></span> -->
 
 
@@ -202,7 +202,7 @@ $cart = $_SESSION["products"];
                           echo $element['Total_after_discount']; ?> JD</h5>
                     </td>
                     <td>
-                      <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=delete'>delete</a>
+                      <a  style='color:#eb1a50 !important ; font-size:1.25em' href='quanitity.php?id=<?php echo $element['id']; ?>&&name=delete'>Delete</a>
                     </td>
                   </tr>
                   <?php
@@ -245,7 +245,7 @@ $cart = $_SESSION["products"];
 
             if (count($cart) > 0) { ?>
               <form method="post">
-                <button class="btn_1 checkout_btn_1" name="to_checkout">Proceed to checkout</button>
+                <button class="btn_3" name="to_checkout">Proceed to checkout</button>
               </form>
             <?php  } ?>
 

@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <title>kenbae</title>
-  <link rel="icon" href="img/favicon1.png" />
+  <link rel="icon" href="img/favicon2.png" />
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css" />
   <!-- animate CSS -->
@@ -124,9 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     transform: scale(1.1);
     transition: .2s;
   }
-.main_menu{
-  position: fixed;
-}
+
 </style>
 
 <body>
@@ -137,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         <div class="col-lg-12">
           <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="index.php">
-              <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
+              <img style="width:7.5em" src="img/kanabelogo1.png" alt="logo" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -203,7 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                   <?php
                   if (isset($_SESSION['products'])) {
                     $count = count($_SESSION['products']);
-                    echo "<strong>$count</strong>";
+                    echo "<strong style='color:#eb1a50 !important'>$count</strong>";
                   }
                   ?>
                 </a>
@@ -416,13 +414,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <img src="img/products/<?php echo  $product['product_image']; ?>" alt="" />
                         <div class="single_product_text">
                           <?php
-                          echo "<h4>" . $product['product_name'] . "</h4>";
+                          echo "<span style='font-size:1.75em ;text-transform: capitalize ; color:black'>" . $product['product_name'] . "</span>";
                           if ($product['product_discount'] > 0) {
                             echo     "<h3><del>$product[product_price]JD</del></h3>";
                           } else {
                             echo     "<h3>$product[product_price]JD</h3>";
                           }
-                          echo    "<h3>$Total_product_after_dicount</h3>";
+                          echo    "<h3>$Total_product_after_dicount JD</h3>";
                           echo "<form method='GET'>";
                           echo "<button type='submit' value=$product[id] name='addToCart'   class='btn_3'>add to cart</button>";
                           echo "</form>"; ?>
@@ -529,8 +527,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
                   <div class="single_product_text">
                     <?php
-                    echo "<h4>" . $product['product_name'] . "</h4>";
-                    echo "<h3>" . $product['product_price'] . "JD</h3>";
+                    echo "<span style='font-size:1.75em ;text-transform: capitalize ; color:#eb1a50 ;'>" . $product['product_name'] . "</span>";
+                    echo "<h3>" . $product['product_price'] . " JD</h3>";
                     ?>
                   </div>
                 </div>

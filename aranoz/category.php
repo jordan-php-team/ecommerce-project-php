@@ -96,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>kenbae</title>
-    <link rel="icon" href="img/favicon1.png" />
+    <link rel="icon" href="img/favicon2.png" />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- animate CSS -->
@@ -150,7 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <a class="navbar-brand" href="index.php">
-                            <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
+                            <img style="width:7.5em" src="img/kanabelogo1.png" alt="logo" />
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -215,7 +215,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     <?php
                                     if (isset($_SESSION['products'])) {
                                         $count = count($_SESSION['products']);
-                                        echo "<strong>$count</strong>";
+                                        echo "<strong style='color:#eb1a50 !important'>$count</strong>";
                                     }
                                     ?>
                                 </a>
@@ -291,10 +291,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                         <?php
                                         $data = "SELECT * FROM products
                                         WHERE products LIKE '%or%'"; ?>
-                                        <input type="text" class="form-control" placeholder="search" aria-describedby="inputGroupPrepend">
+                                        <!-- <input type="text" class="form-control" placeholder="search" aria-describedby="inputGroupPrepend">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroupPrepend"><i class="ti-search"></i></span>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -340,7 +340,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 $Total_product_before_dicount = $element['product_price'];
                                 $discount_percentage_product = 0;
                                 $discount_percentage_product = $Total_product_before_dicount * ($element['product_discount'] / 100);
-                                $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product;
+                                $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product . " JD";
                             } else {
                                 $Total_product_after_dicount = ' ';
                             }
@@ -350,14 +350,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             echo   "<div class='single_product_item'>";
                             echo    "<a href='single-product.php?id=$element[id]'><img src='img/products/$element[product_image]' alt='' width=500px height=170px>";
                             echo  "<div class='single_product_text'>";
-                            echo      "<h4>$element[product_name]</h4>";
+                            echo      "<Span style='font-size:1.75em ;text-transform: capitalize ; color:black'>$element[product_name]</Span>";
                             if ($element['product_discount'] > 0) {
                                 echo     "<h3><del>$element[product_price]JD</del></h3>";
                             } else {
                                 echo     "<h3>$element[product_price]JD</h3>";
                             }
 
-                            echo    "<h3>$Total_product_after_dicount</h3>";
+                            echo    "<h3>$Total_product_after_dicount </h3>";
                             echo "<form method='GET'>";
                             echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
                             echo "</form>";
@@ -367,7 +367,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         }
                         ?>
 
-                        <div class="col-lg-12">
+                        <!-- <div class="col-lg-12">
                             <div class="pageination">
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-center">
@@ -390,7 +390,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     </ul>
                                 </nav>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
