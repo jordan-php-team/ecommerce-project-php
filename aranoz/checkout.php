@@ -213,7 +213,7 @@ global $Total;
 
       ?>
 
-      <div class="row mx-auto">
+      <div class="row mx-5  ">
         <div class="col-lg-8 ">
           <h3>Billing Details</h3>
           <form class="row contact_form" action="#" method="post" novalidate="novalidate">
@@ -342,9 +342,11 @@ global $Total;
             </ul>
             <div class="payment_item">
               <div class="radion_btn">
-                <input type="radio" id="f-option5" name="selector" />
-                <label for="f-option5">Pay on delivery </label>
-                <div class="check" Required></div>
+                <label for="f-option5">
+                  <input type="checkbox" name="selector" required style="margin-right: .3rem;" />Pay on delivery
+                  <!-- <div class="check" Required></div>  -->
+
+                </label>
               </div>
 
             </div>

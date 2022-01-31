@@ -496,26 +496,28 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             } else {
                                 $Total_product_after_dicount = ' ';
                             }
+                            if ($element['stock'] > 0) {
 
 
-                            echo  "<div class='col-lg-4 col-sm-6'>";
-                            echo   "<div class='single_product_item'>";
-                            echo    "<a href='single-product.php?id=$element[id]'><img src='img/products/$element[product_image]' alt='' width=500px height=170px>";
-                            echo  "<div class='single_product_text'>";
-                            echo      "<Span style='font-size:1.75em ;text-transform: capitalize ; color:black'>$element[product_name]</Span>";
-                            if ($element['product_discount'] > 0) {
-                                echo     "<h3><del>$element[product_price]JD</del></h3>";
-                            } else {
-                                echo     "<h3>$element[product_price]JD</h3>";
+                                echo  "<div class='col-lg-4 col-sm-6'>";
+                                echo   "<div class='single_product_item'>";
+                                echo    "<a href='single-product.php?id=$element[id]'><img src='img/products/$element[product_image]' alt='' width=500px height=170px>";
+                                echo  "<div class='single_product_text'>";
+                                echo      "<Span style='font-size:1.75em ;text-transform: capitalize ; color:black'>$element[product_name]</Span>";
+                                if ($element['product_discount'] > 0) {
+                                    echo     "<h3><del>$element[product_price]JD</del></h3>";
+                                } else {
+                                    echo     "<h3>$element[product_price]JD</h3>";
+                                }
+
+                                echo    "<h3>$Total_product_after_dicount </h3>";
+                                echo "<form method='GET'>";
+                                echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
+                                echo "</form>";
+                                echo   "</div>";
+                                echo   "</div>";
+                                echo   "</div></a>";
                             }
-
-                            echo    "<h3>$Total_product_after_dicount </h3>";
-                            echo "<form method='GET'>";
-                            echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
-                            echo "</form>";
-                            echo   "</div>";
-                            echo   "</div>";
-                            echo   "</div></a>";
                         }
                         ?>
 
