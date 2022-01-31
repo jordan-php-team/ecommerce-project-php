@@ -1,84 +1,81 @@
-
 <?php
 include_once "../db.php";
 session_start();
- //session_unset();
+//session_unset();
 // unset($_SESSION['products']);
-
+// echo "<pre>";
+// var_dump($_SESSION['products']);
 ?>
 <?php include "../functions.php"; ?>
 <?php
- global $pdo;
- $quanitity=1;
-    if($_SERVER["REQUEST_METHOD"]=="GET"){
-    if(isset($_GET['addToCart'])){
-      $product_id= $_GET['addToCart'];
+$ghassan = $_SESSION['products'] ? $ghassan = $_SESSION['products'] : $ghassan = [];
+global $pdo;
+$quanitity = 1;
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if (isset($_GET['addToCart'])) {
+        $product_id = $_GET['addToCart'];
 
-      $data="SELECT * FROM products WHERE id=$product_id";
-      $sql=$pdo->prepare($data);
-      $sql->execute();
-      $result=$sql->fetch();
-     var_dump($result);
-       $flag=false;
-      if(isset($_SESSION['products'])){
-          foreach($_SESSION['products'] as $element){
-            if($element['id']==$product_id)  {
-                $_SESSION['products'][$product_id][0]+=1;
-                $flag=true;
-                break;
-            }
+        $data = "SELECT * FROM products WHERE id=$product_id";
+        $sql = $pdo->prepare($data);
+        $sql->execute();
+        $result = $sql->fetch();
+        //  var_dump($result);
+        $flag = false;
+        if ($result['stock'] > 0) {
+
+            //   if(isset($_SESSION['products'])){
+            // if ($ghassan) {
+
+                foreach ($ghassan as $element) {
+                    if ($element['id'] == $product_id) {
+                        $_SESSION['products'][$product_id][0] += 1;
+                        $flag = true;
+                        break;
+                    }
+                }
+
+                if ($flag == false) {
+                    $_SESSION['products'][$product_id] = $result;
+                    $_SESSION['products'][$product_id][0] = $quanitity;
+                }
+
+
+                foreach ($_SESSION['products'] as $element) {
+
+                    $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
+
+                    if ($_SESSION['products'][$product_id]['product_discount'] > 0) {
+
+                        $discount_percentage_product = $_SESSION['products'][$product_id]['Total'] * ($element['product_discount'] / 100);
+                        $Total_product_after_dicount = $_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
+                        $_SESSION['products'][$product_id]['Total_after_discount'] = $Total_product_after_dicount;
+
+
+
+                        $discount_percentage_product = ($element['product_discount'] / 100) * intval($element['product_price']);
+                        $price_product_after_dicount = intval($element['product_price']) - $discount_percentage_product;
+                        $_SESSION['products'][$product_id]['product_price_after_discount'] = $price_product_after_dicount;
+                    } else {
+                        $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
+                        $_SESSION['products'][$product_id]['Total_after_discount'] = $_SESSION['products'][$product_id]['Total'];
+                        $_SESSION['products'][$product_id]['product_price_after_discount'] = $_SESSION['products'][$product_id]['product_price'];
+                    }
+                }
+            // }
+
+
+            echo '<script type="text/javascript">alert("add to cart")</script>';
+            //   echo    "<script>Swal.fire('add to cart')</script>";
+
+
+            //    }
+
+        } else {
+            echo '<script type="text/javascript">alert("is empty stock")</script>';
         }
-
-         if($flag==false){
-        $_SESSION['products'][$product_id]=$result;
-        $_SESSION['products'][$product_id][0]=$quanitity;
-         }
-
-
-         foreach($_SESSION['products'] as $element){
-
-            $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']);
-                    
-            if($_SESSION['products'][$product_id]['product_discount']> 0){
-
-            $discount_percentage_product= $_SESSION['products'][$product_id]['Total'] *($element['product_discount']/100);
-          $Total_product_after_dicount =$_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
-          $_SESSION['products'][$product_id]['Total_after_discount']= $Total_product_after_dicount;
-        
-
-
-          $discount_percentage_product= ($element['product_discount']/100) *intval($element['product_price']);
-          $price_product_after_dicount = intval($element['product_price'])- $discount_percentage_product;
-          $_SESSION['products'][$product_id]['product_price_after_discount']= $price_product_after_dicount;
-        }
-
-
-        else{
-            $_SESSION['products'][$product_id]['Total']= $element[0]*intval($element['product_price']); 
-            $_SESSION['products'][$product_id]['Total_after_discount']=$_SESSION['products'][$product_id]['Total'];
-          $_SESSION['products'][$product_id]['product_price_after_discount']=$_SESSION['products'][$product_id]['product_price'];
-  
-        }
-
-
-
-         }
-       
-        }
-
-        else{
-            // echo "haneen";
-            // $_SESSION['products'][]=[];
-            // session_unset();
-        }
-        //   echo "<pre>";
-        //    var_dump($_SESSION['products']);
-           
-        header("location: cart.php");
-     
     }
 }
-   
+
 
 
 ?>
@@ -91,7 +88,9 @@ session_start();
 
 
 <!-- Mirrored from technext.github.io/aranoz/category.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:48 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -118,6 +117,7 @@ session_start();
     <link rel="stylesheet" href="css/price_rangs.css">
     <!-- style CSS -->
     <link rel="stylesheet" href="css/style.css">
+
 </head>
 <style>
     .main_menu .cart i:after {
@@ -150,7 +150,7 @@ session_start();
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <a class="navbar-brand" href="index.php">
-                        <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
+                            <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -212,6 +212,12 @@ session_start();
                             <div class="dropdown cart">
                                 <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
                                     <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
+                                    <?php
+                                    if (isset($_SESSION['products'])) {
+                                        $count = count($_SESSION['products']);
+                                        echo "<strong>$count</strong>";
+                                    }
+                                    ?>
                                 </a>
                             </div>
                         </div>
@@ -255,40 +261,39 @@ session_start();
                                 <ul class="list">
                                     <?php
 
-                  $categories=$pdo->prepare("SELECT * from categories");
-                  $categories->execute();
+                                    $categories = $pdo->prepare("SELECT * from categories");
+                                    $categories->execute();
 
-                  foreach($categories as $element ){
-                        
-                                  echo   "<li>";
-                                  echo  "<a href='category.php?id=$element[id]'>$element[category_title]</a>";
-                                 
-                               
-                  }
-                               ?>
+                                    foreach ($categories as $element) {
+
+                                        echo   "<li>";
+                                        echo  "<a href='category.php?id=$element[id]'>$element[category_title]</a>";
+                                    }
+                                    ?>
                                 </ul>
                             </div>
                         </aside>
 
-                       
 
-                       
 
-                       
+
+
+
                     </div>
                 </div>
                 <div class="col-lg-9">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="product_top_bar d-flex justify-content-between align-items-center">
-                           
+
                                 <div class="single_product_menu d-flex">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="search"
-                                            aria-describedby="inputGroupPrepend">
+                                        <?php
+                                        $data = "SELECT * FROM products
+                                        WHERE products LIKE '%or%'"; ?>
+                                        <input type="text" class="form-control" placeholder="search" aria-describedby="inputGroupPrepend">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroupPrepend"><i
-                                                    class="ti-search"></i></span>
+                                            <span class="input-group-text" id="inputGroupPrepend"><i class="ti-search"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -298,82 +303,70 @@ session_start();
 
                     <div class="row align-items-center latest_product_inner">
 
-                             
 
 
 
-                                  
 
 
 
-<?php
 
 
-if (isset($_GET['id'])) {
-
-$data=$pdo->prepare("SELECT * from products WHERE category_id=$_GET[id]");}
+                        <?php
 
 
+                        if (isset($_GET['id'])) {
 
-else{
-    $data=$pdo->prepare("SELECT * FROM products WHERE id<= 18 OR  id > 28"); 
-    
+                            $data = $pdo->prepare("SELECT * from products WHERE category_id=$_GET[id]");
+                        } else {
+                            $data = $pdo->prepare("SELECT * FROM products WHERE id<= 18 OR  id > 28");
+                        }
 
-}
-
-if(isset($_GET['id']) && $_GET['id']==4){
-    $data=$pdo->prepare("SELECT * from products  WHERE id <= 18 OR  id > 28 "); 
-
-}
+                        if (isset($_GET['id']) && $_GET['id'] == 4) {
+                            $data = $pdo->prepare("SELECT * from products  WHERE id <= 18 OR  id > 28 ");
+                        }
 
 
 
-if(isset($_GET['id']) && $_GET['id']==1){
-    $data=$pdo->prepare("SELECT * from products  WHERE ( id <= 18 OR  id > 28) AND (category_id=$_GET[id]) "); 
-
-}
-
-
-// var_dump($data);
-   $data->execute();
-
-   foreach ($data as $element) {
-    if ($element['product_discount'] > 0) {
-        $Total_product_before_dicount = $element['product_price'];
-        $discount_percentage_product = 0;
-        $discount_percentage_product = $Total_product_before_dicount * ($element['product_discount'] / 100);
-        $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product;
-    } else {
-        $Total_product_after_dicount = ' ';
-    }
+                        if (isset($_GET['id']) && $_GET['id'] == 1) {
+                            $data = $pdo->prepare("SELECT * from products  WHERE ( id <= 18 OR  id > 28) AND (category_id=$_GET[id]) ");
+                        }
 
 
-    echo  "<div class='col-lg-4 col-sm-6'>";
-    echo   "<div class='single_product_item'>";
+                        // var_dump($data);
+                        $data->execute();
 
-    
+                        foreach ($data as $element) {
+                            if ($element['product_discount'] > 0) {
+                                $Total_product_before_dicount = $element['product_price'];
+                                $discount_percentage_product = 0;
+                                $discount_percentage_product = $Total_product_before_dicount * ($element['product_discount'] / 100);
+                                $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product;
+                            } else {
+                                $Total_product_after_dicount = ' ';
+                            }
 
-    echo    "<a href='single-product.php?id=$element[id]'>
-    <img src='img/products/$element[product_image]' alt='' width=500px height=170px>";
-    echo  "<div class='single_product_text'>";
-    echo      "<h4>$element[product_name]</h4>";
-    if ($element['product_discount'] > 0) {
-        echo     "<h3><del>$element[product_price]JD</del></h3>";
-    } else {
-        echo     "<h3>$element[product_price]JD</h3>";
-    }
 
-    echo    "<h3>$Total_product_after_dicount</h3>";
-    echo "<form method='GET'>";
-    echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
-    echo "</form>";
-    echo   "</div>";
-    echo   "</div>";
-    echo   "</div></a>";
-}
+                            echo  "<div class='col-lg-4 col-sm-6'>";
+                            echo   "<div class='single_product_item'>";
+                            echo    "<a href='single-product.php?id=$element[id]'><img src='img/products/$element[product_image]' alt='' width=500px height=170px>";
+                            echo  "<div class='single_product_text'>";
+                            echo      "<h4>$element[product_name]</h4>";
+                            if ($element['product_discount'] > 0) {
+                                echo     "<h3><del>$element[product_price]JD</del></h3>";
+                            } else {
+                                echo     "<h3>$element[product_price]JD</h3>";
+                            }
 
-?>
-                        
+                            echo    "<h3>$Total_product_after_dicount</h3>";
+                            echo "<form method='GET'>";
+                            echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
+                            echo "</form>";
+                            echo   "</div>";
+                            echo   "</div>";
+                            echo   "</div></a>";
+                        }
+                        ?>
+
                         <div class="col-lg-12">
                             <div class="pageination">
                                 <nav aria-label="Page navigation example">
@@ -405,7 +398,7 @@ if(isset($_GET['id']) && $_GET['id']==1){
     </section>
     <!--================End Category Product Area =================-->
 
-    
+
 
     <footer class="footer_part">
         <div class="container">
@@ -478,4 +471,5 @@ if(isset($_GET['id']) && $_GET['id']==1){
 
 
 <!-- Mirrored from technext.github.io/aranoz/category.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:49 GMT -->
+
 </html>

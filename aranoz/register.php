@@ -45,7 +45,7 @@ getUsers();
         <div class="col-lg-12">
           <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="index.php">
-            <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
+              <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -155,8 +155,7 @@ getUsers();
           <div class="login_part_form">
             <div class="login_part_form_iner">
               <h3>
-                Welcome Back ! <br />
-                Please Sign in now
+                Sign Up Here
               </h3>
               <form class="row contact_form" method="post" action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>>
                 <div class="col-md-12 form-group p_star">
@@ -176,7 +175,11 @@ getUsers();
                 </div>
                 <div class="msg4"></div>
                 <div class="col-md-12 form-group p_star">
-                  <input type="date" class="form-control" id="password" max="2005-12-31" name="date" placeholder="Date " />
+                  <input type="mobile" class="form-control" id="mobile-field" name="mobile" placeholder="07########" />
+                </div>
+                <div class="msg5"></div>
+                <div class="col-md-12 form-group p_star">
+                  <input type="date" class="form-control" id="password" max="2005-12-31" name="age" placeholder="Date " required />
                 </div>
                 <div class="col-md-12 form-group">
                   <div class="creat_account d-flex align-items-center">
@@ -264,7 +267,7 @@ getUsers();
   <script src="js/price_rangs.js"></script>
   <!-- custom js -->
   <script src="js/custom.js"></script>
-  <script src="../validation.js"></script>
+  <script src="validation.js"></script>
 </body>
 
 <!-- Mirrored from technext.github.io/aranoz/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->

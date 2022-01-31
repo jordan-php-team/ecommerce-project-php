@@ -55,7 +55,7 @@ $cart = $_SESSION["products"];
         <div class="col-lg-12">
           <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="index.php">
-            <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
+              <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="menu_icon"><i class="fas fa-bars"></i></span>
@@ -81,7 +81,9 @@ $cart = $_SESSION["products"];
                     Account
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                    <?php logout(); ?>
+                    <?php
+                    // logout();
+                    ?>
                     <?php if ($_SESSION['loggedUser']) : ?>
                       <form action="login.php" method="post">
 
@@ -156,7 +158,7 @@ $cart = $_SESSION["products"];
                 <th scope="col">Price </th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Total</th>
-                <th scope="col">Delete</th>
+                <!-- <th scope="col">Delete</th> -->
 
               </tr>
             </thead>
@@ -164,53 +166,54 @@ $cart = $_SESSION["products"];
 
               <?php
 
-      if(isset($cart)){
-              foreach ($cart as $element) { ?>
-                <tr>
-                  <td>
-                    <div class="media">
-                      <div class="d-flex">
-                        <img src=<?php echo $element['product_image']; ?> alt="" width=200px height=170px />
+              if (isset($cart)) {
+                foreach ($cart as $element) { ?>
+                  <tr>
+                    <td>
+                      <div class="media">
+                        <div class="d-flex">
+                          <img src=<?php echo $element['product_image']; ?> alt="" width=200px height=170px />
+                        </div>
+                        <div class="media-body">
+                          <p><?php
+                              // echo $element['product_price_after_discount'];
+                              ?></p>
+                        </div>
                       </div>
-                      <div class="media-body">
-                        <p><?php 
-                        // echo $element['product_price_after_discount'];
-                            ?></p>
+                    </td>
+                    <td>
+                      <h5><?php
+                          echo $element['product_price_after_discount']; ?>JD</h5>
+                    </td>
+                    <td>
+                      <div class="product_count">
+                        <!-- <span class="input-number-decrement"> <i class="ti-angle-down"></i></span> -->
+                        <!-- <input class="input-number" type="text" value="1" min="1" max="10"> -->
+                        <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Dencrement'>-</a>
+                        <p> <?php echo $element[0]; ?></p>
+                        <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Increment'>+</a>
+                        <!-- <span class="input-number-increment"> <i class="ti-angle-up"></i></span> -->
+
+
                       </div>
-                    </div>
-                  </td>
-                  <td>
-                    <h5><?php
-                     echo $element['product_price_after_discount']; ?>JD</h5>
-                  </td>
-                  <td>
-                    <div class="product_count">
-                      <!-- <span class="input-number-decrement"> <i class="ti-angle-down"></i></span> -->
-                      <!-- <input class="input-number" type="text" value="1" min="1" max="10"> -->
-                      <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Dencrement'>-</a>
-                      <p> <?php echo $element[0]; ?></p>
-                      <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Increment'>+</a>
-                      <!-- <span class="input-number-increment"> <i class="ti-angle-up"></i></span> -->
+                    </td>
+                    <td>
+                      <h5><?php
+                          echo $element['Total_after_discount']; ?> JD</h5>
+                    </td>
+                    <td>
+                      <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=delete'>delete</a>
+                    </td>
+                  </tr>
+                  <?php
+                  // echo $element['Total_after_discount'];
 
+                  global $Total;
+                  $Total = $Total + $element['Total_after_discount'];
 
-                    </div>
-                  </td>
-                  <td>
-                    <h5><?php 
-                    echo $element['Total_after_discount']; ?> JD</h5>
-                  </td>
-                  <td>
-                    <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=delete'>delete</a>
-                  </td>
-                </tr>
-                <?php
-                // echo $element['Total_after_discount'];
-
-                global $Total;
-                $Total = $Total + $element['Total_after_discount'];
-
-                ?>
-              <?php }} ?>
+                  ?>
+              <?php }
+              } ?>
 
               <tr>
                 <td></td>
@@ -219,17 +222,36 @@ $cart = $_SESSION["products"];
                   <h5>Total</h5>
                 </td>
                 <td>
-    <?php if(!empty($Total)){?>
-                  <h5><?php echo $Total; ?> JD</h5>
+                  <?php if (!empty($Total)) { ?>
+                    <h5><?php echo $Total; ?> JD</h5>
                 </td>
-<?php }?>
+              <?php } ?>
               </tr>
 
             </tbody>
           </table>
           <div class="checkout_btn_inner float-right">
             <!-- <a class="btn_1" href="#">Continue Shopping</a> -->
-            <a class="btn_1 checkout_btn_1" href="checkout.php">Proceed to checkout</a>
+
+            <?php if (isset($_POST['to_checkout'])) {
+              if ($_SESSION['loggedUser']) {
+
+                header("location: checkout.php");
+              } else {
+
+                header("location: login.php");
+              }
+            }
+
+            if (count($cart) > 0) { ?>
+              <form method="post">
+                <button class="btn_1 checkout_btn_1" name="to_checkout">Proceed to checkout</button>
+              </form>
+            <?php  } ?>
+
+
+
+
           </div>
         </div>
       </div>

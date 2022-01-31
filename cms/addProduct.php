@@ -3,6 +3,10 @@
 include_once "../db.php";
 ?>
 <?php include "../functions.php"; ?>
+<?php
+$category_id = isset($_POST['category_id']) ? $category_id = $_POST['category_id'] : 0;
+print_r($category_id);
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -115,73 +119,7 @@ include_once "../db.php";
         <!-- END HEADER MOBILE-->
 
         <!-- MENU SIDEBAR-->
-        <aside class="menu-sidebar d-none d-lg-block">
-            <div class="logo">
-                <a href="#">
-                    <img src="images/icon/logo.png" alt="Cool Admin" />
-                </a>
-            </div>
-            <div class="menu-sidebar__content js-scrollbar1">
-                <nav class="navbar-sidebar">
-                    <ul class="list-unstyled navbar__list">
-
-                        <li class="active">
-                            <a href="#" data-toggle="collapse" data-target="#users"><i class="fas fa-users"></i>Users <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="users" class="collapse">
-                                <li>
-                                    <a href="table.php">View All Users</a>
-                                </li>
-                                <li>
-                                    <a href="addUser.php">Add User</a>
-                                </li>
-                                <li>
-                                    <a href="editUser.php">Edit User</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" data-toggle="collapse" data-target="#products"><i class="fas fa-sitemap"></i> Products <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="products" class="collapse">
-                                <li>
-                                    <a href="productsAdmin.php">View All Products</a>
-                                </li>
-                                <li>
-                                    <a href="addPost.php">Add Product</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" data-toggle="collapse" data-target="#categories"><i class="fas fa-filter"></i> Categories <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="categories" class="collapse">
-                                <li>
-                                    <a href="categoriesAdmin.php">View All Categories</a>
-                                </li>
-                                <li>
-                                    <a href="addCategory.php">Add Category</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="#" data-toggle="collapse" data-target="#comments"> <i class="fas fa-comments"></i>Comments <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="comments" class="collapse">
-                                <li>
-                                    <a href="commentsAdmin.php">View All Comments</a>
-                                </li>
-                                <li>
-                                    <a href="addComment.php">Add Comment</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="orders.php"> <i class="fas fa-truck"></i> Orders</a>
-                        </li>
-
-
-                    </ul>
-                </nav>
-            </div>
-        </aside>
+        <?php include 'sidebar.php' ?>
         <!-- END MENU SIDEBAR-->
 
         <!-- PAGE CONTAINER-->
@@ -202,16 +140,16 @@ include_once "../db.php";
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="images/icon/beshir-profile.jpeg" alt="beshir" />
+                                            <img src="../aranoz/img/logoicon.png" alt="beshir" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#">Beshir</a>
+                                            <a class="js-acc-btn" href="#">kanabae</a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="images/icon/beshir-profile.jpeg" alt="John Doe" />
+                                                        <img src="../aranoz/img/logoicon.png" alt="John Doe" />
                                                     </a>
                                                 </div>
                                                 <div class="content">
@@ -269,8 +207,8 @@ include_once "../db.php";
                         <div class="row">
                             <div class="col-md-12">
                                 <!-- DATA TABLE -->
-                                <h3 class="title-5 m-b-35">data table</h3>
-                                <div class="table-data__tool">
+                                <h3 class="title-5 m-b-35">Add Product</h3>
+                                <!-- <div class="table-data__tool">
                                     <div class="table-data__tool-left">
                                         <div class="rs-select2--light rs-select2--md">
                                             <select class="js-select2" name="property">
@@ -292,13 +230,13 @@ include_once "../db.php";
                                             <i class="zmdi zmdi-filter-list"></i>filters</button>
                                     </div>
 
-                                </div>
+                                </div> -->
                                 <div class="table-responsive table-responsive-data2">
                                     <div class="col-lg-6">
 
                                         <?php
 
-                                        getAddedProduct();
+                                        // getAddedProduct();
 
                                         ?>
                                         <form action="" method="post" enctype="multipart/form-data">
@@ -316,12 +254,21 @@ include_once "../db.php";
                                             </div>
                                             <div class="form-group">
                                                 <label for="add_product">Product Image</label>
-                                                <input class="form-control" type="file" name="product_img" required>
+                                                <input class="form-control" type="text" name="product_img" required>
                                             </div>
                                             <div class="form-group">
-                                                <label for="add_product">Category Id</label>
-                                                <input class="form-control" type="text" name="category_id" required>
+                                                <label for="add_product">Category Title</label>
+                                                <!-- <input class="form-control" type="text" name="category_id" required> -->
+                                                <select name="category_id" id="" class="form-control" required>
+                                                    <option value='select..'>Select...</option> ;
+                                                    <?php
+                                                    read();
+                                                    getAddedProduct();
+
+                                                    ?>
+                                                </select>
                                             </div>
+
                                             <div class="form-group">
                                                 <label for="add_product">Stock</label>
                                                 <input class="form-control" type="number" name="product_stock" required>

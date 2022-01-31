@@ -1,12 +1,12 @@
 <?php
 session_start();
+
 include_once "../db.php";
 ?>
 <?php include "../functions.php"; ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 
 <!-- Mirrored from technext.github.io/aranoz/confirmation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jan 2022 11:48:51 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
@@ -40,13 +40,16 @@ include_once "../db.php";
   
   .btn-edit{
    
-    margin: .5em 25em;
+    margin: .5em 23em;
     padding: 1em;
     background-color: #ff3368;
     color: #fff;
     border-radius: 5px;
     line-height: 10px;
     border: 2px solid #ff3368;
+}
+.btn-edit a {
+  color:white;
 }
   </style>
 
@@ -145,8 +148,7 @@ include_once "../db.php";
                 <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
                   <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
                 </a>
-              
-
+                      
               </div>
             </div>
           </nav>
@@ -193,16 +195,22 @@ include_once "../db.php";
         </div>
         <div class="col-lg-6 col-lx-4">
           <div class="single_confirmation_details">
+            <form method="post">
             <h4>User Info</h4>
             <ul>
               <li>
                  <p>Name:</p>
                  <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['username']));}else{ echo "There";}?>
               </li>
-             
+                    </br>
               <li>
                 <p>Mobile:</p>
                 <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['mobile']));}else{ echo "There";}?>
+              </li>
+              </br>
+              <li>
+                <p>Email:</p>
+                <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['email']));}else{ echo "There";}?>
               </li>
               </br>
               <li>
@@ -211,7 +219,8 @@ include_once "../db.php";
               </li>
             </ul>
             
-            <button class="btn-edit" type="submit" name="edit" >Edit</button>
+            <button class="btn-edit" type="submit" name="edit" ><a href="editform.php">Edit</a></button>
+                    </form>
           </div>
           </br>
         </div>
