@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         if ($result['stock'] > 0) {
 
             //   if(isset($_SESSION['products'])){
-            if ($ghassan) {
+            // if ($ghassan) {
 
                 foreach ($ghassan as $element) {
                     if ($element['id'] == $product_id) {
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         $_SESSION['products'][$product_id]['product_price_after_discount'] = $_SESSION['products'][$product_id]['product_price'];
                     }
                 }
-            }
+            // }
 
 
             echo '<script type="text/javascript">alert("add to cart")</script>';
@@ -213,7 +213,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
                                     <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
                                     <?php
-                                    if (!isset($_SESSION['products'])) {
+                                    if (isset($_SESSION['products'])) {
                                         $count = count($_SESSION['products']);
                                         echo "<strong>$count</strong>";
                                     }
