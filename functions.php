@@ -163,10 +163,10 @@ function orders(){
     $stmt = $pdo->prepare($query);
     $stmt = $pdo->query($query);
     $stmt->execute();
-    $result=$stmt->fetchAll();
-    $counter=$stmt->fetchColumn();
+    $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+    $counter=COUNT($result);
     $count=1;
-    
+    if($counter){
         foreach((array) $result as $element)
             {
                echo '<h5>Order Number:'.$count.'</h5>';
@@ -180,7 +180,10 @@ function orders(){
               $count++;
                         }     
                         // $counter=$counter-1;
-                        
+                    }
+                    else {
+                        echo "no oreders to show";
+                    }
                    
                                        
   }
@@ -194,7 +197,6 @@ function orderDetails(){
     $stmt->execute();
     $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
     $order_id=COUNT($result)-1;
-    echo $order_id ;
     $total=$result[$order_id]['total']-50;
     $quantity=0;
     $query2 = "SELECT * FROM order_item WHERE order_id = $order_id";
@@ -203,7 +205,6 @@ function orderDetails(){
     $stmt2->execute();
     $result2=$stmt2->fetchAll(PDO::FETCH_ASSOC);  
     $productnum=COUNT($result2);
-    echo $productnum;
 
     echo "<tbody>";
 

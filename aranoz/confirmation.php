@@ -225,9 +225,9 @@ include_once "../db.php";
           </br>
         </div>
 
-        <div class="col-lg-6 col-lx-4">
+        <!-- <div class="col-lg-6 col-lx-4">
           <div class="single_confirmation_details">
-            <!-- <h4>shipping Address</h4>
+            <h4>shipping Address</h4>
             <ul>
               <li>
                 <p>Street</p><span>: 56/8</span>
@@ -241,9 +241,9 @@ include_once "../db.php";
               <li>
                 <p>postcode</p><span>: 36952</span>
               </li>
-            </ul> -->
+            </ul>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="row">
         <div class="col-lg-12">
@@ -266,6 +266,7 @@ include_once "../db.php";
           </div>
         </div>
       </div>
+      
     </div>
   </section>
   <!--================ confirmation part end =================-->

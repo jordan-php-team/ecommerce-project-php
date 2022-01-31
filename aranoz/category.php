@@ -253,12 +253,23 @@ session_start();
 
                   $categories=$pdo->prepare("SELECT * from categories");
                   $categories->execute();
-
+                $count=0;
                   foreach($categories as $element ){
                         
                                   echo   "<li>";
                                   echo  "<a href='category.php?id=$element[id]'>$element[category_title]</a>";
-                                 
+                                  $title=$element['category_title'];
+                                  $query= ("SELECT * from products WHERE product_name='$title'");
+                                  $pdo->prepare($query);
+                                  $stmt = $pdo->query($query);
+                                  $stmt->execute();
+                                  $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+                                  $quantity=COUNT($result);
+                                  $count=$count+$quantity;
+                                  if($title != "All Products")
+                                  echo  "<a href='category.php'>$quantity</a>";
+                                  else if ($title == "All Products")
+                                  echo  "<a href='category.php'>$count</a>";
                                
                   }
                                ?>
@@ -266,7 +277,135 @@ session_start();
                             </div>
                         </aside>
 
-                       
+                        <div class="left_sidebar_area">
+
+                        <!-- <aside class="left_widgets p_filter_widgets">
+                            <div class="l_w_title">
+                                <h3>Browse Categories</h3>
+                            </div>
+                            <div class="widgets_inner">
+                                <ul class="list">
+                                    <li>
+                                        <a href="#">Frozen Fish</a>
+                                        <span>(250)</span>
+                                    </li>
+                                    <li>
+                                        <a href="#">Dried Fish</a>
+                                        <span>(250)</span>
+                                    </li>
+                                    <li>
+                                        <a href="#">Fresh Fish</a>
+                                        <span>(250)</span>
+                                    </li>
+                                    <li>
+                                        <a href="#">Meat Alternatives</a>
+                                        <span>(250)</span>
+                                    </li>
+                                    <li>
+                                        <a href="#">Fresh Fish</a>
+                                        <span>(250)</span>
+                                    </li>
+                                    <li>
+                                        <a href="#">Meat Alternatives</a>
+                                        <span>(250)</span>
+                                    </li>
+                                    <li>
+                                        <a href="#">Meat</a>
+                                        <span>(250)</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </aside> -->
+
+                        <!-- <aside class="left_widgets p_filter_widgets">
+                            <div class="l_w_title">
+                                <h3>Product filters</h3>
+                            </div>
+                            <div class="widgets_inner">
+                                <ul class="list">
+                                    <li>
+                                        <a href="#">Apple</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Asus</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#">Gionee</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Micromax</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Samsung</a>
+                                    </li>
+                                </ul>
+                                <ul class="list">
+                                    <li>
+                                        <a href="#">Apple</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Asus</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#">Gionee</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Micromax</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Samsung</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </aside> -->
+
+                        <aside class="left_widgets p_filter_widgets">
+                            <div class="l_w_title">
+                                <h3>Color Filter</h3>
+                            </div>
+                            <div class="widgets_inner">
+                                <ul class="list">
+                                    <li>
+                                        <a href="#">Brown</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Green</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#">Blue</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">White</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Woody</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </aside>
+
+                        <aside class="left_widgets p_filter_widgets price_rangs_aside">
+                            <div class="l_w_title">
+                                <h3>Price Filter</h3>
+                            </div>
+                            <div class="widgets_inner">
+                                <div class="range_item">
+                                    <!-- <div id="slider-range"></div> -->
+                                    <input type="text" class="js-range-slider" value="" />
+                                    <div class="d-flex">
+                                        <div class="price_text">
+                                            <p>Price :</p>
+                                        </div>
+                                        <div class="price_value d-flex justify-content-center">
+                                            <input type="text" class="js-input-from" id="amount" readonly />
+                                            <span>to</span>
+                                            <input type="text" class="js-input-to" id="amount" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
 
                        
 
