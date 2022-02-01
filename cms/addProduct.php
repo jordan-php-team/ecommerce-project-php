@@ -123,31 +123,33 @@ print_r($category_id);
         <!-- END MENU SIDEBAR-->
 
         <!-- PAGE CONTAINER-->
-        <?php include "header.php"; ?>
-        <!-- END HEADER DESKTOP-->
+        <div class="page-container">
+            <!-- HEADER DESKTOP-->
+            <?php include "header.php"; ?>
+            <!-- END HEADER DESKTOP-->
 
-        <!-- MAIN CONTENT-->
-        <div class="main-content">
-            <div class="section__content section__content--p30">
-                <div class="container-fluid">
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
 
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <!-- USER DATA-->
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <!-- USER DATA-->
 
-                            <!-- END USER DATA-->
+                                <!-- END USER DATA-->
+                            </div>
+                            <div class="col-lg-6">
+                                <!-- TOP CAMPAIGN-->
+
+                                <!--  END TOP CAMPAIGN-->
+                            </div>
                         </div>
-                        <div class="col-lg-6">
-                            <!-- TOP CAMPAIGN-->
-
-                            <!--  END TOP CAMPAIGN-->
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <!-- DATA TABLE -->
-                            <h3 class="title-5 m-b-35">Add Product</h3>
-                            <!-- <div class="table-data__tool">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE -->
+                                <h3 class="title-5 m-b-35">Add Product</h3>
+                                <!-- <div class="table-data__tool">
                                     <div class="table-data__tool-left">
                                         <div class="rs-select2--light rs-select2--md">
                                             <select class="js-select2" name="property">
@@ -170,101 +172,101 @@ print_r($category_id);
                                     </div>
 
                                 </div> -->
-                            <div class="table-responsive table-responsive-data2">
-                                <div class="col-lg-6">
+                                <div class="table-responsive table-responsive-data2">
+                                    <div class="col-lg-6">
 
-                                    <?php
+                                        <?php
 
-                                    // getAddedProduct();
+                                        // getAddedProduct();
 
-                                    ?>
-                                    <form action="" method="post" enctype="multipart/form-data">
-                                        <div class="form-group">
-                                            <label for="add_product">Product Name</label>
-                                            <input class="form-control" type="text" name="product_name" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="add_product">Product Price</label>
-                                            <input class="form-control" type="text" name="product_price" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="add_product">Product Des</label>
-                                            <input class="form-control" type="text" name="product_des" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="add_product">Product Image</label>
-                                            <input class="form-control" type="file" name="product_img" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="add_product">Category Title</label>
-                                            <!-- <input class="form-control" type="text" name="category_id" required> -->
-                                            <select name="category_id" id="" class="form-control" required>
-                                                <option value='select..'>Select...</option> ;
-                                                <?php
-                                                read();
-                                                getAddedProduct();
+                                        ?>
+                                        <form action="" method="post" enctype="multipart/form-data">
+                                            <div class="form-group">
+                                                <label for="add_product">Product Name</label>
+                                                <input class="form-control" type="text" name="product_name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_product">Product Price</label>
+                                                <input class="form-control" type="text" name="product_price" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_product">Product Des</label>
+                                                <input class="form-control" type="text" name="product_des" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_product">Product Image</label>
+                                                <input class="form-control" type="file" name="product_img" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_product">Category Title</label>
+                                                <!-- <input class="form-control" type="text" name="category_id" required> -->
+                                                <select name="category_id" id="" class="form-control" required>
+                                                    <option value='select..'>Select...</option> ;
+                                                    <?php
+                                                    read();
+                                                    getAddedProduct();
 
-                                                ?>
-                                            </select>
-                                        </div>
+                                                    ?>
+                                                </select>
+                                            </div>
 
-                                        <div class="form-group">
-                                            <label for="add_product">Stock</label>
-                                            <input class="form-control" type="number" name="product_stock" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <input class="btn btn-primary" type="submit" name="add_product_submit" value="Add Product">
-                                        </div>
-                                    </form>
+                                            <div class="form-group">
+                                                <label for="add_product">Stock</label>
+                                                <input class="form-control" type="number" name="product_stock" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="btn btn-primary" type="submit" name="add_product_submit" value="Add Product">
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!-- END DATA TABLE -->
                                 </div>
-
-                                <!-- END DATA TABLE -->
                             </div>
-                        </div>
-                        <div class="row m-t-30">
-                            <div class="col-md-12">
-                                <!-- DATA TABLE-->
+                            <div class="row m-t-30">
+                                <div class="col-md-12">
+                                    <!-- DATA TABLE-->
 
-                                <!-- END DATA TABLE-->
+                                    <!-- END DATA TABLE-->
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="copyright">
-                                    <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="copyright">
+                                        <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
-    </div>
+        <!-- Jquery JS-->
+        <script src="vendor/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap JS-->
+        <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+        <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+        <!-- Vendor JS       -->
+        <script src="vendor/slick/slick.min.js">
+        </script>
+        <script src="vendor/wow/wow.min.js"></script>
+        <script src="vendor/animsition/animsition.min.js"></script>
+        <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+        </script>
+        <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+        <script src="vendor/counter-up/jquery.counterup.min.js">
+        </script>
+        <script src="vendor/circle-progress/circle-progress.min.js"></script>
+        <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+        <script src="vendor/select2/select2.min.js">
+        </script>
 
-    <!-- Jquery JS-->
-    <script src="vendor/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap JS-->
-    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- Vendor JS       -->
-    <script src="vendor/slick/slick.min.js">
-    </script>
-    <script src="vendor/wow/wow.min.js"></script>
-    <script src="vendor/animsition/animsition.min.js"></script>
-    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-    </script>
-    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="vendor/counter-up/jquery.counterup.min.js">
-    </script>
-    <script src="vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="vendor/select2/select2.min.js">
-    </script>
-
-    <!-- Main JS-->
-    <script src="js/main.js"></script>
+        <!-- Main JS-->
+        <script src="js/main.js"></script>
 
 </body>
 
