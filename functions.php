@@ -859,7 +859,7 @@ function addcomments()
 
     // if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //    var_dump($_SESSION['loggedUser']);
-    if (!empty($_SESSION['loggedUser'] > 0)) {
+    if (!empty($_SESSION['loggedUser'] )) {
         global $pdo;
 
 
