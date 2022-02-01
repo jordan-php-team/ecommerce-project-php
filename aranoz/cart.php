@@ -24,7 +24,7 @@ $cart = $_SESSION["products"];
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>kenbae</title>
-  <link rel="icon" href="img/favicon1.png" />
+  <link rel="icon" href="img/favicon2.png" />
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <!-- animate CSS -->
@@ -56,87 +56,7 @@ $cart = $_SESSION["products"];
 
 <body>
   <!--::header part start::-->
-  <header class="main_menu home_menu">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-12">
-          <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand" href="index.php">
-              <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="menu_icon"><i class="fas fa-bars"></i></span>
-            </button>
-
-            <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="index.php">Home</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link " href="category.php" id="navbarDropdown_1">
-                    Shop
-                  </a>
-                  <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                    <a class="dropdown-item" href="category.php">
-                      shop category</a>
-                    <a class="dropdown-item" href="single-product.php">product details</a>
-                  </div> -->
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Account
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                    <?php
-                    // logout();
-                    ?>
-                    <?php if ($_SESSION['loggedUser']) : ?>
-                      <form action="login.php" method="post">
-
-                        <?php echo  "<button type='submit' name='logout_btn' class='dropdown-item' id='login-field'> Logout</button>" ?>
-                      </form>
-                    <?php else : ?>
-                      <a class="dropdown-item" href="login.php" id="login-field"> login</a>
-                    <?php endif; ?>
-                    <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
-                    <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
-                    <!-- <a class="dropdown-item" href="cart.php">shopping cart</a> -->
-                    <?php  if ($_SESSION['loggedUser']) :?>
-                   
-                   <a class="dropdown-item" href="confirmation.php">confirmation</a>
-                 
-                 
-                    <?php endif; ?> 
-                    <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
-                  </div>
-                </li>
-                <!-- <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    blog
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                    <a class="dropdown-item" href="blog.html"> blog</a>
-                    <a class="dropdown-item" href="single-blog.html">Single blog</a>
-                  </div>
-                </li> -->
-
-                <!-- <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contact</a>
-                </li> -->
-              </ul>
-            </div>
-            <div class="hearer_icon d-flex">
-              <!-- <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a> -->
-              <!-- <a href="#"><i class="ti-heart"></i></a> -->
-
-            </div>
-          </nav>
-        </div>
-      </div>
-    </div>
-
-  </header>
+  <?php include "originHeader.php"; ?>
   <!-- Header part end-->
 
 
@@ -189,7 +109,7 @@ $cart = $_SESSION["products"];
                     <td>
                       <div class="media">
                         <div class="d-flex">
-                          <img src="img/products/<?php echo $element['product_image']; ?>" alt="" width=200px height=170px />
+                          <img src="img/products/<?php echo $element['product_image']; ?> " alt="" width=200px height=170px />
                         </div>
                         <div class="media-body">
                           <p><?php
@@ -206,9 +126,9 @@ $cart = $_SESSION["products"];
                       <div class="product_count">
                         <!-- <span class="input-number-decrement"> <i class="ti-angle-down"></i></span> -->
                         <!-- <input class="input-number" type="text" value="1" min="1" max="10"> -->
-                        <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Dencrement'>-</a>
-                        <p> <?php echo $element[0]; ?></p>
-                        <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Increment'>+</a>
+                        <a style='color:#eb1a50 !important;font-size:1.75em' href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Dencrement'>-</a>
+                        <p style='font-weight:300'> <?php echo $element[0]; ?></p>
+                        <a style='color:#eb1a50 !important;font-size:1.75em ' href='quanitity.php?id=<?php echo $element['id']; ?>&&name=Increment'>+</a>
                         <!-- <span class="input-number-increment"> <i class="ti-angle-up"></i></span> -->
 
 
@@ -219,7 +139,7 @@ $cart = $_SESSION["products"];
                           echo $element['Total_after_discount']; ?> JD</h5>
                     </td>
                     <td>
-                      <a href='quanitity.php?id=<?php echo $element['id']; ?>&&name=delete'>delete</a>
+                      <a style='color:#eb1a50 !important ; font-size:1.25em' href='quanitity.php?id=<?php echo $element['id']; ?>&&name=delete'>Delete</a>
                     </td>
                   </tr>
                   <?php
@@ -262,7 +182,7 @@ $cart = $_SESSION["products"];
 
             if (count($cart) > 0) { ?>
               <form method="post">
-                <button class="btn_1 checkout_btn_1" name="to_checkout">Proceed to checkout</button>
+                <button class="btn_3" name="to_checkout">Proceed to checkout</button>
               </form>
             <?php  }; ?>
 

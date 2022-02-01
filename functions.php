@@ -229,78 +229,95 @@ function orders()
     $stmt = $pdo->prepare($query);
     $stmt = $pdo->query($query);
     $stmt->execute();
-    $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
-    $counter=COUNT($result);
-    $count=1;
-    if($counter){
-        foreach((array) $result as $element)
-            {
-               echo '<h5>Order Number:'.$count.'</h5>';
-               echo "<ul>";
-               echo '<li><p>order Id:</p><span>'. $element['id']. '</span></li>';
-               echo '<li> <p>date:</p><span>'.$element['date'].'</span></li>';
-               echo '<li><p>total:</p><span>'. $element['total']. '</span></li>';
-               echo '<li> <p>Payment method:</p><span>"payed"</span></li>';
-               echo '</br>';
-              echo "</ul>";
-              $count++;
-                        }     
-                        // $counter=$counter-1;
-                    }
-                    else {
-                        echo "no oreders to show";
-                    }
-                   
-                                       
-  }
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $counter = COUNT($result);
+    $count = 1;
+    if ($counter) {
+        foreach ((array) $result as $element) {
+            echo '<h5>Order Number:' . $count . '</h5>';
+            echo "<ul>";
+            echo '<li><p>order Id:</p><span>' . $element['id'] . '</span></li>';
+            echo '<li> <p>date:</p><span>' . $element['date'] . '</span></li>';
+            echo '<li><p>total:</p><span>' . $element['total'] . '</span></li>';
+            echo '<li> <p>Payment method:</p><span>"payed"</span></li>';
+            echo '</br>';
+            echo "</ul>";
+            $count++;
+        }
+    } else {
+        echo "no oreders to show";
+    }
+}
 
-function orderDetails(){
+function orderDetails()
+{
     global $pdo;
     $userid = $_SESSION['loggedUser']['id'];
     $query = "SELECT * FROM orders WHERE user_id = $userid";
     $stmt = $pdo->prepare($query);
     $stmt = $pdo->query($query);
     $stmt->execute();
-    $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
-    $order_id=COUNT($result)-1;
-    $total=$result[$order_id]['total']-50;
-    $quantity=0;
-    $query2 = "SELECT * FROM order_item WHERE order_id = $order_id";
-    $stmt2 = $pdo->prepare($query2);
-    $stmt2 = $pdo->query($query2);
-    $stmt2->execute();
-    $result2=$stmt2->fetchAll(PDO::FETCH_ASSOC);  
-    $productnum=COUNT($result2);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $order_index = COUNT($result) - 1;
+    if ($order_index > 0) {
+        $order = $result[$order_index]['id'];
+        $total = $result[$order_index]['total'] + 25;
+        $quantity = 0;
+        $query2 = "SELECT * FROM order_item WHERE order_id = $order";
+        $stmt2 = $pdo->prepare($query2);
+        $stmt2 = $pdo->query($query2);
 
-    echo "<tbody>";
+        $stmt2->execute();
+        $result2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+        $productnum = COUNT($result2);
+        if ($productnum) {
 
-    for ($i = 0; $i < $productnum; $i++) {
-        $id = $result2[$i]['product_id'];
-        $query3 = "SELECT * FROM products WHERE id = $id";
-        $stmt3 = $pdo->prepare($query3);
-        $stmt3 = $pdo->query($query3);
-        $stmt3->execute();
-        $result3 = $stmt3->fetch();
-        echo  "<tr>";
-        echo    '<th colspan="2"><span>' . $result3['product_name'] . '</span></th>';
-        echo    '<th>' . $result2[$i]['quantity'] . '</th>';
-        echo    '<th> <span>' . $result3['product_price'] . '</span></th>';
-        echo  "</tr>";
-        $quantity = $quantity + $result2[$i]['quantity'];
+            echo      "<div class='col-lg-12'>";
+            echo      "<div class='order_details_iner'>";
+            echo      "<h3>Order Details</h3>";
+            echo      "<table class='table table-borderless'>";
+            echo      "<thead>";
+            echo      "<tr>";
+            echo      '<th scope="col" colspan="2">' . "Product" . '</th>';
+            echo      '<th scope="col">' . "Quantity" . '</th>';
+            echo      '<th scope="col">' . "Total" . '</th>';
+            echo      "</tr>";
+            echo      "</thead>";
+            echo      "<tbody>";
+
+            for ($i = 0; $i < $productnum; $i++) {
+                $id = $result2[$i]['product_id'];
+                $query3 = "SELECT * FROM products WHERE id = $id";
+                $stmt3 = $pdo->prepare($query3);
+                $stmt3 = $pdo->query($query3);
+                $stmt3->execute();
+                $result3 = $stmt3->fetch();
+                echo  "<tr>";
+                echo    '<th colspan="2"><span>' . $result3['product_name'] . '</span></th>';
+                echo    '<th>' . 'x' . $result2[$i]['quantity'] . '</th>';
+                echo    '<th> <span>' . $result3['product_price'] . '</span></th>';
+                echo  "</tr>";
+                $quantity = $quantity + $result2[$i]['quantity'];
+            }
+
+            echo   "<tr>";
+            echo    '<th colspan="3">' . "shipping" . '</th>';
+            echo    '<th><span>' . "flat rate: 25.00" . '</span></th>';
+            echo  "</tr>";
+            echo  "</tbody>";
+            echo  "<tfoot>";
+            echo  "<tr>";
+            echo  '<th  colspan="2">' . "Quantity" . '</th>';
+            echo   '<th>' . $quantity . '</th>';
+            echo  '<th scope="col">' . $total . '</th>';
+            echo  "</tr>";
+            echo  "</tfoot>";
+            echo  "</table>";
+            echo  "</div>";
+            echo  "</div>";
+            echo  "</div>";
+        }
     }
-
-    echo   "<tr>";
-    echo    '<th colspan="3">' . "shipping" . '</th>';
-    echo    '<th><span>' . "flat rate: 50.00" . '</span></th>';
-    echo  "</tr>";
-    echo  "</tbody>";
-    echo  "<tfoot>";
-    echo  "<tr>";
-    echo  '<th  colspan="2">' . "Quantity" . '</th>';
-    echo   '<th>' . $quantity . '</th>';
-    echo  '<th scope="col">' . $total . '</th>';
-    echo  "</tr>";
-    echo  "</tfoot>";
 }
 
 function editInfo()
@@ -311,19 +328,29 @@ function editInfo()
         $id = $_SESSION['loggedUser']['id'];
         $password = $_SESSION['loggedUser']['password'];
         $username = $_POST['name'];
-        print_r($username);
+
         $usermobile = $_POST['mobile'];
-        $query = "UPDATE registredusers SET username = '$username' , mobile = '$usermobile' WHERE (id= $id)";
-        $stmt = $pdo->prepare($query);
-        $stmt = $pdo->query($query);
-        $query = "SELECT * FROM registredusers WHERE id=$id";
-        $stmt = $pdo->prepare($query);
-        $stmt = $pdo->query($query);
-        $stmt->execute();
-        $result = $stmt->fetch();
-        $_SESSION['loggedUser']['username'] = $result['username'];
-        $_SESSION['loggedUser']['mobile'] = $result['mobile'];
-        header('Location:confirmation.php');
+        $currentpassword = $_POST['password'];
+        if ($currentpassword == $password) {
+            $query = "UPDATE registredusers SET username = '$username' , mobile = '$usermobile' WHERE (id= $id)";
+            $stmt = $pdo->prepare($query);
+            $stmt = $pdo->query($query);
+            $query = "SELECT * FROM registredusers WHERE id=$id";
+            $stmt = $pdo->prepare($query);
+            $stmt = $pdo->query($query);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            $_SESSION['loggedUser']['username'] = $result['username'];
+            $_SESSION['loggedUser']['mobile'] = $result['mobile'];
+            header('Location:confirmation.php');
+        } else if ($currentpassword != $password) {
+            echo    '<div class="col-lg-12">';
+            echo    '<div class="confirmation_tittle">';
+            echo    '<span>your password inccorect,please insert it again.</span>';
+            echo    '</div>';
+            echo  '</div>';
+            header('Location:confirmation.php');
+        }
     }
 }
 
@@ -382,10 +409,10 @@ function getData()
         $username = $row;
         foreach ((array) $username as $user) {
             echo "<tr>";
-            echo   '<td>' . $user['id'] . '</td>';
+            // echo   '<td>' . $user['id'] . '</td>';
             echo   '<td>' . $user['username'] . '</td>';
             echo   '<td>' . $user['email'] . '</td>';
-            echo   '<td>' . $user['password'] . '</td>';
+            // echo   '<td>' . $user['password'] . '</td>';
             echo   '<td>' . $user['date created'] . '</td>';
             echo   '<td>' . $user['last_login_date'] . '</td>';
             echo   '<td>' . $user['age'] . '</td>';
@@ -413,16 +440,21 @@ function getProducts()
     while ($row = $select_all_categories->fetchAll()) {
         $username = $row;
         foreach ((array) $username as $user) {
+            $category_id = $user['category_id'];
+            $query = "SELECT * FROM categories WHERE (id = '$category_id')  ";
+            $stmt = $pdo->prepare($query);
+            $stmt = $pdo->query($query);
+            $result3 = $stmt->fetch();
             echo "<tr>";
             echo   '<td>' . $user['id'] . '</td>';
             echo   '<td>' . $user['product_name'] . '</td>';
             echo   '<td>' . $user['product_price'] . '</td>';
             echo   '<td>' . $user['product_description'] . '</td>';
             echo   '<td>' ?>
-            <img src="<?php echo $user['product_image']  ?>" alt="">
+            <img class="img-responsive w-50" src="../aranoz/img/products/<?php echo  $user['product_image']; ?>" alt="">
             <?php
             echo '</td>';
-            echo   '<td>' . $user['category_id'] . '</td>';
+            echo   '<td>' . $result3['category_title'] . '</td>';
             echo   '<td>' . $user['stock'] . '</td>';
 
 
@@ -452,7 +484,7 @@ function getCategories()
         $username = $row;
         foreach ((array) $username as $user) {
             echo "<tr>";
-            echo   '<td>' . $user['id'] . '</td>';
+            // echo   '<td>' . $user['id'] . '</td>';
             echo   '<td>' . $user['category_title'] . '</td>';
             echo "<td> <a href='categoriesAdmin.php?edit={$user['id']}'>Update</td>";
             echo "<td> <a href='categoriesAdmin.php?delete-category={$user['id']}'><i class='zmdi zmdi-delete'></i></td>";
@@ -476,10 +508,15 @@ function getComments()
     while ($row = $select_all_categories->fetchAll()) {
         $username = $row;
         foreach ((array) $username as $user) {
+            $user_id = $user['user_id'];
+            $query = "SELECT * FROM registredusers WHERE (id = '$user_id')  ";
+            $stmt = $pdo->prepare($query);
+            $stmt = $pdo->query($query);
+            $result3 = $stmt->fetch();
             echo "<tr>";
-            echo   '<td>' . $user['id'] . '</td>';
+            // echo   '<td>' . $user['id'] . '</td>';
             echo   '<td>' . $user['comments'] . '</td>';
-            echo   '<td>' . $user['user_id'] . '</td>';
+            echo   '<td>' . $result3['username'] . '</td>';
             echo   '<td>' . $user['product_id'] . '</td>';
             echo "<td> <a href='commentsAdmin.php?delete-comment={$user['id']}'><i class='zmdi zmdi-delete'></i></td>";
 
@@ -502,9 +539,15 @@ function getOrders()
     while ($row = $select_all_categories->fetchAll()) {
         $username = $row;
         foreach ((array) $username as $user) {
+            $user_id = $user['user_id'];
+            $query = "SELECT * FROM registredusers WHERE (id = '$user_id')  ";
+            $stmt = $pdo->prepare($query);
+            $stmt = $pdo->query($query);
+            $result3 = $stmt->fetch();
+
             echo "<tr>";
-            echo   '<td>' . $user['id'] . '</td>';
-            echo   '<td>' . $user['user_id'] . '</td>';
+            // echo   '<td>' . $user['id'] . '</td>';
+            echo   '<td>' . $result3['username'] . '</td>';
             echo   '<td>' . $user['total'] . '</td>';
             echo   '<td>' . $user['date'] . '</td>';
             echo   '<td>' . $user['city'] . '</td>';
@@ -564,22 +607,28 @@ function getUpdatedProduct()
     if (isset($_GET['editing'])) {
         global $pdo;
 
+        $product_id = $_GET['editing'];
+        $query3 = "SELECT * FROM products WHERE id = $product_id";
+        $stmt3 = $pdo->prepare($query3);
+        $stmt3 = $pdo->query($query3);
+        $stmt3->execute();
+        $result3 = $stmt3->fetch();
 
         $product_id = $_GET['editing']; ?>
         <form action="" method="post">
             <div class="form-group">
                 <label for="product">Update Name</label>
-                <input class="form-control" type="text" name="update_product_name">
+                <input class="form-control" type="text" name="update_product_name" value="<?php echo $result3['product_name']; ?>">
             </div>
             <div class="form-group">
                 <label for="product">Update Price</label>
-                <input class="form-control" type="text" name="update_product_price">
+                <input class="form-control" type="text" name="update_product_price" value="<?php echo $result3['product_price']; ?>">
             </div>
-            <div class="form-group">
+            <div class=" form-group">
                 <label for="product">Update Des</label>
-                <input class="form-control" type="text" name="update_product_des">
+                <input class="form-control" type="text" name="update_product_des" value="<?php echo $result3['product_description']; ?>">
             </div>
-            <div class="form-group">
+            <div class=" form-group">
                 <input class="btn btn-primary" type="submit" name="update_product_submit" value="Update">
             </div>
         </form>
@@ -655,9 +704,9 @@ function getAddedProduct()
             $product_name = $_POST['product_name'];
             $product_price = $_POST['product_price'];
             $product_des = $_POST['product_des'];
-            // $product_img = $_FILES['product_img']['name'];
-            // $product_img_temp = $_FILES['product_img']['tmp_name'];
-            $product_img = $_POST['product_img'];
+            $product_img = $_FILES['product_img']['name'];
+            $product_img_temp = $_FILES['product_img']['tmp_name'];
+            // $product_img = $_POST['product_img'];
             $category_id = $_POST['category_id'];
             $product_stock = $_POST['product_stock'];
 
@@ -667,7 +716,7 @@ function getAddedProduct()
             $stmt->execute([$product_name, $product_price, $product_des,  $category_id, $product_img, $product_stock]);
             if ($stmt) {
 
-                // move_uploaded_file($product_img_temp, "../images/$product_img");
+                move_uploaded_file($product_img_temp, "../aranoz/img/products/$product_img");
                 header("location:productsAdmin.php");
             } else {
                 echo 'failed';
@@ -686,9 +735,9 @@ function read()
         die('failed'); //stop every thing
     }
     while ($row = $stmt->fetch()) {
-        $category_title = $row['id'];
-
-        echo "<option value='$category_title'>$category_title</option> ";
+        $category_title = $row['category_title'];
+        $cat_id = $row['id'];
+        echo "<option value='$cat_id'>$category_title</option> ";
     }
 }
 
@@ -909,7 +958,7 @@ function checkoutButton($Total)
                     }
                 }
                 $_SESSION['products'] = [];
-                header("location: index.php");
+                header("location: confirmation.php");
             } else {
                 echo '<script type="text/javascript">alert("please fill your information")</script>';
             }
@@ -921,7 +970,8 @@ function checkoutButton($Total)
 function logout()
 {
     if (isset($_POST['logout_btn'])) {
-        $_SESSION['loggedUser'] = '';
+        $_SESSION['loggedUser'] = [];
+        $_SESSION['products'] = [];
     }
 }
 

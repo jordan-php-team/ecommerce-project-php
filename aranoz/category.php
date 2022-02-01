@@ -8,7 +8,7 @@ session_start();
 ?>
 <?php include "../functions.php"; ?>
 <?php
-$ghassan = $_SESSION['products'] ? $ghassan = $_SESSION['products'] : $ghassan = [];
+// $ghassan = $_SESSION['products'] ? $ghassan = $_SESSION['products'] : $ghassan = [];
 global $pdo;
 $quanitity = 1;
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -26,41 +26,41 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             //   if(isset($_SESSION['products'])){
             // if ($ghassan) {
 
-                foreach ($ghassan as $element) {
-                    if ($element['id'] == $product_id) {
-                        $_SESSION['products'][$product_id][0] += 1;
-                        $flag = true;
-                        break;
-                    }
+            foreach ($_SESSION['products'] as $element) {
+                if ($element['id'] == $product_id) {
+                    $_SESSION['products'][$product_id][0] += 1;
+                    $flag = true;
+                    break;
                 }
+            }
 
-                if ($flag == false) {
-                    $_SESSION['products'][$product_id] = $result;
-                    $_SESSION['products'][$product_id][0] = $quanitity;
-                }
+            if ($flag == false) {
+                $_SESSION['products'][$product_id] = $result;
+                $_SESSION['products'][$product_id][0] = $quanitity;
+            }
 
 
-                foreach ($_SESSION['products'] as $element) {
+            foreach ($_SESSION['products'] as $element) {
 
+                $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
+
+                if ($_SESSION['products'][$product_id]['product_discount'] > 0) {
+
+                    $discount_percentage_product = $_SESSION['products'][$product_id]['Total'] * ($element['product_discount'] / 100);
+                    $Total_product_after_dicount = $_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
+                    $_SESSION['products'][$product_id]['Total_after_discount'] = $Total_product_after_dicount;
+
+
+
+                    $discount_percentage_product = ($element['product_discount'] / 100) * intval($element['product_price']);
+                    $price_product_after_dicount = intval($element['product_price']) - $discount_percentage_product;
+                    $_SESSION['products'][$product_id]['product_price_after_discount'] = $price_product_after_dicount;
+                } else {
                     $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
-
-                    if ($_SESSION['products'][$product_id]['product_discount'] > 0) {
-
-                        $discount_percentage_product = $_SESSION['products'][$product_id]['Total'] * ($element['product_discount'] / 100);
-                        $Total_product_after_dicount = $_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
-                        $_SESSION['products'][$product_id]['Total_after_discount'] = $Total_product_after_dicount;
-
-
-
-                        $discount_percentage_product = ($element['product_discount'] / 100) * intval($element['product_price']);
-                        $price_product_after_dicount = intval($element['product_price']) - $discount_percentage_product;
-                        $_SESSION['products'][$product_id]['product_price_after_discount'] = $price_product_after_dicount;
-                    } else {
-                        $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
-                        $_SESSION['products'][$product_id]['Total_after_discount'] = $_SESSION['products'][$product_id]['Total'];
-                        $_SESSION['products'][$product_id]['product_price_after_discount'] = $_SESSION['products'][$product_id]['product_price'];
-                    }
+                    $_SESSION['products'][$product_id]['Total_after_discount'] = $_SESSION['products'][$product_id]['Total'];
+                    $_SESSION['products'][$product_id]['product_price_after_discount'] = $_SESSION['products'][$product_id]['product_price'];
                 }
+            }
             // }
 
 
@@ -96,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>kenbae</title>
-    <link rel="icon" href="img/favicon1.png" />
+    <link rel="icon" href="img/favicon2.png" />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- animate CSS -->
@@ -142,103 +142,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
 
 
-    header{
-    position: fixed !important;
-    background:white;
-  }
-
+    header {
+        position: fixed !important;
+        background: white;
+    }
 </style>
 
 <body>
     <!--::header part start::-->
-    <header class="main_menu home_menu">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-12">
-                    <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="index.php">
-                            <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
-                        </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="menu_icon"><i class="fas fa-bars"></i></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="index.php">Home</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link " href="category.php" id="navbarDropdown_1">
-                                        Shop
-                                    </a>
-                                    <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="category.php">
-                                            shop category</a>
-                                        <a class="dropdown-item" href="single-product.php">product details</a>
-                                    </div> -->
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Account
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <?php logout(); ?>
-                                        <?php if ($_SESSION['loggedUser']) : ?>
-                                            <form action="login.php" method="post">
-
-                                                <?php echo  "<button type='submit' name='logout_btn' class='dropdown-item' id='login-field'> Logout</button>" ?>
-                                            </form>
-                                        <?php else : ?>
-                                            <a class="dropdown-item" href="login.php" id="login-field"> login</a>
-                                        <?php endif; ?>
-                                        <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
-                                        <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
-                                        <a class="dropdown-item" href="cart.php">shopping cart</a>
-                                        <?php  if ($_SESSION['loggedUser']) :?>
-                   
-                   <a class="dropdown-item" href="confirmation.php">confirmation</a>
-                 
-                 
-                    <?php endif; ?> 
-                                        <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
-                                    </div>
-                                </li>
-                                <!-- <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    blog
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                    <a class="dropdown-item" href="blog.html"> blog</a>
-                    <a class="dropdown-item" href="single-blog.html">Single blog</a>
-                  </div>
-                </li> -->
-
-                                <!-- <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contact</a>
-                </li> -->
-                            </ul>
-                        </div>
-                        <div class="hearer_icon d-flex">
-
-                            <div class="dropdown cart">
-                                <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
-                                    <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
-                                    <?php
-                                    if (isset($_SESSION['products'])) {
-                                        $count = count($_SESSION['products']);
-                                        echo "<strong>$count</strong>";
-                                    }
-                                    ?>
-                                </a>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-
-    </header>
+    <?php include "originHeader.php"; ?>
     <!-- Header part end-->
 
     <!--================Home Banner Area =================-->
@@ -272,165 +184,33 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             <div class="widgets_inner">
                                 <ul class="list">
                                     <?php
+                                    $count = 0;
 
-                  $categories=$pdo->prepare("SELECT * from categories");
-                  $categories->execute();
-                $count=0;
-                  foreach($categories as $element ){
-                        
-                                  echo   "<li>";
-                                  echo  "<a href='category.php?id=$element[id]'>$element[category_title]</a>";
-                                  $title=$element['category_title'];
-                                  $query= ("SELECT * from products WHERE product_name='$title'");
-                                  $pdo->prepare($query);
-                                  $stmt = $pdo->query($query);
-                                  $stmt->execute();
-                                  $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
-                                  $quantity=COUNT($result);
-                                  $count=$count+$quantity;
-                                  if($title != "All Products")
-                                  echo  "<a href='category.php'>$quantity</a>";
-                                  else if ($title == "All Products")
-                                  echo  "<a href='category.php'>$count</a>";
-                               
-                  }
-                               ?>
+                                    $categories = $pdo->prepare("SELECT * from categories");
+                                    $categories->execute();
+                                    foreach ($categories as $element) {
+
+                                        echo   "<li>";
+                                        echo  "<a href='category.php?id=$element[id]'>$element[category_title]</a>";
+
+                                        $title = $element['category_title'];
+                                        $query = ("SELECT * from products WHERE product_name='$title'");
+                                        $pdo->prepare($query);
+                                        $stmt = $pdo->query($query);
+                                        $stmt->execute();
+                                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                        $quantity = COUNT($result);
+                                        $count = $count + $quantity;
+                                        if ($title != "All Products")
+                                            echo  "<a href='category.php'>$quantity</a>";
+                                        else if ($title == "All Products")
+                                            echo  "<a href='category.php'>$count</a>";
+                                    }
+
+                                    ?>
                                 </ul>
                             </div>
                         </aside>
-
-                        <div class="left_sidebar_area">
-
-                        <!-- <aside class="left_widgets p_filter_widgets">
-                            <div class="l_w_title">
-                                <h3>Browse Categories</h3>
-                            </div>
-                            <div class="widgets_inner">
-                                <ul class="list">
-                                    <li>
-                                        <a href="#">Frozen Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Dried Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat Alternatives</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat Alternatives</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat</a>
-                                        <span>(250)</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </aside> -->
-
-                        <!-- <aside class="left_widgets p_filter_widgets">
-                            <div class="l_w_title">
-                                <h3>Product filters</h3>
-                            </div>
-                            <div class="widgets_inner">
-                                <ul class="list">
-                                    <li>
-                                        <a href="#">Apple</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Asus</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#">Gionee</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Micromax</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Samsung</a>
-                                    </li>
-                                </ul>
-                                <ul class="list">
-                                    <li>
-                                        <a href="#">Apple</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Asus</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#">Gionee</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Micromax</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Samsung</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </aside> -->
-
-                        <aside class="left_widgets p_filter_widgets">
-                            <div class="l_w_title">
-                                <h3>Color Filter</h3>
-                            </div>
-                            <div class="widgets_inner">
-                                <ul class="list">
-                                    <li>
-                                        <a href="#">Brown</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Green</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#">Blue</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">White</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Woody</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </aside>
-
-                        <aside class="left_widgets p_filter_widgets price_rangs_aside">
-                            <div class="l_w_title">
-                                <h3>Price Filter</h3>
-                            </div>
-                            <div class="widgets_inner">
-                                <div class="range_item">
-                                    <!-- <div id="slider-range"></div> -->
-                                    <input type="text" class="js-range-slider" value="" />
-                                    <div class="d-flex">
-                                        <div class="price_text">
-                                            <p>Price :</p>
-                                        </div>
-                                        <div class="price_value d-flex justify-content-center">
-                                            <input type="text" class="js-input-from" id="amount" readonly />
-                                            <span>to</span>
-                                            <input type="text" class="js-input-to" id="amount" readonly />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </aside>
-                    </div>
-
-
-
 
 
                     </div>
@@ -445,10 +225,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                         <?php
                                         $data = "SELECT * FROM products
                                         WHERE products LIKE '%or%'"; ?>
-                                        <input type="text" class="form-control" placeholder="search" aria-describedby="inputGroupPrepend">
+                                        <!-- <input type="text" class="form-control" placeholder="search" aria-describedby="inputGroupPrepend">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroupPrepend"><i class="ti-search"></i></span>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -456,15 +236,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     </div>
 
                     <div class="row align-items-center latest_product_inner">
-
-
-
-
-
-
-
-
-
                         <?php
 
 
@@ -494,34 +265,36 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 $Total_product_before_dicount = $element['product_price'];
                                 $discount_percentage_product = 0;
                                 $discount_percentage_product = $Total_product_before_dicount * ($element['product_discount'] / 100);
-                                $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product;
+                                $Total_product_after_dicount = $Total_product_before_dicount - $discount_percentage_product . " JD";
                             } else {
                                 $Total_product_after_dicount = ' ';
                             }
+                            if ($element['stock'] > 0) {
 
 
-                            echo  "<div class='col-lg-4 col-sm-6'>";
-                            echo   "<div class='single_product_item'>";
-                            echo    "<a href='single-product.php?id=$element[id]'><img src='img/products/$element[product_image]' alt='' width=500px height=170px>";
-                            echo  "<div class='single_product_text'>";
-                            echo      "<h4>$element[product_name]</h4>";
-                            if ($element['product_discount'] > 0) {
-                                echo     "<h3><del>$element[product_price]JD</del></h3>";
-                            } else {
-                                echo     "<h3>$element[product_price]JD</h3>";
+                                echo  "<div class='col-lg-4 col-sm-6'>";
+                                echo   "<div class='single_product_item'>";
+                                echo    "<a href='single-product.php?id=$element[id]'><img src='img/products/$element[product_image]' alt='' width=500px height=170px>";
+                                echo  "<div class='single_product_text'>";
+                                echo      "<Span style='font-size:1.75em ;text-transform: capitalize ; color:black'>$element[product_name]</Span>";
+                                if ($element['product_discount'] > 0) {
+                                    echo     "<h3><del>$element[product_price]JD</del></h3>";
+                                } else {
+                                    echo     "<h3>$element[product_price]JD</h3>";
+                                }
+
+                                echo    "<h3>$Total_product_after_dicount </h3>";
+                                echo "<form method='GET'>";
+                                echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
+                                echo "</form>";
+                                echo   "</div>";
+                                echo   "</div>";
+                                echo   "</div></a>";
                             }
-
-                            echo    "<h3>$Total_product_after_dicount</h3>";
-                            echo "<form method='GET'>";
-                            echo     "<button type='submit' value=$element[id] name='addToCart'   class='btn_3'>add to cart</button>";
-                            echo "</form>";
-                            echo   "</div>";
-                            echo   "</div>";
-                            echo   "</div></a>";
                         }
                         ?>
 
-                        <div class="col-lg-12">
+                        <!-- <div class="col-lg-12">
                             <div class="pageination">
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-center">
@@ -544,7 +317,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     </ul>
                                 </nav>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

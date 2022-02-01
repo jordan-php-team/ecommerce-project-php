@@ -123,92 +123,31 @@ print_r($category_id);
         <!-- END MENU SIDEBAR-->
 
         <!-- PAGE CONTAINER-->
-        <div class="page-container">
-            <!-- HEADER DESKTOP-->
-            <header class="header-desktop">
-                <div class="section__content section__content--p30">
-                    <div class="container-fluid">
-                        <div class="header-wrap">
-                            <form class="form-header" action="" method="POST">
-                                <input class="au-input au-input--xl" type="text" name="search" placeholder="Search for datas &amp; reports..." />
-                                <button class="au-btn--submit" type="submit">
-                                    <i class="zmdi zmdi-search"></i>
-                                </button>
-                            </form>
-                            <div class="header-button">
+        <?php include "header.php"; ?>
+        <!-- END HEADER DESKTOP-->
 
-                                <div class="account-wrap">
-                                    <div class="account-item clearfix js-item-menu">
-                                        <div class="image">
-                                            <img src="../aranoz/img/logoicon.png" alt="beshir" />
-                                        </div>
-                                        <div class="content">
-                                            <a class="js-acc-btn" href="#">kanabae</a>
-                                        </div>
-                                        <div class="account-dropdown js-dropdown">
-                                            <div class="info clearfix">
-                                                <div class="image">
-                                                    <a href="#">
-                                                        <img src="../aranoz/img/logoicon.png" alt="John Doe" />
-                                                    </a>
-                                                </div>
-                                                <div class="content">
-                                                    <h5 class="name">
-                                                        <a href="#">john doe</a>
-                                                    </h5>
-                                                    <span class="email">johndoe@example.com</span>
-                                                </div>
-                                            </div>
-                                            <div class="account-dropdown__body">
-                                                <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <i class="zmdi zmdi-account"></i>Account</a>
-                                                </div>
-                                                <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <i class="zmdi zmdi-settings"></i>Setting</a>
-                                                </div>
-                                                <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <i class="zmdi zmdi-money-box"></i>Billing</a>
-                                                </div>
-                                            </div>
-                                            <div class="account-dropdown__footer">
-                                                <a href="../aranoz/login.php">
-                                                    <i class="zmdi zmdi-power"></i>Logout</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+        <!-- MAIN CONTENT-->
+        <div class="main-content">
+            <div class="section__content section__content--p30">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <!-- USER DATA-->
+
+                            <!-- END USER DATA-->
+                        </div>
+                        <div class="col-lg-6">
+                            <!-- TOP CAMPAIGN-->
+
+                            <!--  END TOP CAMPAIGN-->
                         </div>
                     </div>
-                </div>
-            </header>
-            <!-- END HEADER DESKTOP-->
-
-            <!-- MAIN CONTENT-->
-            <div class="main-content">
-                <div class="section__content section__content--p30">
-                    <div class="container-fluid">
-
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <!-- USER DATA-->
-
-                                <!-- END USER DATA-->
-                            </div>
-                            <div class="col-lg-6">
-                                <!-- TOP CAMPAIGN-->
-
-                                <!--  END TOP CAMPAIGN-->
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <!-- DATA TABLE -->
-                                <h3 class="title-5 m-b-35">Add Product</h3>
-                                <!-- <div class="table-data__tool">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- DATA TABLE -->
+                            <h3 class="title-5 m-b-35">Add Product</h3>
+                            <!-- <div class="table-data__tool">
                                     <div class="table-data__tool-left">
                                         <div class="rs-select2--light rs-select2--md">
                                             <select class="js-select2" name="property">
@@ -231,101 +170,101 @@ print_r($category_id);
                                     </div>
 
                                 </div> -->
-                                <div class="table-responsive table-responsive-data2">
-                                    <div class="col-lg-6">
+                            <div class="table-responsive table-responsive-data2">
+                                <div class="col-lg-6">
 
-                                        <?php
+                                    <?php
 
-                                        // getAddedProduct();
+                                    // getAddedProduct();
 
-                                        ?>
-                                        <form action="" method="post" enctype="multipart/form-data">
-                                            <div class="form-group">
-                                                <label for="add_product">Product Name</label>
-                                                <input class="form-control" type="text" name="product_name" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="add_product">Product Price</label>
-                                                <input class="form-control" type="text" name="product_price" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="add_product">Product Des</label>
-                                                <input class="form-control" type="text" name="product_des" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="add_product">Product Image</label>
-                                                <input class="form-control" type="text" name="product_img" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="add_product">Category Title</label>
-                                                <!-- <input class="form-control" type="text" name="category_id" required> -->
-                                                <select name="category_id" id="" class="form-control" required>
-                                                    <option value='select..'>Select...</option> ;
-                                                    <?php
-                                                    read();
-                                                    getAddedProduct();
+                                    ?>
+                                    <form action="" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="add_product">Product Name</label>
+                                            <input class="form-control" type="text" name="product_name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="add_product">Product Price</label>
+                                            <input class="form-control" type="text" name="product_price" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="add_product">Product Des</label>
+                                            <input class="form-control" type="text" name="product_des" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="add_product">Product Image</label>
+                                            <input class="form-control" type="file" name="product_img" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="add_product">Category Title</label>
+                                            <!-- <input class="form-control" type="text" name="category_id" required> -->
+                                            <select name="category_id" id="" class="form-control" required>
+                                                <option value='select..'>Select...</option> ;
+                                                <?php
+                                                read();
+                                                getAddedProduct();
 
-                                                    ?>
-                                                </select>
-                                            </div>
+                                                ?>
+                                            </select>
+                                        </div>
 
-                                            <div class="form-group">
-                                                <label for="add_product">Stock</label>
-                                                <input class="form-control" type="number" name="product_stock" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <input class="btn btn-primary" type="submit" name="add_product_submit" value="Add Product">
-                                            </div>
-                                        </form>
-                                    </div>
-
-                                    <!-- END DATA TABLE -->
+                                        <div class="form-group">
+                                            <label for="add_product">Stock</label>
+                                            <input class="form-control" type="number" name="product_stock" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="btn btn-primary" type="submit" name="add_product_submit" value="Add Product">
+                                        </div>
+                                    </form>
                                 </div>
-                            </div>
-                            <div class="row m-t-30">
-                                <div class="col-md-12">
-                                    <!-- DATA TABLE-->
 
-                                    <!-- END DATA TABLE-->
-                                </div>
+                                <!-- END DATA TABLE -->
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="copyright">
-                                        <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
-                                    </div>
+                        </div>
+                        <div class="row m-t-30">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE-->
+
+                                <!-- END DATA TABLE-->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="copyright">
+                                    <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
-        <!-- Jquery JS-->
-        <script src="vendor/jquery-3.2.1.min.js"></script>
-        <!-- Bootstrap JS-->
-        <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-        <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-        <!-- Vendor JS       -->
-        <script src="vendor/slick/slick.min.js">
-        </script>
-        <script src="vendor/wow/wow.min.js"></script>
-        <script src="vendor/animsition/animsition.min.js"></script>
-        <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-        </script>
-        <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-        <script src="vendor/counter-up/jquery.counterup.min.js">
-        </script>
-        <script src="vendor/circle-progress/circle-progress.min.js"></script>
-        <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-        <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-        <script src="vendor/select2/select2.min.js">
-        </script>
+    </div>
 
-        <!-- Main JS-->
-        <script src="js/main.js"></script>
+    <!-- Jquery JS-->
+    <script src="vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="vendor/slick/slick.min.js">
+    </script>
+    <script src="vendor/wow/wow.min.js"></script>
+    <script src="vendor/animsition/animsition.min.js"></script>
+    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    </script>
+    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="vendor/counter-up/jquery.counterup.min.js">
+    </script>
+    <script src="vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="vendor/select2/select2.min.js">
+    </script>
+
+    <!-- Main JS-->
+    <script src="js/main.js"></script>
 
 </body>
 

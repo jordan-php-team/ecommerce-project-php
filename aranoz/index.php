@@ -23,44 +23,44 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $flag = false;
     if ($result['stock'] > 0) {
 
-      if (isset($_SESSION['products'])) {
-        foreach ($_SESSION['products'] as $element) {
-          if ($element['id'] == $product_id) {
-            $_SESSION['products'][$product_id][0] += 1;
-            $flag = true;
-            break;
-          }
+
+      foreach ($_SESSION['products'] as $element) {
+        if ($element['id'] == $product_id) {
+          $_SESSION['products'][$product_id][0] += 1;
+          $flag = true;
+          break;
         }
-
-        if ($flag == false) {
-          $_SESSION['products'][$product_id] = $result;
-          $_SESSION['products'][$product_id][0] = $quanitity;
-        }
-
-
-        foreach ($_SESSION['products'] as $element) {
-
-          $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
-
-          if ($_SESSION['products'][$product_id]['product_discount'] > 0) {
-
-            $discount_percentage_product = $_SESSION['products'][$product_id]['Total'] * ($element['product_discount'] / 100);
-            $Total_product_after_dicount = $_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
-            $_SESSION['products'][$product_id]['Total_after_discount'] = $Total_product_after_dicount;
-
-
-            $discount_percentage_product = ($element['product_discount'] / 100) * intval($element['product_price']);
-            $price_product_after_dicount = intval($element['product_price']) - $discount_percentage_product;
-            $_SESSION['products'][$product_id]['product_price_after_discount'] = $price_product_after_dicount;
-          } else {
-            $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
-            $_SESSION['products'][$product_id]['Total_after_discount'] = $_SESSION['products'][$product_id]['Total'];
-            $_SESSION['products'][$product_id]['product_price_after_discount'] = $_SESSION['products'][$product_id]['product_price'];
-          }
-        }
-        // header("location: category.php");
-        // echo '<script type="text/javascript">alert("add to cart")</script>';
       }
+
+      if ($flag == false) {
+        $_SESSION['products'][$product_id] = $result;
+        $_SESSION['products'][$product_id][0] = $quanitity;
+      }
+
+
+      foreach ($_SESSION['products'] as $element) {
+
+        $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
+
+        if ($_SESSION['products'][$product_id]['product_discount'] > 0) {
+
+          $discount_percentage_product = $_SESSION['products'][$product_id]['Total'] * ($element['product_discount'] / 100);
+          $Total_product_after_dicount = $_SESSION['products'][$product_id]['Total'] - $discount_percentage_product;
+          $_SESSION['products'][$product_id]['Total_after_discount'] = $Total_product_after_dicount;
+
+
+          $discount_percentage_product = ($element['product_discount'] / 100) * intval($element['product_price']);
+          $price_product_after_dicount = intval($element['product_price']) - $discount_percentage_product;
+          $_SESSION['products'][$product_id]['product_price_after_discount'] = $price_product_after_dicount;
+        } else {
+          $_SESSION['products'][$product_id]['Total'] = $element[0] * intval($element['product_price']);
+          $_SESSION['products'][$product_id]['Total_after_discount'] = $_SESSION['products'][$product_id]['Total'];
+          $_SESSION['products'][$product_id]['product_price_after_discount'] = $_SESSION['products'][$product_id]['product_price'];
+        }
+      }
+      // header("location: category.php");
+      // echo '<script type="text/javascript">alert("add to cart")</script>';
+
     } else {
       echo '<script type="text/javascript">alert("is empty stock")</script>';
       // header("location: category.php");
@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <title>kenbae</title>
-  <link rel="icon" href="img/favicon1.png" />
+  <link rel="icon" href="img/favicon2.png" />
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css" />
   <!-- animate CSS -->
@@ -125,103 +125,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     transition: .2s;
   }
 
-  header{
+  header {
     position: fixed !important;
-    background:white;
+    background: white;
   }
 </style>
 
 <body>
   <!--::header part start::-->
-  <header class="main_menu home_menu" >
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-12">
-          <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand" href="index.php">
-              <img style="width:7.5em" src="img/kanabelogo.png" alt="logo" />
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="menu_icon"><i class="fas fa-bars"></i></span>
-            </button>
-
-            <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="index.php">Home</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link " href="category.php" id="navbarDropdown_1">
-                    Shop
-                  </a>
-                  <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                    <a class="dropdown-item" href="category.php">
-                      shop category</a>
-                    <a class="dropdown-item" href="single-product.php">product details</a>
-                  </div> -->
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Account
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                    <!-- this alternative syntax is excellent for improving legibility (for both PHP and HTML!) in situations where you have a mix of them. -->
-                    <?php logout(); ?>
-                    <?php if ($_SESSION['loggedUser']) : ?>
-                      <form action="login.php" method="post">
-
-                        <?php echo  "<button type='submit' name='logout_btn' class='dropdown-item' id='login-field'> Logout</button>" ?>
-                      </form>
-                    <?php else : ?>
-                      <a class="dropdown-item" href="login.php" id="login-field"> login</a>
-                    <?php endif; ?>
-                    <!-- <a class="dropdown-item" href="tracking.html">tracking</a> -->
-                    <!-- <a class="dropdown-item" href="checkout.php">product checkout</a> -->
-                    <a class="dropdown-item" href="cart.php">shopping cart</a>
-                    <?php  if ($_SESSION['loggedUser']) :?>
-                   
-                    <a class="dropdown-item" href="confirmation.php">confirmation</a>
-                  
-                  
-                     <?php endif; ?> 
-                    <!-- <a class="dropdown-item" href="elements.html">elements</a> -->
-                  </div>
-                </li>
-                <!-- <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    blog
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                    <a class="dropdown-item" href="blog.html"> blog</a>
-                    <a class="dropdown-item" href="single-blog.html">Single blog</a>
-                  </div>
-                </li> -->
-
-                <!-- <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contact</a>
-                </li> -->
-              </ul>
-            </div>
-            <div class="hearer_icon d-flex">
-
-              <div class="dropdown cart">
-                <a class="dropdown-toggle" href="cart.php" id="navbarDropdown3">
-                  <i class="fas fa-cart-plus" style="font-size: 1.7em;"></i>
-                  <?php
-                  if (isset($_SESSION['products'])) {
-                    $count = count($_SESSION['products']);
-                    echo "<strong>$count</strong>";
-                  }
-                  ?>
-                </a>
-              </div>
-            </div>
-          </nav>
-        </div>
-      </div>
-    </div>
-
-  </header>
+  <?php include "originHeader.php"; ?>
   <!-- Header part end-->
 
   <!-- banner part start-->
@@ -302,7 +214,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
                 <p>Premium Quality</p>
                 <h3>Latest foam Sofa</h3>
-                <a href="#" class="feature_btn">EXPLORE NOW <i class="fas fa-play"></i></a>
+                <a href="category.php" class="feature_btn">EXPLORE NOW <i class="fas fa-play"></i></a>
                 <img src="img/feature/<?php echo  $product['product_image']; ?>" alt="" />
             <?php
           }
@@ -326,7 +238,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                   <div class="single_feature_post_text">
                     <p>Premium Quality</p>
                     <h3>Latest foam Sofa</h3>
-                    <a href="#" class="feature_btn">EXPLORE NOW <i class="fas fa-play"></i></a>
+                    <a href="category.php" class="feature_btn">EXPLORE NOW <i class="fas fa-play"></i></a>
                     <img src="img/feature/<?php echo  $product['product_image']; ?>" alt="" />
                 <?php
               }
@@ -347,7 +259,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                       <div class="single_feature_post_text">
                         <p>Premium Quality</p>
                         <h3>Latest foam Sofa</h3>
-                        <a href="#" class="feature_btn">EXPLORE NOW <i class="fas fa-play"></i></a>
+                        <a href="category.php" class="feature_btn">EXPLORE NOW <i class="fas fa-play"></i></a>
                         <img src="img/feature/<?php echo  $product['product_image']; ?>" alt="" />
                     <?php
                   }
@@ -367,7 +279,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                           <div class="single_feature_post_text">
                             <p>Premium Quality</p>
                             <h3>Latest foam Sofa</h3>
-                            <a href="#" class="feature_btn">EXPLORE NOW <i class="fas fa-play"></i></a>
+                            <a href="category.php" class="feature_btn">EXPLORE NOW <i class="fas fa-play"></i></a>
                             <img src="img/feature/<?php echo  $product['product_image']; ?>" alt="" />
                         <?php
                       }
@@ -423,13 +335,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <img src="img/products/<?php echo  $product['product_image']; ?>" alt="" />
                         <div class="single_product_text">
                           <?php
-                          echo "<h4>" . $product['product_name'] . "</h4>";
+                          echo "<span style='font-size:1.75em ;text-transform: capitalize ; color:black'>" . $product['product_name'] . "</span>";
                           if ($product['product_discount'] > 0) {
                             echo     "<h3><del>$product[product_price]JD</del></h3>";
                           } else {
                             echo     "<h3>$product[product_price]JD</h3>";
                           }
-                          echo    "<h3>$Total_product_after_dicount</h3>";
+                          echo    "<h3>$Total_product_after_dicount JD</h3>";
                           echo "<form method='GET'>";
                           echo "<button type='submit' value=$product[id] name='addToCart'   class='btn_3'>add to cart</button>";
                           echo "</form>"; ?>
@@ -536,8 +448,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
                   <div class="single_product_text">
                     <?php
-                    echo "<h4>" . $product['product_name'] . "</h4>";
-                    echo "<h3>" . $product['product_price'] . "JD</h3>";
+                    echo "<span style='font-size:1.75em ;text-transform: capitalize ; color:#eb1a50 ;'>" . $product['product_name'] . "</span>";
+                    echo "<h3>" . $product['product_price'] . " JD</h3>";
                     ?>
                   </div>
                 </div>
