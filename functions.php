@@ -866,7 +866,7 @@ function addcomments()
         echo "<div id='haneen' class='col-lg-6'>";
         echo  "<div class='review_box'>";
         echo     "<h4>Post a comment</h4>";
-        echo  "<form action='' method='post'>";
+        echo  "<form action='' method='post' style='width:45vw'>";
         echo "<div class='form-group'>";
         echo  "<label>comments</label>";
         echo    "<textarea class='form-control' name='message' id='message' rows='1' placeholder='Message'></textarea>";

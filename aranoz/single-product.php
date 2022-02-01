@@ -431,7 +431,7 @@ comments.product_id,registredusers.username
                 </div>
 
 
-                <p id="haneenpar"><?php echo $element['comments']; ?></p>
+                <p id="haneenpar" style='width: 70%;'><?php echo $element['comments']; ?></p>
 
               </div>
             <?php   } ?>
