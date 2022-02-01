@@ -196,7 +196,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                         <a class="dropdown-item" href="cart.php">shopping cart</a>
                                         <?php if (!empty($_SESSION['loggedUser'])) : ?>
 
-                                            <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                                            <a class="dropdown-item" href="confirmation.php">Profile</a>
 
 
                                         <?php endif; ?>
@@ -271,31 +271,30 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             <div class="widgets_inner">
                                 <ul class="list">
                                     <?php
-                  $count=0;
+                                    $count = 0;
 
-                  $categories=$pdo->prepare("SELECT * from categories");
-                  $categories->execute();
-                  foreach($categories as $element ){
-                        
-                                  echo   "<li>";
-                                  echo  "<a href='category.php?id=$element[id]'>$element[category_title]</a>";
+                                    $categories = $pdo->prepare("SELECT * from categories");
+                                    $categories->execute();
+                                    foreach ($categories as $element) {
 
-                                  $title=$element['category_title'];
-                                  $query= ("SELECT * from products WHERE product_name='$title'");
-                                  $pdo->prepare($query);
-                                  $stmt = $pdo->query($query);
-                                  $stmt->execute();
-                                  $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
-                                  $quantity=COUNT($result);
-                                  $count=$count+$quantity;
-                                  if($title != "All Products")
-                                  echo  "<a href='category.php'>$quantity</a>";
-                                  else if ($title == "All Products")
-                                  echo  "<a href='category.php'>$count</a>";
-                               
-                                                }
+                                        echo   "<li>";
+                                        echo  "<a href='category.php?id=$element[id]'>$element[category_title]</a>";
 
-                               ?>
+                                        $title = $element['category_title'];
+                                        $query = ("SELECT * from products WHERE product_name='$title'");
+                                        $pdo->prepare($query);
+                                        $stmt = $pdo->query($query);
+                                        $stmt->execute();
+                                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                        $quantity = COUNT($result);
+                                        $count = $count + $quantity;
+                                        if ($title != "All Products")
+                                            echo  "<a href='category.php'>$quantity</a>";
+                                        else if ($title == "All Products")
+                                            echo  "<a href='category.php'>$count</a>";
+                                    }
+
+                                    ?>
                                 </ul>
                             </div>
                         </aside>

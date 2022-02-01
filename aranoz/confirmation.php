@@ -39,20 +39,20 @@ include_once "../db.php";
   <!-- style CSS -->
   <link rel="stylesheet" href="css/style.css">
   <style>
-  
-  .btn-edit{
-   
-    margin: .5em 28em;
-    padding: 1em;
-    background-color: #ff3368;
-    color: #fff;
-    border-radius: 5px;
-    line-height: 10px;
-    border: 2px solid #ff3368;
-}
-.btn-edit a {
-  color:white;
-}
+    .btn-edit {
+
+      margin: .5em 28em;
+      padding: 1em;
+      background-color: #ff3368;
+      color: #fff;
+      border-radius: 5px;
+      line-height: 10px;
+      border: 2px solid #ff3368;
+    }
+
+    .btn-edit a {
+      color: white;
+    }
   </style>
 
   <style>
@@ -129,10 +129,10 @@ include_once "../db.php";
                       <a class="dropdown-item" href="login.php" id="login-field"> login</a>
                     <?php endif; ?>
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
-                    <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                    <a class="dropdown-item" href="confirmation.php">Profile</a>
                   </div>
                 </li>
-               
+
               </ul>
             </div>
             <div class="hearer_icon d-flex">
@@ -195,31 +195,47 @@ include_once "../db.php";
         <div class="col-lg-6 col-lx-4">
           <div class="single_confirmation_details">
             <form method="post">
-            <h4>User Info</h4>
-            <ul>
-              <li>
-                 <p>Name:</p>
-                 <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['username']));}else{ echo "There";}?>
-              </li>
-                    </br>
-              <li>
-                <p>Mobile:</p>
-                <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['mobile']));}else{ echo "There";}?>
-              </li>
-              </br>
-              <li>
-                <p>Email:</p>
-                <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['email']));}else{ echo "There";}?>
-              </li>
-              </br>
-              <li>
-                <p>Password:</p>
-                <?php if($_SESSION['loggedUser']!=""){ echo "**********";}else{ echo "There";}?>
-              </li>
-            </ul>
-            
-            <button class="btn-edit" type="submit" name="edit" ><a href="editform.php">Edit</a></button>
-                    </form>
+              <h4>User Info</h4>
+              <ul>
+                <li>
+                  <p>Name:</p>
+                  <?php if ($_SESSION['loggedUser'] != "") {
+                    print_r(ucfirst($_SESSION['loggedUser']['username']));
+                  } else {
+                    echo "There";
+                  } ?>
+                </li>
+                </br>
+                <li>
+                  <p>Mobile:</p>
+                  <?php if ($_SESSION['loggedUser'] != "") {
+                    print_r(ucfirst($_SESSION['loggedUser']['mobile']));
+                  } else {
+                    echo "There";
+                  } ?>
+                </li>
+                </br>
+                <li>
+                  <p>Email:</p>
+                  <?php if ($_SESSION['loggedUser'] != "") {
+                    print_r(ucfirst($_SESSION['loggedUser']['email']));
+                  } else {
+                    echo "There";
+                  } ?>
+                </li>
+                </br>
+                <li>
+                  <p>Password:</p>
+                  <?php if ($_SESSION['loggedUser'] != "") {
+                    echo "**********";
+                  } else {
+                    echo "There";
+                  } ?>
+                </li>
+              </ul>
+
+              <button class="btn-edit" type="submit" name="edit"><a href="editform.php">Edit</a></button>
+            </form>
           </div>
           </br>
         </div>
@@ -227,7 +243,7 @@ include_once "../db.php";
 
       </div>
       <div class="row">
-            <?php orderDetails(); ?>
+        <?php orderDetails(); ?>
       </div>
   </section>
   <!--================ confirmation part end =================-->

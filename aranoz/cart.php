@@ -97,7 +97,7 @@ $cart = $_SESSION["products"];
                     <!-- <a class="dropdown-item" href="cart.php">shopping cart</a> -->
                     <?php if (!empty($_SESSION['loggedUser'])) : ?>
 
-                      <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                      <a class="dropdown-item" href="confirmation.php">Profile</a>
 
 
                     <?php endif; ?>
@@ -207,7 +207,7 @@ $cart = $_SESSION["products"];
                           echo $element['Total_after_discount']; ?> JD</h5>
                     </td>
                     <td>
-                      <a  style='color:#eb1a50 !important ; font-size:1.25em' href='quanitity.php?id=<?php echo $element['id']; ?>&&name=delete'>Delete</a>
+                      <a style='color:#eb1a50 !important ; font-size:1.25em' href='quanitity.php?id=<?php echo $element['id']; ?>&&name=delete'>Delete</a>
                     </td>
                   </tr>
                   <?php

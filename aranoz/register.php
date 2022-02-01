@@ -85,7 +85,7 @@ getUsers();
                     <a class="dropdown-item" href="cart.php">shopping cart</a>
                     <?php if (!empty($_SESSION['loggedUser'])) : ?>
 
-                      <a class="dropdown-item" href="confirmation.php">confirmation</a>
+                      <a class="dropdown-item" href="confirmation.php">Profile</a>
 
 
                     <?php endif; ?>
