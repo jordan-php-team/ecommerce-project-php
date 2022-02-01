@@ -259,65 +259,63 @@ function orderDetails()
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $order_index = COUNT($result) - 1;
-    $order = $result[$order_index]['id'];
-    if ($result > 0) {
+    if ($order_index > 0) {
+        $order = $result[$order_index]['id'];
         $total = $result[$order_index]['total'] + 25;
         $quantity = 0;
         $query2 = "SELECT * FROM order_item WHERE order_id = $order";
         $stmt2 = $pdo->prepare($query2);
         $stmt2 = $pdo->query($query2);
-        if ($stmt2) {
 
-            $stmt2->execute();
-            $result2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-            $productnum = COUNT($result2);
-            if ($productnum) {
+        $stmt2->execute();
+        $result2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+        $productnum = COUNT($result2);
+        if ($productnum) {
 
-                echo      "<div class='col-lg-12'>";
-                echo      "<div class='order_details_iner'>";
-                echo      "<h3>Order Details</h3>";
-                echo      "<table class='table table-borderless'>";
-                echo      "<thead>";
-                echo      "<tr>";
-                echo      '<th scope="col" colspan="2">' . "Product" . '</th>';
-                echo      '<th scope="col">' . "Quantity" . '</th>';
-                echo      '<th scope="col">' . "Total" . '</th>';
-                echo      "</tr>";
-                echo      "</thead>";
-                echo      "<tbody>";
+            echo      "<div class='col-lg-12'>";
+            echo      "<div class='order_details_iner'>";
+            echo      "<h3>Order Details</h3>";
+            echo      "<table class='table table-borderless'>";
+            echo      "<thead>";
+            echo      "<tr>";
+            echo      '<th scope="col" colspan="2">' . "Product" . '</th>';
+            echo      '<th scope="col">' . "Quantity" . '</th>';
+            echo      '<th scope="col">' . "Total" . '</th>';
+            echo      "</tr>";
+            echo      "</thead>";
+            echo      "<tbody>";
 
-                for ($i = 0; $i < $productnum; $i++) {
-                    $id = $result2[$i]['product_id'];
-                    $query3 = "SELECT * FROM products WHERE id = $id";
-                    $stmt3 = $pdo->prepare($query3);
-                    $stmt3 = $pdo->query($query3);
-                    $stmt3->execute();
-                    $result3 = $stmt3->fetch();
-                    echo  "<tr>";
-                    echo    '<th colspan="2"><span>' . $result3['product_name'] . '</span></th>';
-                    echo    '<th>' . 'x' . $result2[$i]['quantity'] . '</th>';
-                    echo    '<th> <span>' . $result3['product_price'] . '</span></th>';
-                    echo  "</tr>";
-                    $quantity = $quantity + $result2[$i]['quantity'];
-                }
-
-                echo   "<tr>";
-                echo    '<th colspan="3">' . "shipping" . '</th>';
-                echo    '<th><span>' . "flat rate: 25.00" . '</span></th>';
-                echo  "</tr>";
-                echo  "</tbody>";
-                echo  "<tfoot>";
+            for ($i = 0; $i < $productnum; $i++) {
+                $id = $result2[$i]['product_id'];
+                $query3 = "SELECT * FROM products WHERE id = $id";
+                $stmt3 = $pdo->prepare($query3);
+                $stmt3 = $pdo->query($query3);
+                $stmt3->execute();
+                $result3 = $stmt3->fetch();
                 echo  "<tr>";
-                echo  '<th  colspan="2">' . "Quantity" . '</th>';
-                echo   '<th>' . $quantity . '</th>';
-                echo  '<th scope="col">' . $total . '</th>';
+                echo    '<th colspan="2"><span>' . $result3['product_name'] . '</span></th>';
+                echo    '<th>' . 'x' . $result2[$i]['quantity'] . '</th>';
+                echo    '<th> <span>' . $result3['product_price'] . '</span></th>';
                 echo  "</tr>";
-                echo  "</tfoot>";
-                echo  "</table>";
-                echo  "</div>";
-                echo  "</div>";
-                echo  "</div>";
+                $quantity = $quantity + $result2[$i]['quantity'];
             }
+
+            echo   "<tr>";
+            echo    '<th colspan="3">' . "shipping" . '</th>';
+            echo    '<th><span>' . "flat rate: 25.00" . '</span></th>';
+            echo  "</tr>";
+            echo  "</tbody>";
+            echo  "<tfoot>";
+            echo  "<tr>";
+            echo  '<th  colspan="2">' . "Quantity" . '</th>';
+            echo   '<th>' . $quantity . '</th>';
+            echo  '<th scope="col">' . $total . '</th>';
+            echo  "</tr>";
+            echo  "</tfoot>";
+            echo  "</table>";
+            echo  "</div>";
+            echo  "</div>";
+            echo  "</div>";
         }
     }
 }
