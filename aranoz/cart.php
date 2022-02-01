@@ -46,6 +46,13 @@ $cart = $_SESSION["products"];
   <!-- style CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
+<style>
+  .empty-cart{
+    display:flex;
+    margin:0 auto;
+
+  }
+</style>
 
 <body>
   <!--::header part start::-->
@@ -152,6 +159,11 @@ $cart = $_SESSION["products"];
   <!-- breadcrumb start-->
 
   <!--================Cart Area =================-->
+ 
+
+  
+  <?php if(!empty($_SESSION['products'])){?>
+ 
   <section class="cart_area padding_top">
     <div class="container">
       <div class="cart_inner">
@@ -252,7 +264,7 @@ $cart = $_SESSION["products"];
               <form method="post">
                 <button class="btn_1 checkout_btn_1" name="to_checkout">Proceed to checkout</button>
               </form>
-            <?php  } ?>
+            <?php  }; ?>
 
 
 
@@ -260,7 +272,14 @@ $cart = $_SESSION["products"];
           </div>
         </div>
       </div>
-  </section>
+  </section><?php }?>
+
+ 
+  
+  <?php if(empty($_SESSION['products'])){?>
+    <img src="img/empty-cart.png" alt="empty-cart" class="empty-cart"/><?php }?>
+
+  
   <!--================End Cart Area =================-->
 
   <!--::footer_part start::-->
