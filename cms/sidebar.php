@@ -1,9 +1,9 @@
  <!-- MENU SIDEBAR-->
  <aside class="menu-sidebar d-none d-lg-block">
      <div class="logo">
-         <a href="#">
-             <img src="images/icon/logo.png" alt="Cool Admin" />
-         </a>
+         <div class="w-50">
+             <img src="../aranoz/img/kanabelogo1.png" alt="beshir" />
+         </div>
      </div>
      <div class="menu-sidebar__content js-scrollbar1">
          <nav class="navbar-sidebar">

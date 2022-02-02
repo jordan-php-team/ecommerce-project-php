@@ -304,24 +304,24 @@ function orderDetails()
         $quantity = $quantity + $result2[$i]['quantity'];
     }
 
-    echo   "<tr>";
-    echo    '<th colspan="3">' . "shipping" . '</th>';
-    echo    '<th><span>' . "flat rate: 25.00" . '</span></th>';
-    echo  "</tr>";
-    echo  "</tbody>";
-    echo  "<tfoot>";
-    echo  "<tr>";
-    echo  '<th  colspan="2">' . "Quantity" . '</th>';
-    echo   '<th>' . $quantity . '</th>';
-    echo  '<th scope="col">' . $total . '</th>';
-    echo  "</tr>";
-    echo  "</tfoot>";
-    echo  "</table>";
-    echo  "</div>";
-    echo  "</div>";
-    echo  "</div>";
-}
-}    
+            echo   "<tr>";
+            echo    '<th colspan="3">' . "shipping" . '</th>';
+            echo    '<th><span>' . "flat rate: 25.00" . '</span></th>';
+            echo  "</tr>";
+            echo  "</tbody>";
+            echo  "<tfoot>";
+            echo  "<tr>";
+            echo  '<th  colspan="2">' . "Quantity" . '</th>';
+            echo   '<th>' . $quantity . '</th>';
+            echo  '<th scope="col">' . $total . '</th>';
+            echo  "</tr>";
+            echo  "</tfoot>";
+            echo  "</table>";
+            echo  "</div>";
+            echo  "</div>";
+            echo  "</div>";
+        }
+    }
 }
 
 function editInfo()
@@ -415,10 +415,10 @@ function getData()
         $username = $row;
         foreach ((array) $username as $user) {
             echo "<tr>";
-            echo   '<td>' . $user['id'] . '</td>';
+            // echo   '<td>' . $user['id'] . '</td>';
             echo   '<td>' . $user['username'] . '</td>';
             echo   '<td>' . $user['email'] . '</td>';
-            echo   '<td>' . $user['password'] . '</td>';
+            // echo   '<td>' . $user['password'] . '</td>';
             echo   '<td>' . $user['date created'] . '</td>';
             echo   '<td>' . $user['last_login_date'] . '</td>';
             echo   '<td>' . $user['age'] . '</td>';
@@ -446,16 +446,21 @@ function getProducts()
     while ($row = $select_all_categories->fetchAll()) {
         $username = $row;
         foreach ((array) $username as $user) {
+            $category_id = $user['category_id'];
+            $query = "SELECT * FROM categories WHERE (id = '$category_id')  ";
+            $stmt = $pdo->prepare($query);
+            $stmt = $pdo->query($query);
+            $result3 = $stmt->fetch();
             echo "<tr>";
             echo   '<td>' . $user['id'] . '</td>';
             echo   '<td>' . $user['product_name'] . '</td>';
             echo   '<td>' . $user['product_price'] . '</td>';
             echo   '<td>' . $user['product_description'] . '</td>';
             echo   '<td>' ?>
-            <img class="img-responsive" src="../aranoz/img/products/<?php echo  $user['product_image']; ?>" alt="">
+            <img class="img-responsive w-50" src="../aranoz/img/products/<?php echo  $user['product_image']; ?>" alt="">
             <?php
             echo '</td>';
-            echo   '<td>' . $user['category_id'] . '</td>';
+            echo   '<td>' . $result3['category_title'] . '</td>';
             echo   '<td>' . $user['stock'] . '</td>';
 
 
@@ -485,7 +490,7 @@ function getCategories()
         $username = $row;
         foreach ((array) $username as $user) {
             echo "<tr>";
-            echo   '<td>' . $user['id'] . '</td>';
+            // echo   '<td>' . $user['id'] . '</td>';
             echo   '<td>' . $user['category_title'] . '</td>';
             echo "<td> <a href='categoriesAdmin.php?edit={$user['id']}'>Update</td>";
             echo "<td> <a href='categoriesAdmin.php?delete-category={$user['id']}'><i class='zmdi zmdi-delete'></i></td>";
@@ -509,10 +514,15 @@ function getComments()
     while ($row = $select_all_categories->fetchAll()) {
         $username = $row;
         foreach ((array) $username as $user) {
+            $user_id = $user['user_id'];
+            $query = "SELECT * FROM registredusers WHERE (id = '$user_id')  ";
+            $stmt = $pdo->prepare($query);
+            $stmt = $pdo->query($query);
+            $result3 = $stmt->fetch();
             echo "<tr>";
-            echo   '<td>' . $user['id'] . '</td>';
+            // echo   '<td>' . $user['id'] . '</td>';
             echo   '<td>' . $user['comments'] . '</td>';
-            echo   '<td>' . $user['user_id'] . '</td>';
+            echo   '<td>' . $result3['username'] . '</td>';
             echo   '<td>' . $user['product_id'] . '</td>';
             echo "<td> <a href='commentsAdmin.php?delete-comment={$user['id']}'><i class='zmdi zmdi-delete'></i></td>";
 
@@ -535,9 +545,15 @@ function getOrders()
     while ($row = $select_all_categories->fetchAll()) {
         $username = $row;
         foreach ((array) $username as $user) {
+            $user_id = $user['user_id'];
+            $query = "SELECT * FROM registredusers WHERE (id = '$user_id')  ";
+            $stmt = $pdo->prepare($query);
+            $stmt = $pdo->query($query);
+            $result3 = $stmt->fetch();
+
             echo "<tr>";
-            echo   '<td>' . $user['id'] . '</td>';
-            echo   '<td>' . $user['user_id'] . '</td>';
+            // echo   '<td>' . $user['id'] . '</td>';
+            echo   '<td>' . $result3['username'] . '</td>';
             echo   '<td>' . $user['total'] . '</td>';
             echo   '<td>' . $user['date'] . '</td>';
             echo   '<td>' . $user['city'] . '</td>';
@@ -849,14 +865,14 @@ function addcomments()
 
     // if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //    var_dump($_SESSION['loggedUser']);
-    if (!empty($_SESSION['loggedUser'] > 0)) {
+    if (!empty($_SESSION['loggedUser'] )) {
         global $pdo;
 
 
         echo "<div id='haneen' class='col-lg-6'>";
         echo  "<div class='review_box'>";
         echo     "<h4>Post a comment</h4>";
-        echo  "<form action='' method='post'>";
+        echo  "<form action='' method='post' style='width:45vw'>";
         echo "<div class='form-group'>";
         echo  "<label>comments</label>";
         echo    "<textarea class='form-control' name='message' id='message' rows='1' placeholder='Message'></textarea>";
