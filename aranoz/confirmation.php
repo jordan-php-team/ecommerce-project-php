@@ -42,7 +42,7 @@ include_once "../db.php";
   
   .btn-edit{
    
-    margin: .5em 28em;
+    margin: .5em 25em;
     padding: 1em;
     background-color: #ff3368;
     color: #fff;
@@ -178,11 +178,19 @@ include_once "../db.php";
 
   <!--================ confirmation part start =================-->
   <section class="confirmation_part padding_top">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
+  <div class="col-lg-12">
           <div class="confirmation_tittle">
             <span>Thank you. Your order has been received.</span>
+          </div>
+        </div>
+  <div class="row">
+            <?php orderDetails(); ?>
+      </div>
+    <div class="container">
+      <div class="row">
+      <div class="col-lg-12">
+          <div class="confirmation_tittle">
+            <span></span>
           </div>
         </div>
         <div class="col-lg-6 col-lx-4">
@@ -226,9 +234,8 @@ include_once "../db.php";
 
 
       </div>
-      <div class="row">
-            <?php orderDetails(); ?>
-      </div>
+  
+                </div>  
   </section>
   <!--================ confirmation part end =================-->
 

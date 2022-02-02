@@ -41,8 +41,8 @@ editInfo();
   <link rel="stylesheet" href="css/style.css">
   <style>
     .btn-edit {
-
-      margin: .5em 23em;
+      margin-top:4em;
+      margin: 4em 0em 0em 8em;
       padding: 1em;
       background-color: #ff3368;
       color: #fff;
@@ -55,9 +55,19 @@ editInfo();
       color: white;
     }
 
-    .container {
-      margin: 0 auto;
-    }
+   .inp{
+     width:90%;
+   }
+   .lbl{
+     padding-left:8em ;
+   }
+   .confirmation_part .single_confirmation_details ul li {
+  position: relative;
+  text-transform: capitalize;
+  padding-left: 30%;
+  margin-bottom: 3px;
+}
+
   </style>
 
   <style>
@@ -187,29 +197,29 @@ editInfo();
   <section class="confirmation_part padding_top">
     <div class="container">
       <div class="row">
-        <div class="col-lg-6 col-lx-4">
+        <div class="col-lg-10 col-lx-10">
           <div class="single_confirmation_details">
           <form method="post">
-            <h4>User Info</h4>
+            <h3 style="padding:0em 0em 2em 16em;">User Info</h3>
             <ul>
               <li>
-                 <p>Name:</p>
-                 <input name="name" value="<?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['username']));}else{ echo "There";}?>"></input>
+                 <p class="lbl">Name:</p>
+                 <input class="inp" name="name" value="<?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['username']));}else{ echo "There";}?>"></input>
               </li>
                     </br>
               <li>
-                <p>Mobile:</p>
-                <input name="mobile" value="<?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['mobile']));}else{ echo "There";}?>"></input>
+                <p class="lbl">Mobile:</p>
+                <input class="inp" name="mobile" value="<?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['mobile']));}else{ echo "There";}?>"></input>
               </li>
               </br>
               <li>
-                <p>Email:</p>
+                <p class="lbl">Email:</p>
                 <?php if($_SESSION['loggedUser']!=""){ print_r(ucfirst($_SESSION['loggedUser']['email']));}else{ echo "There";}?>
               </li>
               </br>
               <li>
-                <p>Password:</p>
-                <input name="password" placeholder="*******"/>
+                <p class="lbl">Password:</p>
+                <input class="inp" name="password" type="password" placeholder="*******"/>
               </li>
             </ul>
             

@@ -233,7 +233,7 @@ function orders()
     $counter=COUNT($result);
     $count=1;
     if($counter){
-        foreach((array) $result as $element)
+        foreach($result as $element)
             {
                echo '<h5>Order Number:'.$count.'</h5>';
                echo "<ul>";
@@ -264,8 +264,8 @@ function orderDetails()
     $stmt->execute();
     $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
     $order_index=COUNT($result)-1;
+    if($result){
     $order=$result[$order_index]['id'];
-    if($result>0){
     $total=$result[$order_index]['total']+25;
     $quantity=0;
     $query2 = "SELECT * FROM order_item WHERE order_id = $order";
@@ -276,7 +276,7 @@ function orderDetails()
     $productnum=COUNT($result2);
     if($productnum){
 
-    echo      "<div class='col-lg-12'>";
+    echo      "<div class='col-lg-8' style='margin:0 auto'>";
     echo      "<div class='order_details_iner'>"; 
     echo      "<h3>Order Details</h3>";
     echo      "<table class='table table-borderless'>";
@@ -332,10 +332,9 @@ function editInfo()
         $id = $_SESSION['loggedUser']['id'];
         $password = $_SESSION['loggedUser']['password'];
         $username = $_POST['name'];
-        
         $usermobile = $_POST['mobile'];
         $currentpassword=$_POST['password'];
-        if($currentpassword == $password){
+        if(password_verify($currentpassword,$password)){
         $query = "UPDATE registredusers SET username = '$username' , mobile = '$usermobile' WHERE (id= $id)";
         $stmt = $pdo->prepare($query);
         $stmt = $pdo->query($query);
@@ -348,13 +347,15 @@ function editInfo()
         $_SESSION['loggedUser']['mobile'] = $result['mobile'];
         header('Location:confirmation.php');
         }
-        else if($currentpassword != $password){
+        else {
         echo    '<div class="col-lg-12">';
         echo    '<div class="confirmation_tittle">';
         echo    '<span>your password inccorect,please insert it again.</span>';
         echo    '</div>';
         echo  '</div>';
+        echo $newPass;
         header('Location:confirmation.php');
+        echo "beshr";
         }
     }
 }
